@@ -4,61 +4,81 @@ import { UserRepository } from '../repositories/user.repository';
 import { User } from '../entities/User';
 
 declare global {
-    namespace Express {
-        interface Request {
-            user?: User; // Use your actual User type here
-        }
+  namespace Express {
+    interface Request {
+      user?: User;
     }
+  }
 }
 
 export async function authenticate(req: Request, res: Response, next: NextFunction) {
     try {
-        const authHeader = req.headers.authorization;
-        const token = authHeader?.split(' ')[1];
+      // 1. Check authorization header exists
+      const { authorization } = req.headers;
+      console.log('Authentication started');
+      console.log('Received headers:', req.headers);
+      console.log('Auth header:', { authorization });
 
-        if (!token) {
-            return res.status(401).json({ 
-                message: 'مطلوب توكن مصادقة للوصول إلى هذا المسار' 
-            });
-        }
-
-        const decoded = jwt.verify(token, process.env.JWT_SECRET || 'your-secret-key') as { id: number };
-        
-        const userRepository = new UserRepository();
-        const user = await userRepository.findById(decoded.id);
-        
-        if (!user) {
-            return res.status(401).json({ 
-                message: 'المستخدم المرتبط بهذا التوكن غير موجود' 
-            });
-        }
-
-        req.user = user; // Assign the complete user object
-
-        next();
-    } catch (error) {
-        if (error instanceof jwt.TokenExpiredError) {
-            return res.status(401).json({ 
-                message: 'انتهت صلاحية التوكن، يرجى تسجيل الدخول مرة أخرى' 
-            });
-        }
-        
-        if (error instanceof jwt.JsonWebTokenError) {
-            return res.status(401).json({ 
-                message: 'توكن مصادقة غير صالح' 
-            });
-        }
-
-        console.error('خطأ في مصادقة التوكن:', error);
-        return res.status(500).json({ 
-            message: 'حدث خطأ أثناء المصادقة' 
+      if (!authorization) {
+        return res.status(400).json({ 
+          message: 'Authorization header is required' 
         });
-    }
-}
+      }
 
-// Middleware to check if the user has a specific role
-export function requireRoles(roles: string[]) {
-    return (req: Request, res: Response, next: NextFunction) => {
-        next();
-    };
-}
+      // 2. Check Bearer token format
+      const [prefix, token] = authorization.split('__'); // Using your custom separator
+      
+      if (!prefix || !token) {
+        return res.status(400).json({ 
+          message: 'Invalid authorization format.' 
+        });
+      }
+
+      // 3. Verify token prefix matches expected
+      if (prefix !== process.env.TOKEN_PREFIX) { // Add TOKEN_PREFIX to your .env
+        return res.status(400).json({ 
+          message: 'Invalid token prefix' 
+        });
+      }
+
+      // 4. Verify token
+      const decoded = jwt.verify(token, process.env.JWT_SECRET || 'your-secret-key') as { id: number, iat: number };
+      
+      if (!decoded?.id) {
+        return res.status(400).json({ 
+          message: 'Invalid token payload' 
+        });
+      }
+
+      // 5. Find user in database
+      const userRepository = new UserRepository();
+      const user = await userRepository.findById(decoded?.id);
+      
+      if (!user) {
+        return res.status(401).json({ 
+          message: 'User not found' 
+        });
+      }
+
+      // Attach user to request and proceed
+      req.user = user;
+      next();
+    } catch (error) {
+      if (error instanceof jwt.TokenExpiredError) {
+        return res.status(401).json({ 
+          message: 'Token expired, please login again' 
+        });
+      }
+      
+      if (error instanceof jwt.JsonWebTokenError) {
+        return res.status(401).json({ 
+          message: 'Invalid authentication token' 
+        });
+      }
+
+      console.error('Authentication error:', error);
+      return res.status(500).json({ 
+        message: 'Authentication failed' 
+      });
+    }
+};

@@ -26,7 +26,7 @@ router.get('/expenses', asyncHandler(ExpenseController.getExpenses));
 router.get('/expenses/report/:month/:year', asyncHandler(ExpenseController.getMonthlyReport));
 
 // Habit routes
-router.post('/habits', asyncHandler(HabitController.addHabit));
+router.post('/', asyncHandler(HabitController.addHabit));
 router.get('/habits', asyncHandler(HabitController.getHabits));
 router.patch('/habits/:id/complete', asyncHandler(HabitController.markHabitComplete));
 
