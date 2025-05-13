@@ -5,7 +5,7 @@ import { User } from './User';
 @Entity()
 export class Habit {
     @PrimaryGeneratedColumn('uuid')
-    id!: number;
+    id!: string;
 
     @Column()
     name!: string;

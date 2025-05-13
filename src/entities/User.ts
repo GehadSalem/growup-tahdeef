@@ -8,7 +8,7 @@ import { EmergencyFund } from './EmergencyFund';
 @Entity()
 export class User {
     @PrimaryGeneratedColumn('uuid')
-  id!: number;
+  id!: string;
 
     @Column()
   name!: string;

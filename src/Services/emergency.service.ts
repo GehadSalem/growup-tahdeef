@@ -14,7 +14,7 @@ export class EmergencyService {
         this.userRepository = userRepository || new UserRepository();
     }
 
-    async addToFund(userId: number, amount: number, description: string): Promise<EmergencyFund> {
+    async addToFund(userId: string, amount: number, description: string): Promise<EmergencyFund> {
         // Validate amount
         if (typeof amount !== 'number' || amount <= 0) {
             throw new Error('Amount must be a positive number');
@@ -40,7 +40,7 @@ export class EmergencyService {
         }
     }
 
-    async getUserFunds(userId: number): Promise<EmergencyFund[]> {
+    async getUserFunds(userId: string): Promise<EmergencyFund[]> {
         try {
             return await this.emergencyRepository.findUserFunds(userId);
         } catch (error) {
@@ -49,7 +49,7 @@ export class EmergencyService {
         }
     }
 
-    async calculateSuggestedAmount(userId: number): Promise<number> {
+    async calculateSuggestedAmount(userId: string): Promise<number> {
         const user = await this.userRepository.findById(userId);
         if (!user) {
             throw new Error('المستخدم غير موجود');
@@ -62,7 +62,7 @@ export class EmergencyService {
         return Number((user.monthlyIncome * 0.7).toFixed(2));
     }
 
-    async getTotalEmergencyFund(userId: number): Promise<number> {
+    async getTotalEmergencyFund(userId: string): Promise<number> {
         try {
             const funds = await this.getUserFunds(userId);
             return funds.reduce((total: number, fund: EmergencyFund) => {

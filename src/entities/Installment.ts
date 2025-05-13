@@ -3,7 +3,7 @@ import { User } from "./User";
 @Entity()
 export class Installment {
   @PrimaryGeneratedColumn()
-  id!: number;
+  id!: string;
 
   @ManyToOne(() => User, user => user.id)
   user!: User;

@@ -45,9 +45,9 @@ class HabitController {
                 return;
             }
     
-            const habitId = parseInt(request.params.id, 10);
+            const habitId = request.params.id;
     
-            if (isNaN(habitId)) {
+            if (!habitId) {
                 response.status(400).json({ message: 'Invalid habit ID' });
                 return;
             }

@@ -1,15 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 import { UserRepository } from '../repositories/user.repository';
-import { User } from '../entities/User';
 
-declare global {
-  namespace Express {
-    interface Request {
-      user?: User;
-    }
-  }
-}
 
 export async function authenticate(req: Request, res: Response, next: NextFunction) {
     try {
@@ -42,7 +34,7 @@ export async function authenticate(req: Request, res: Response, next: NextFuncti
       }
 
       // 4. Verify token
-      const decoded = jwt.verify(token, process.env.JWT_SECRET || 'your-secret-key') as { id: number, iat: number };
+      const decoded = jwt.verify(token, process.env.JWT_SECRET || 'your-secret-key') as unknown as { id: string, iat: string };
       
       if (!decoded?.id) {
         return res.status(400).json({ 

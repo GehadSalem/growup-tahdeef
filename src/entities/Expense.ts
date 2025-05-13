@@ -4,7 +4,7 @@ import { User } from './User';
 @Entity()
 export class Expense {
     @PrimaryGeneratedColumn('uuid')
-    id!: number;
+    id!: string;
 
     @Column({ type: 'decimal', precision: 10, scale: 2 })
     amount!: number;

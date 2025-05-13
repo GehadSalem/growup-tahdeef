@@ -3,7 +3,7 @@ import { AppDataSource } from '../../src/dbConfig/data-source';
 import { User } from '../entities/User';
 
 export class UserRepository {
-    findOne(arg0: { where: { id: number; }; }) {
+    findOne(arg0: { where: { id: string; }; }) {
         throw new Error('Method not implemented.');
     }
     private repository: Repository<User>;
@@ -16,7 +16,7 @@ export class UserRepository {
         return this.repository.findOne({ where: { email } });
     }
 
-    async findById(id: number): Promise<User | null> {
+    async findById(id: string): Promise<User | null> {
         return this.repository.findOne({ where: { id } });
     }
 
@@ -25,16 +25,16 @@ export class UserRepository {
         return this.repository.save(user);
     }
 
-    async update(id: number, updateData: Partial<User>): Promise<User> {
+    async update(id: string, updateData: Partial<User>): Promise<User> {
         await this.repository.update(id, updateData);
         return this.findById(id) as Promise<User>;
     }
 
-    async updateMonthlyIncome(id: number, income: number): Promise<User> {
+    async updateMonthlyIncome(id: string, income: number): Promise<User> {
         return this.update(id, { monthlyIncome: income });
     }
 
-    async updateNotificationToken(id: number, token: string): Promise<User> {
+    async updateNotificationToken(id: string, token: string): Promise<User> {
         return this.update(id, { notificationToken: token });
     }
 }

@@ -28,14 +28,14 @@ export class HabitRepository {
     }
 
     // Specific find methods
-    async findById(id: number): Promise<Habit | null> {
+    async findById(id: string): Promise<Habit | null> {
         return this.repository.findOne({ 
             where: { id },
             relations: ['user']
         });
     }
 
-    async findByUserId(userId: number): Promise<Habit[]> {
+    async findByUserId(userId: string): Promise<Habit[]> {
         return this.repository.find({ 
             where: { user: { id: userId } },
             relations: ['user'],
@@ -44,7 +44,7 @@ export class HabitRepository {
     }
 
     // Update operations - FIXED VERSION
-    async update(id: number, updateData: Partial<Habit>): Promise<Habit> {
+    async update(id: string, updateData: Partial<Habit>): Promise<Habit> {
         await this.repository.update(id, updateData);
         const updated = await this.findById(id);
         if (!updated) throw new Error('Habit not found after update');
@@ -59,14 +59,14 @@ export class HabitRepository {
     }
 
     // Business logic methods
-    async markComplete(id: number): Promise<Habit> {
+    async markComplete(id: string): Promise<Habit> {
         return this.update(id, { 
             completed: true,
             lastCompletedAt: new Date()
         });
     }
 
-    async resetDailyHabits(userId: number): Promise<void> {
+    async resetDailyHabits(userId: string): Promise<void> {
         await this.updateByCriteria(
             { 
                 user: { id: userId }, // Simplified where clause
@@ -77,7 +77,7 @@ export class HabitRepository {
     }
 
     // Delete operation
-    async delete(id: number): Promise<void> {
+    async delete(id: string): Promise<void> {
         await this.repository.delete(id);
     }
 }

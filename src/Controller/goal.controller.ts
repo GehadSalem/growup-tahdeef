@@ -46,9 +46,9 @@ class GoalController {
                 return;
             }
     
-            const goalId = parseInt(request.params?.id, 10);
+            const goalId = request.params?.id;
     
-            if (isNaN(goalId)) {
+            if (goalId) {
                 response.status(400).json({ message: 'Invalid goal ID' });
                 return;
             }

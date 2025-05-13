@@ -7,7 +7,7 @@ export class GoalService {
     private goalRepository = new GoalRepository();
     private userRepository = new UserRepository();
 
-    async createGoal(userId: number, goalData: Omit<Partial<Goal>, 'currentAmount' | 'achieved' | 'achievedAt' | 'user'>): Promise<Goal> {
+    async createGoal(userId: string, goalData: Omit<Partial<Goal>, 'currentAmount' | 'achieved' | 'achievedAt' | 'user'>): Promise<Goal> {
         const user = await this.userRepository.findById(userId);
         if (!user) {
             throw new Error('المستخدم غير موجود');
@@ -24,11 +24,11 @@ export class GoalService {
         return this.goalRepository.save(goal);
     }
 
-    async getUserGoals(userId: number): Promise<Goal[]> {
+    async getUserGoals(userId: string): Promise<Goal[]> {
         return this.goalRepository.findByUserId(userId);
     }
 
-    async contributeToGoal(goalId: number, userId: number, amount: number): Promise<Goal> {
+    async contributeToGoal(goalId: string, userId: string, amount: number): Promise<Goal> {
         if (amount <= 0) {
             throw new Error('المبلغ يجب أن يكون موجبًا');
         }
@@ -49,7 +49,7 @@ export class GoalService {
         return updatedGoal;
     }
 
-    async calculateMonthlySavings(userId: number): Promise<number> {
+    async calculateMonthlySavings(userId: string): Promise<number> {
         const goals = await this.getUserGoals(userId);
         const activeGoals = goals.filter(g => !g.achieved);
         
@@ -60,7 +60,7 @@ export class GoalService {
         }, 0);
     }
 
-    async getUpcomingGoals(userId: number, limit = 3): Promise<Goal[]> {
+    async getUpcomingGoals(userId: string, limit = 3): Promise<Goal[]> {
         return (await this.getUserGoals(userId))
             .filter(g => !g.achieved)
             .sort((a, b) => a.targetDate.getTime() - b.targetDate.getTime())

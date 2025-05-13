@@ -19,7 +19,7 @@ class EmergencyController {
             }
 
             const emergencyFund = await this.emergencyService.addToFund(
-                Number(request.user?.id),
+                request.user?.id,
                 amount,
                 request.body.description
             );
@@ -37,7 +37,7 @@ class EmergencyController {
                 return;
             }
 
-            const funds = await this.emergencyService.getUserFunds(Number(request.user?.id));
+            const funds = await this.emergencyService.getUserFunds(request.user?.id);
             response.json(funds);
         } catch (error) {
             const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
@@ -53,7 +53,7 @@ class EmergencyController {
             }
 
             const suggestedAmount = await this.emergencyService.calculateSuggestedAmount(
-                Number(request.user?.id)
+                request.user?.id
             );
             response.json({ suggestedAmount });
         } catch (error) {

@@ -14,7 +14,7 @@ export class ExpenseRepository {
         return this.repository.save(expense);
     }
 
-    async findByUserId(userId: number): Promise<Expense[]> {
+    async findByUserId(userId: string): Promise<Expense[]> {
         return this.repository.find({ 
             where: { user: { id: userId } },
             relations: ['user'],
@@ -22,7 +22,7 @@ export class ExpenseRepository {
         });
     }
 
-    async findByUserAndMonth(userId: number, month: number, year: number): Promise<Expense[]> {
+    async findByUserAndMonth(userId: string, month: number, year: number): Promise<Expense[]> {
         const startDate = new Date(year, month - 1, 1);
         const endDate = new Date(year, month, 0);
 
@@ -35,7 +35,7 @@ export class ExpenseRepository {
         });
     }
 
-    async delete(id: number): Promise<void> {
+    async delete(id: string): Promise<void> {
         await this.repository.delete(id);
     }
 }

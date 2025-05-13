@@ -19,7 +19,7 @@ export class GoalRepository {
         return this.repository.save(goal);
     }
 
-    async findById(id: number): Promise<Goal | null> {
+    async findById(id: string): Promise<Goal | null> {
         return this.repository.findOne({ 
             where: { id },
             relations: ['user']
@@ -30,7 +30,7 @@ export class GoalRepository {
         return this.repository.findOne(options);
     }
 
-    async findByUserId(userId: number): Promise<Goal[]> {
+    async findByUserId(userId: string): Promise<Goal[]> {
         return this.repository.find({ 
             where: { user: { id: userId } },
             relations: ['user'],
@@ -42,7 +42,7 @@ export class GoalRepository {
         return this.repository.find(options);
     }
 
-    async update(id: number, updateData: Partial<Goal>): Promise<Goal> {
+    async update(id: string, updateData: Partial<Goal>): Promise<Goal> {
         await this.repository.update(id, updateData);
         const updatedGoal = await this.findById(id);
         if (!updatedGoal) {
@@ -51,12 +51,12 @@ export class GoalRepository {
         return updatedGoal;
     }
 
-    async delete(id: number): Promise<void> {
+    async delete(id: string): Promise<void> {
         await this.repository.delete(id);
     }
 
     // Custom business logic methods
-    async contribute(id: number, amount: number): Promise<Goal> {
+    async contribute(id: string, amount: number): Promise<Goal> {
         const goal = await this.findById(id);
         if (!goal) throw new Error('الهدف غير موجود');
 
@@ -71,13 +71,13 @@ export class GoalRepository {
     }
 
     // Additional utility methods
-    async countUserGoals(userId: number): Promise<number> {
+    async countUserGoals(userId: string): Promise<number> {
         return this.repository.count({
             where: { user: { id: userId } }
         });
     }
 
-    async getAchievedGoals(userId: number): Promise<Goal[]> {
+    async getAchievedGoals(userId: string): Promise<Goal[]> {
         return this.repository.find({
             where: { 
                 user: { id: userId },
@@ -87,7 +87,7 @@ export class GoalRepository {
         });
     }
 
-    async getActiveGoals(userId: number): Promise<Goal[]> {
+    async getActiveGoals(userId: string): Promise<Goal[]> {
         return this.repository.find({
             where: { 
                 user: { id: userId },

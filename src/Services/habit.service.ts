@@ -6,7 +6,7 @@ export class HabitService {
     private habitRepository = new HabitRepository();
     private userRepository = new UserRepository();
 
-    async createHabit(userId: number, habitData: Partial<Habit>): Promise<Habit> {
+    async createHabit(userId: string, habitData: Partial<Habit>): Promise<Habit> {
         const user = await this.userRepository.findById(userId);
         if (!user) {
             throw new Error('المستخدم غير موجود');
@@ -25,7 +25,7 @@ export class HabitService {
         }
     }
 
-    async getUserHabits(userId: number): Promise<Habit[]> {
+    async getUserHabits(userId: string): Promise<Habit[]> {
         try {
             return await this.habitRepository.findByUserId(userId);
         } catch (error) {
@@ -34,7 +34,7 @@ export class HabitService {
         }
     }
 
-    async markHabitComplete(habitId: number, userId: number): Promise<Habit> {
+    async markHabitComplete(habitId: string, userId: string): Promise<Habit> {
         try {
             const habit = await this.habitRepository.findOne({
                 where: { id: habitId, user: { id: userId } }
@@ -55,7 +55,7 @@ export class HabitService {
         }
     }
 
-    async resetDailyHabits(userId: number): Promise<void> {
+    async resetDailyHabits(userId: string): Promise<void> {
         try {
             await this.habitRepository.resetDailyHabits(userId);
         } catch (error) {
@@ -64,7 +64,7 @@ export class HabitService {
         }
     }
 
-    async deleteHabit(habitId: number, userId: number): Promise<void> {
+    async deleteHabit(habitId: string, userId: string): Promise<void> {
         try {
             const habit = await this.habitRepository.findOne({
                 where: { id: habitId, user: { id: userId } }

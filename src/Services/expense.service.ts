@@ -6,7 +6,7 @@ export class ExpenseService {
     private expenseRepository = new ExpenseRepository();
     private userRepository = new UserRepository();
 
-    async createExpense(userId: number, expenseData: Partial<Expense>) {
+    async createExpense(userId: string, expenseData: Partial<Expense>) {
         const user = await this.userRepository.findById(userId);
         if (!user) throw new Error('User not found');
 
@@ -19,11 +19,11 @@ export class ExpenseService {
         return expense;
     }
 
-    async getUserExpenses(userId: number) {
+    async getUserExpenses(userId: string) {
         return await this.expenseRepository.findByUserId(userId);
     }
 
-    async generateMonthlyReport(userId: number, month: number, year: number) {
+    async generateMonthlyReport(userId: string, month: number, year: number) {
         const expenses = await this.expenseRepository.findByUserAndMonth(userId, month, year);
 
         const total = expenses.reduce((sum, exp) => {

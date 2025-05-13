@@ -8,7 +8,7 @@ export class ReportService {
     private goalService = new GoalService();
     private emergencyService = new EmergencyService();
 
-    async generateFinancialReport(userId: number) {
+    async generateFinancialReport(userId: string) {
         const monthlyExpenses = await this.expenseService.getUserExpenses(userId);
         const goals = await this.goalService.getUserGoals(userId);
         const emergencyFund = await this.emergencyService.getTotalEmergencyFund(userId);

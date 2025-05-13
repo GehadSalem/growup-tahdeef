@@ -4,7 +4,7 @@ import { User } from './User';
 @Entity()
 export class EmergencyFund {
     @PrimaryGeneratedColumn('uuid')
-    id!: number; // Changed to definite assignment assertion
+    id!: string; // Changed to definite assignment assertion
 
     @Column({ type: 'decimal', precision: 10, scale: 2 }) // Better for monetary values
     amount!: number; // Must be provided

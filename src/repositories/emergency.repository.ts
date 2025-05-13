@@ -14,13 +14,13 @@ export class EmergencyRepository {
         return this.repository.save(fund);
     }
 
-    async findUserFunds(userId: number): Promise<EmergencyFund[]> {
+    async findUserFunds(userId: string): Promise<EmergencyFund[]> {
         return this.repository.find({
             where: { user: { id: userId } },
             order: { date: 'DESC' }
         });
     }
-    find(arg0: { where: { user: { id: number; }; }; order: { date: string; }; }) {
+    find(arg0: { where: { user: { id: string; }; }; order: { date: string; }; }) {
         throw new Error('Method not implemented.');
     }
     save(fund: Promise<EmergencyFund>) {
@@ -32,7 +32,7 @@ export class EmergencyRepository {
         return this.repository.save(fund);
     }
 
-    async findByUserId(userId: number): Promise<EmergencyFund[]> {
+    async findByUserId(userId: string): Promise<EmergencyFund[]> {
         return this.repository.find({ 
             where: { user: { id: userId } },
             relations: ['user'],
@@ -40,7 +40,7 @@ export class EmergencyRepository {
         });
     }
 
-    async getTotalAmount(userId: number): Promise<number> {
+    async getTotalAmount(userId: string): Promise<string> {
         const result = await this.repository
             .createQueryBuilder('fund')
             .select('SUM(fund.amount)', 'total')
@@ -50,7 +50,7 @@ export class EmergencyRepository {
         return result?.total || 0;
     }
 
-    async delete(id: number): Promise<void> {
+    async delete(id: string): Promise<void> {
         await this.repository.delete(id);
     }
 }
