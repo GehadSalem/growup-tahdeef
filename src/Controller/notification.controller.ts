@@ -3,6 +3,9 @@ import { NotificationService } from '../Services/notification.service';
 import { User } from '../entities/User';
 
 class NotificationController {
+    static markNotificationRead(markNotificationRead: any): import("express-serve-static-core").RequestHandler<import("express-serve-static-core").ParamsDictionary, any, any, import("qs").ParsedQs, Record<string, any>> {
+      throw new Error('Method not implemented.');
+    }
     private static notificationService = new NotificationService();
 
     static updateToken = async (request: Request, response: Response): Promise<void> => {
