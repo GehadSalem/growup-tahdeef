@@ -21,9 +21,9 @@ router.post('/login', asyncHandler(AuthController.login));
 router.use(asyncHandler(authenticate));
 
 // Expense routes
-router.post('/expenses', asyncHandler(ExpenseController.addExpense));
-router.get('/expenses', asyncHandler(ExpenseController.getExpenses));
-router.get('/expenses/report/:month/:year', asyncHandler(ExpenseController.getMonthlyReport));
+router.post('/', asyncHandler(ExpenseController.addExpense));
+router.get('/', asyncHandler(ExpenseController.getExpenses));
+router.get('/:month/:year', asyncHandler(ExpenseController.getMonthlyReport));
 
 // Habit routes
 router.post('/', asyncHandler(HabitController.addHabit));
