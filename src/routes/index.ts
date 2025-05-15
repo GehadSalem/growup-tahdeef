@@ -31,9 +31,9 @@ router.get('/', asyncHandler(HabitController.getHabits));
 router.patch('/:id', asyncHandler(HabitController.markHabitComplete));
 
 // Goal routes
-router.post('/goals', asyncHandler(GoalController.addGoal));
-router.get('/goals', asyncHandler(GoalController.getGoals));
-router.post('/goals/:id/contribute', asyncHandler(GoalController.contributeToGoal));
+router.post('/', asyncHandler(GoalController.addGoal));
+router.get('/', asyncHandler(GoalController.getGoals));
+router.post('/:id', asyncHandler(GoalController.contributeToGoal));
 
 // Emergency fund routes
 router.post('/emergency', asyncHandler(EmergencyController.addToEmergencyFund));

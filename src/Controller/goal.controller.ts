@@ -48,7 +48,7 @@ class GoalController {
     
             const goalId = request.params?.id;
     
-            if (goalId) {
+            if (!goalId) {
                 response.status(400).json({ message: 'Invalid goal ID' });
                 return;
             }
