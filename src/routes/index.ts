@@ -3,13 +3,13 @@ import { authenticate } from '../Middlewares/auth.middleware';
 import ExpenseController from '../Controller/expense.controller';
 import AuthController from '../Controller/auth.controller';
 import HabitController from '../Controller/habit.controller';
-import GoalController from '../Controller/goal.controller';
 import EmergencyController from '../Controller/emergency.controller';
 import { IncomeController } from '../Controller/IncomeController';
 import { InstallmentController } from '../Controller/InstallmentController';
 import NotificationController from '../Controller/notification.controller';
+import { SavingsGoalController } from '../Controller/SavingsGoal.Controller';
+import { MajorGoalController } from '../Controller/MajorGoal.Controller';
 import DailyTaskController from '../Controller/DailyTask.controller';
-
 const router = Router();
 
 // Error handling wrapper
@@ -34,10 +34,22 @@ router.post('/', asyncHandler(HabitController.addHabit));
 router.get('/', asyncHandler(HabitController.getHabits));
 router.patch('/:id', asyncHandler(HabitController.markHabitComplete));
 
-// Goal routes
-router.post('/', asyncHandler(GoalController.addGoal));
-router.get('/', asyncHandler(GoalController.getGoals));
-router.post('/:id', asyncHandler(GoalController.contributeToGoal));
+// Savings Goal routes
+router.post('/savings-goals', asyncHandler(SavingsGoalController.createSavingsGoal));
+router.get('/savings-goals', asyncHandler(SavingsGoalController.getUserSavingsGoals));
+router.get('/savings-goals/:id', asyncHandler(SavingsGoalController.getSavingsGoalById));
+router.put('/savings-goals/:id', asyncHandler(SavingsGoalController.createSavingsGoal));
+router.delete('/savings-goals/:id', asyncHandler(SavingsGoalController.deleteSavingsGoal));
+router.post('/savings-goals/:id/contribute', asyncHandler(SavingsGoalController.addToSavingsGoal));
+
+// Major Goal routes
+router.post('/major-goals', asyncHandler(MajorGoalController.createMajorGoal));
+router.get('/major-goals', asyncHandler(MajorGoalController.getUserMajorGoals));
+router.get('/major-goals/:id', asyncHandler(MajorGoalController.getMajorGoalById));
+router.put('/major-goals/:id', asyncHandler(MajorGoalController.updateMajorGoal));
+router.delete('/major-goals/:id', asyncHandler(MajorGoalController.deleteMajorGoal));
+router.patch('/major-goals/:id/progress', asyncHandler(MajorGoalController.updateProgress));
+router.post('/major-goals/:id/link-saving', asyncHandler(MajorGoalController.linkSavingsGoal));
 
 // Emergency fund routes
 router.post('/', asyncHandler(EmergencyController.addToEmergencyFund));
