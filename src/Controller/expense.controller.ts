@@ -1,4 +1,3 @@
-// src/controllers/expense.controller.ts
 import { Request, Response } from 'express';
 import { ExpenseService } from '../Services/expense.service';
 
