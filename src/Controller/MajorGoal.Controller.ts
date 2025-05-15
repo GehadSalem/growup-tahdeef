@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { MajorGoalService } from '../Services/MajorGoalService';
-import { UserService } from '../Services/UserService';
+import { UserService } from '../Services/User.service';
 
 export class MajorGoalController {
   static linkSavingsGoal(linkSavingsGoal: any): import("express-serve-static-core").RequestHandler<import("express-serve-static-core").ParamsDictionary, any, any, import("qs").ParsedQs, Record<string, any>> {

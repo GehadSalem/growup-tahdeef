@@ -1,26 +1,48 @@
-import { User } from '../entities/User';
 import { ExpenseService } from './expense.service';
-import { GoalService } from './goal.service';
-import { EmergencyService } from '../Services/emergency.service';
+import { MajorGoalService } from './MajorGoalService';
+import { SavingsGoalService } from './SavingsGoal.service';
 
 export class ReportService {
     private expenseService = new ExpenseService();
-    private goalService = new GoalService();
-    private emergencyService = new EmergencyService();
+    private majorGoalService = new MajorGoalService();
+    private savingsGoalService = new SavingsGoalService();
 
     async generateFinancialReport(userId: string) {
         const monthlyExpenses = await this.expenseService.getUserExpenses(userId);
-        const goals = await this.goalService.getUserGoals(userId);
-        const emergencyFund = await this.emergencyService.getTotalEmergencyFund(userId);
+        const savingsGoals = await this.savingsGoalService.getUserSavingsGoals(userId);
+        const majorGoals = await this.majorGoalService.getUserMajorGoals(userId);
 
-        const totalExpenses = monthlyExpenses.reduce((sum: any, exp: { amount: any; }) => sum + exp.amount, 0);
-        const totalGoals = goals.reduce((sum: number, goal: { targetAmount: number; currentAmount: number; }) => sum + (goal.targetAmount - goal.currentAmount), 0);
+        const totalExpenses = monthlyExpenses.reduce((sum, exp) => sum + exp.amount, 0);
+
+        const totalSavingsNeeded = savingsGoals.reduce(
+            (sum, goal) => sum + (goal.targetAmount - goal.currentAmount),
+            0
+        );
+
+        const emergencyFund = savingsGoals.find(g => g.isEmergencyFund);
+        const emergencyFundAmount = emergencyFund?.currentAmount || 0;
+
+        // Optional: filter out emergency fund from total savings if needed
+        const totalSavingsExcludingEmergency = savingsGoals
+            .filter(g => !g.isEmergencyFund)
+            .reduce((sum, goal) => sum + (goal.targetAmount - goal.currentAmount), 0);
 
         return {
             totalExpenses,
-            totalGoals,
-            emergencyFund,
-            savingsRecommendation: await this.goalService.calculateMonthlySavings(userId)
+            totalSavingsNeeded,
+            emergencyFund: {
+                saved: emergencyFund?.currentAmount || 0,
+                target: emergencyFund?.targetAmount || 0,
+                progress: emergencyFund
+                    ? (emergencyFund.currentAmount / emergencyFund.targetAmount) * 100
+                    : 0
+            },
+            majorGoals: majorGoals.map(goal => ({
+                id: goal.id,
+                name: goal.name,
+                progress: goal.progress,
+                status: goal.status
+            }))
         };
     }
 }

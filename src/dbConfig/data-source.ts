@@ -5,13 +5,13 @@ import { User } from "../entities/User";
 import { Habit } from "../entities/Habit";
 import { SavingsGoal } from "../entities/SavingsGoal";
 import { Notification } from "../entities/Notification";
-import { Goal } from "../entities/Goal";
 import { Installment } from "../entities/Installment";
 import { Income } from "../entities/Income";
 import { Expense } from "../entities/Expense";
 import { EmergencyFund } from "../entities/EmergencyFund";
 import { CustomInstallmentPlan } from "../entities/CustomInstallmentPlan";
 import { DailyTask } from "../entities/DailyTask";
+import { MajorGoal } from "../entities/MajorGoal";
 
 dotenv.config();
 
@@ -29,8 +29,8 @@ export const AppDataSource = new DataSource({
     User,
     Habit,
     SavingsGoal,
+    MajorGoal,
     Notification,
-    Goal,
     Installment,
     Income,
     Expense,
@@ -38,7 +38,7 @@ export const AppDataSource = new DataSource({
     CustomInstallmentPlan,
     DailyTask
   ],
-  migrations: ["src/migrations/*.ts"],
+  migrations: [],
   subscribers: [],
   extra: {
     connectionLimit: 10,

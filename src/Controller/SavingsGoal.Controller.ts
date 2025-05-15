@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
-import { SavingsGoalService } from '../Services/SavingsGoal.Service';
-import { UserService } from '../Services/UserService';
+import { SavingsGoalService } from '../Services/SavingsGoal.service';
+import { UserService } from '../Services/User.service';
 
 export class SavingsGoalController {
   static addToSavingsGoal: Function;

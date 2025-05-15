@@ -6,7 +6,7 @@ export class SavingsGoal {
   @PrimaryGeneratedColumn('uuid')
   id!: string;
 
-  @ManyToOne(() => User, user => user.savingsGoals)
+  @ManyToOne(() => User, user => user.id)
   user!: User;
 
   @Column()

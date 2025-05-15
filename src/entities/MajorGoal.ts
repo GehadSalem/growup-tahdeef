@@ -39,4 +39,5 @@ export class MajorGoal {
 
   @UpdateDateColumn()
   updatedAt!: Date;
+    name: any;
 }

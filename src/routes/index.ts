@@ -4,12 +4,12 @@ import ExpenseController from '../Controller/expense.controller';
 import AuthController from '../Controller/auth.controller';
 import HabitController from '../Controller/habit.controller';
 import EmergencyController from '../Controller/emergency.controller';
-import { IncomeController } from '../Controller/IncomeController';
-import { InstallmentController } from '../Controller/InstallmentController';
+import { IncomeController } from '../Controller/Income.controller';
+import { InstallmentController } from '../Controller/Installmen.controller';
 import NotificationController from '../Controller/notification.controller';
-import { SavingsGoalController } from '../Controller/SavingsGoal.Controller';
 import { MajorGoalController } from '../Controller/MajorGoal.Controller';
 import DailyTaskController from '../Controller/DailyTask.controller';
+import { SavingsGoalController } from '../Controller/SavingsGoal.Controller';
 const router = Router();
 
 // Error handling wrapper
@@ -34,6 +34,25 @@ router.post('/', asyncHandler(HabitController.addHabit));
 router.get('/', asyncHandler(HabitController.getHabits));
 router.patch('/:id', asyncHandler(HabitController.markHabitComplete));
 
+// Emergency fund routes
+router.post('/', asyncHandler(EmergencyController.addToEmergencyFund));
+router.get('/', asyncHandler(EmergencyController.getEmergencyFunds));
+
+// Notification routes
+router.get('/', asyncHandler(NotificationController.testNotification));
+router.patch('/:id/read', asyncHandler(NotificationController.markNotificationRead));
+router.delete('/:id', asyncHandler(NotificationController.testNotification));
+
+// Daily Task routes
+router.post('/', asyncHandler(DailyTaskController.createTask));
+router.get('/', asyncHandler(DailyTaskController.getTasks));
+router.get('/:id', asyncHandler(DailyTaskController.getTaskById));
+router.patch('/:id', asyncHandler(DailyTaskController.updateTask));
+router.patch('/:id/complete', asyncHandler(DailyTaskController.markTaskComplete)); // optional, if separate
+router.delete('/:id', asyncHandler(DailyTaskController.deleteTask));
+
+
+//لحد هنا تم التيست ////////////////////////////////////////////////////////////////////
 // Savings Goal routes
 router.post('/savings-goals', asyncHandler(SavingsGoalController.createSavingsGoal));
 router.get('/savings-goals', asyncHandler(SavingsGoalController.getUserSavingsGoals));
@@ -51,22 +70,6 @@ router.delete('/major-goals/:id', asyncHandler(MajorGoalController.deleteMajorGo
 router.patch('/major-goals/:id/progress', asyncHandler(MajorGoalController.updateProgress));
 router.post('/major-goals/:id/link-saving', asyncHandler(MajorGoalController.linkSavingsGoal));
 
-// Emergency fund routes
-router.post('/', asyncHandler(EmergencyController.addToEmergencyFund));
-router.get('/', asyncHandler(EmergencyController.getEmergencyFunds));
-
-// Notification routes
-router.get('/', asyncHandler(NotificationController.testNotification));
-router.patch('/:id/read', asyncHandler(NotificationController.markNotificationRead));
-router.delete('/:id', asyncHandler(NotificationController.testNotification));
-
-// Daily Task routes
-router.post('/', asyncHandler(DailyTaskController.createTask));
-router.get('/', asyncHandler(DailyTaskController.getTasks));
-router.get('/:id', asyncHandler(DailyTaskController.getTaskById));
-router.patch('/:id', asyncHandler(DailyTaskController.updateTask));
-router.patch('/:id/complete', asyncHandler(DailyTaskController.markTaskComplete)); // optional, if separate
-router.delete('/:id', asyncHandler(DailyTaskController.deleteTask));
 
 // Income routes
 router.post('/incomes', asyncHandler(IncomeController.addIncome));

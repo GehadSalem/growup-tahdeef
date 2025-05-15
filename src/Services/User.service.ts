@@ -102,37 +102,37 @@ export class UserService {
         };
     }
 
-    async setupDefaultHabits(userId: string): Promise<DailyTask[]> {
-        const defaultHabits = [
-            {
-                name: "قراءة كتاب",
-                title: "اقرأ 10 صفحات يومياً",
-                habitType: "تعليم",
-                isRecurring: true,
-                frequency: { interval: "daily" as "daily" },
-                reminderTime: new Date().setHours(20, 0, 0, 0),
-                isCompleted: false,
-                streak: 0
-            },
-            {
-                name: "ممارسة الرياضة",
-                title: "30 دقيقة رياضة يومياً",
-                habitType: "صحة",
-                isRecurring: true,
-                frequency: { interval: "daily" },
-                reminderTime: new Date().setHours(7, 0, 0, 0),
-                isCompleted: false,
-                streak: 0
-            }
-        ];
+    // async setupDefaultHabits(userId: string): Promise<DailyTask[]> {
+    //     const defaultHabits = [
+    //         {
+    //             name: "قراءة كتاب",
+    //             title: "اقرأ 10 صفحات يومياً",
+    //             habitType: "تعليم",
+    //             isRecurring: true,
+    //             frequency: { interval: "daily" as "daily" },
+    //             reminderTime: new Date().setHours(20, 0, 0, 0),
+    //             isCompleted: false,
+    //             streak: 0
+    //         },
+    //         {
+    //             name: "ممارسة الرياضة",
+    //             title: "30 دقيقة رياضة يومياً",
+    //             habitType: "صحة",
+    //             isRecurring: true,
+    //             frequency: { interval: "daily" },
+    //             reminderTime: new Date().setHours(7, 0, 0, 0),
+    //             isCompleted: false,
+    //             streak: 0
+    //         }
+    //     ];
 
-        const dailyTaskRepo = AppDataSource.getRepository(DailyTask);
-        const tasks = defaultHabits.map(habit => 
-            dailyTaskRepo.create({ ...habit, userId })
-        );
+    //     const dailyTaskRepo = AppDataSource.getRepository(DailyTask);
+    //     const tasks = defaultHabits.map(habit => 
+    //          dailyTaskRepo.create({ ...habit, user: { id: userId } as Partial<User> })
+    //     );
 
-        return await dailyTaskRepo.save(tasks);
-    }
+    //     return await dailyTaskRepo.save(tasks);
+    // }
 
     private generateToken(userId: string): string {
         return jwt.sign(
