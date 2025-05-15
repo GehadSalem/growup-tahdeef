@@ -1,61 +1,58 @@
+import { Repository } from 'typeorm';
 import { AppDataSource } from '../dbConfig/data-source';
 import { DailyTask } from '../entities/DailyTask';
 
-export const DailyTaskRepository = AppDataSource.getRepository(DailyTask);
+export class DailyTaskRepository {
+    private repository: Repository<DailyTask>;
+    save: any;
+    find: any;
+    findOne: any;
+    updateTask: any;
+    deleteTask: any;
+    markTaskAsComplete: any;
 
-/**
- * Find all tasks by a specific user ID
- */
-export const findTasksByUserId = async (userId: string) => {
-  return await DailyTaskRepository.find({
-    where: { user: { id: userId } },
-    relations: ['user'],
-    order: { createdAt: 'DESC' }
-  });
-};
+    constructor() {
+        this.repository = AppDataSource.getRepository(DailyTask);
+    }
 
-/**
- * Mark a task as complete
- */
-export const markTaskAsComplete = async (taskId: string) => {
-  const task = await DailyTaskRepository.findOneBy({ id: taskId });
-  if (!task) throw new Error('Task not found');
-  task.isCompleted = true;
-  task.streak += 1;
-  return await DailyTaskRepository.save(task);
-};
+    async create(dailyTaskData: Partial<DailyTask>): Promise<DailyTask> {
+        const dailyTask = this.repository.create(dailyTaskData);
+        return this.repository.save(dailyTask);
+    }
 
-/**
- * Create a new task
- */
-export const createTask = async (data: Partial<DailyTask>) => {
-  const task = DailyTaskRepository.create(data);
-  return await DailyTaskRepository.save(task);
-};
+    async findByUserId(userId: string): Promise<DailyTask[]> {
+        return this.repository.find({ 
+            where: { user: { id: userId } },
+            relations: ['user'],
+            order: { createdAt: 'DESC' }
+        });
+    }
 
-/**
- * Update a task
- */
-export const updateTask = async (taskId: string, updates: Partial<DailyTask>) => {
-  const task = await DailyTaskRepository.findOneBy({ id: taskId });
-  if (!task) throw new Error('Task not found');
-  DailyTaskRepository.merge(task, updates);
-  return await DailyTaskRepository.save(task);
-};
+    async findById(id: string): Promise<DailyTask | null> {
+        return this.repository.findOne({
+            where: { id },
+            relations: ['user']
+        });
+    }
 
-/**
- * Delete a task
- */
-export const deleteTask = async (taskId: string) => {
-  return await DailyTaskRepository.delete(taskId);
-};
+    async update(id: string, dailyTaskData: Partial<DailyTask>): Promise<DailyTask | null> {
+        const dailyTask = await this.repository.findOneBy({ id });
+        if (!dailyTask) return null;
+        
+        Object.assign(dailyTask, dailyTaskData);
+        return this.repository.save(dailyTask);
+    }
 
-/**
- * Get task by ID
- */
-export const getTaskById = async (taskId: string) => {
-  return await DailyTaskRepository.findOne({
-    where: { id: taskId },
-    relations: ['user']
-  });
-};
+    async markAsComplete(id: string): Promise<DailyTask | null> {
+        const dailyTask = await this.repository.findOneBy({ id });
+        if (!dailyTask) return null;
+        
+        dailyTask.isCompleted = true;
+        dailyTask.streak += 1;
+        return this.repository.save(dailyTask);
+    }
+
+    async delete(id: string): Promise<void> {
+        await this.repository.delete(id);
+    }
+}

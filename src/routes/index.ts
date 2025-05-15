@@ -7,9 +7,9 @@ import EmergencyController from '../Controller/emergency.controller';
 import { IncomeController } from '../Controller/Income.controller';
 import { InstallmentController } from '../Controller/Installmen.controller';
 import NotificationController from '../Controller/notification.controller';
-import { MajorGoalController } from '../Controller/MajorGoal.Controller';
+import SavingsGoalController from '../Controller/SavingsGoal.Controller';
+import MajorGoalController from '../Controller/MajorGoal.Controller';
 import DailyTaskController from '../Controller/DailyTask.controller';
-import { SavingsGoalController } from '../Controller/SavingsGoal.Controller';
 const router = Router();
 
 // Error handling wrapper
@@ -56,7 +56,7 @@ router.delete('/:id', asyncHandler(DailyTaskController.deleteTask));
 // Savings Goal routes
 router.post('/savings-goals', asyncHandler(SavingsGoalController.createSavingsGoal));
 router.get('/savings-goals', asyncHandler(SavingsGoalController.getUserSavingsGoals));
-router.get('/savings-goals/:id', asyncHandler(SavingsGoalController.getSavingsGoalById));
+// router.get('/savings-goals/:id', asyncHandler(SavingsGoalController.getSavingsGoalById));
 router.put('/savings-goals/:id', asyncHandler(SavingsGoalController.createSavingsGoal));
 router.delete('/savings-goals/:id', asyncHandler(SavingsGoalController.deleteSavingsGoal));
 router.post('/savings-goals/:id/contribute', asyncHandler(SavingsGoalController.addToSavingsGoal));
@@ -68,7 +68,7 @@ router.get('/major-goals/:id', asyncHandler(MajorGoalController.getMajorGoalById
 router.put('/major-goals/:id', asyncHandler(MajorGoalController.updateMajorGoal));
 router.delete('/major-goals/:id', asyncHandler(MajorGoalController.deleteMajorGoal));
 router.patch('/major-goals/:id/progress', asyncHandler(MajorGoalController.updateProgress));
-router.post('/major-goals/:id/link-saving', asyncHandler(MajorGoalController.linkSavingsGoal));
+// router.post('/major-goals/:id/link-saving', asyncHandler(MajorGoalController.linkSavingsGoal));
 
 
 // Income routes

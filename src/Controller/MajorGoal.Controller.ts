@@ -1,40 +1,22 @@
 import { Request, Response } from 'express';
-import { MajorGoalService } from '../Services/MajorGoalService';
-import { UserService } from '../Services/User.service';
+import { MajorGoalService } from '../Services/majorGoal.service';
+import { UserService } from '../Services/users.service';
+import '../types/express';
 
-export class MajorGoalController {
-  static linkSavingsGoal(linkSavingsGoal: any): import("express-serve-static-core").RequestHandler<import("express-serve-static-core").ParamsDictionary, any, any, import("qs").ParsedQs, Record<string, any>> {
-    throw new Error('Method not implemented.');
-  }
-  static updateProgress(updateProgress: any): import("express-serve-static-core").RequestHandler<import("express-serve-static-core").ParamsDictionary, any, any, import("qs").ParsedQs, Record<string, any>> {
-    throw new Error('Method not implemented.');
-  }
-  static deleteMajorGoal(deleteMajorGoal: any): import("express-serve-static-core").RequestHandler<import("express-serve-static-core").ParamsDictionary, any, any, import("qs").ParsedQs, Record<string, any>> {
-    throw new Error('Method not implemented.');
-  }
-  static updateMajorGoal(updateMajorGoal: any): import("express-serve-static-core").RequestHandler<import("express-serve-static-core").ParamsDictionary, any, any, import("qs").ParsedQs, Record<string, any>> {
-    throw new Error('Method not implemented.');
-  }
-  static getMajorGoalById(getMajorGoalById: any): import("express-serve-static-core").RequestHandler<import("express-serve-static-core").ParamsDictionary, any, any, import("qs").ParsedQs, Record<string, any>> {
-    throw new Error('Method not implemented.');
-  }
-  static getUserMajorGoals(getUserMajorGoals: any): import("express-serve-static-core").RequestHandler<import("express-serve-static-core").ParamsDictionary, any, any, import("qs").ParsedQs, Record<string, any>> {
-    throw new Error('Method not implemented.');
-  }
-  static createMajorGoal(createMajorGoal: any): import("express-serve-static-core").RequestHandler<import("express-serve-static-core").ParamsDictionary, any, any, import("qs").ParsedQs, Record<string, any>> {
-    throw new Error('Method not implemented.');
-  }
-  private majorGoalService = new MajorGoalService();
-  private userService = new UserService();
+class MajorGoalController {
+  private static majorGoalService = new MajorGoalService();
+  private static userService = new UserService();
 
-  async createMajorGoal(req: Request, res: Response) {
+  static createMajorGoal = async (req: Request, res: Response): Promise<void> => {
     try {
       if (!req.user) {
-        return res.status(400).json({ message: 'User information is missing in the request.' });
+        res.status(400).json({ message: 'User information is missing in the request.' });
+        return;
       }
       const user = await this.userService.getUserById(req.user.id);
       if (!user) {
-        return res.status(404).json({ message: 'User not found.' });
+        res.status(404).json({ message: 'User not found.' });
+        return;
       }
       const newGoal = await this.majorGoalService.createMajorGoal(user, req.body);
       res.status(201).json(newGoal);
@@ -42,12 +24,13 @@ export class MajorGoalController {
       const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
       res.status(500).json({ message: errorMessage });
     }
-  }
+  };
 
-  async getUserMajorGoals(req: Request, res: Response) {
+  static getUserMajorGoals = async (req: Request, res: Response): Promise<void> => {
     try {
       if (!req.user) {
-        return res.status(400).json({ message: 'User information is missing in the request.' });
+        res.status(400).json({ message: 'User information is missing in the request.' });
+        return;
       }
       const goals = await this.majorGoalService.getUserMajorGoals(req.user.id);
       res.json(goals);
@@ -55,9 +38,9 @@ export class MajorGoalController {
       const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
       res.status(500).json({ message: errorMessage });
     }
-  }
+  };
 
-  async updateMajorGoal(req: Request, res: Response) {
+  static updateMajorGoal = async (req: Request, res: Response): Promise<void> => {
     try {
       const updatedGoal = await this.majorGoalService.updateMajorGoal(req.params.id, req.body);
       res.json(updatedGoal);
@@ -65,9 +48,9 @@ export class MajorGoalController {
       const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
       res.status(500).json({ message: errorMessage });
     }
-  }
+  };
 
-  async deleteMajorGoal(req: Request, res: Response) {
+  static deleteMajorGoal = async (req: Request, res: Response): Promise<void> => {
     try {
       await this.majorGoalService.deleteMajorGoal(req.params.id);
       res.status(204).send();
@@ -75,9 +58,9 @@ export class MajorGoalController {
       const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
       res.status(500).json({ message: errorMessage });
     }
-  }
+  };
 
-  async updateProgress(req: Request, res: Response) {
+  static updateProgress = async (req: Request, res: Response): Promise<void> => {
     try {
       const { progress } = req.body;
       const updatedGoal = await this.majorGoalService.updateProgress(req.params.id, progress);
@@ -86,5 +69,36 @@ export class MajorGoalController {
       const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
       res.status(500).json({ message: errorMessage });
     }
+  };
+  static getMajorGoalById = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const goalId = req.params.id;
+
+    if (!req.user) {
+      res.status(400).json({ message: 'User information is missing in the request.' });
+      return;
+    }
+
+    const goal = await this.majorGoalService.getMajorGoalById(goalId);
+
+    if (!goal) {
+      res.status(404).json({ message: 'Major goal not found.' });
+      return;
+    }
+
+    // Optional: ensure the goal belongs to the current user
+    if (goal?.user.id !== req.user.id) {
+      res.status(403).json({ message: 'Access denied to this goal.' });
+      return;
+    }
+
+    res.json(goal);
+  } catch (error) {
+    const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
+    res.status(500).json({ message: errorMessage });
   }
+};
+
 }
+
+export default MajorGoalController;

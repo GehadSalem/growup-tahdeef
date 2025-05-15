@@ -3,6 +3,7 @@ import { MajorGoal } from "../entities/MajorGoal";
 import { User } from "../entities/User";
 
 export class MajorGoalService {
+  
   private majorGoalRepository = AppDataSource.getRepository(MajorGoal);
 
   async createMajorGoal(user: User, goalData: Partial<MajorGoal>): Promise<MajorGoal> {
@@ -45,4 +46,11 @@ export class MajorGoalService {
     
     return await this.majorGoalRepository.save(goal);
   }
+  async getMajorGoalById(goalId: string): Promise<MajorGoal | null> {
+  return await this.majorGoalRepository.findOne({
+    where: { id: goalId },
+    relations: ['user', 'savingsGoals'], // include related entities if needed
+  });
+}
+
 }

@@ -31,8 +31,8 @@ export class MajorGoal {
   @Column({ default: 0 })
   progress!: number;
 
-  @OneToMany(() => SavingsGoal, savingsGoal => savingsGoal.majorGoal)
-  savingsGoals!: SavingsGoal[];
+  @ManyToOne(() => MajorGoal, majorGoal => majorGoal.savingsGoals)
+  majorGoal!: MajorGoal;
 
   @CreateDateColumn()
   createdAt!: Date;
@@ -40,4 +40,5 @@ export class MajorGoal {
   @UpdateDateColumn()
   updatedAt!: Date;
     name: any;
+  savingsGoals: any;
 }

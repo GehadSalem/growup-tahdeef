@@ -4,7 +4,7 @@ import { Habit } from './Habit';
 import { EmergencyFund } from './EmergencyFund';
 import { MajorGoal } from './MajorGoal';
 import { DailyTask } from './DailyTask';
-import { SavingsGoal } from './SavingsGoal';
+import { SavingsGoal } from './SavingsGoal'; // Make sure this import path is correct
 
 @Entity()
 export class User {
@@ -26,20 +26,21 @@ export class User {
     @Column({ type: 'float', default: 0 })
     monthlyIncome!: number;
 
-    @OneToMany(() => Expense, expense => expense.user)
+    @OneToMany(() => Expense, (expense) => expense.user)
     expenses!: Expense[];
   
-    @OneToMany(() => Habit, habit => habit.user)
+    @OneToMany(() => Habit, (habit) => habit.user)
     habits!: Habit[];
 
-    @OneToMany(() => MajorGoal, majorGoal => majorGoal.user)
+    @OneToMany(() => MajorGoal, (majorGoal) => majorGoal.user)
     majorGoals!: MajorGoal[];
 
-    @OneToMany(() => SavingsGoal, savingGoal => savingGoal.user)
+    @OneToMany(() => SavingsGoal, (savingsGoal) => savingsGoal.user) // Fixed parameter name
     savingsGoals!: SavingsGoal[];
 
-    @OneToMany(() => EmergencyFund, emergency => emergency.user)
+    @OneToMany(() => EmergencyFund, (emergency) => emergency.user)
     emergencyFunds!: EmergencyFund[];
-     @OneToMany(() => DailyTask, task => task.user)
-  dailyTasks!: DailyTask[];
+
+    @OneToMany(() => DailyTask, (task) => task.user)
+    dailyTasks!: DailyTask[];
 }
