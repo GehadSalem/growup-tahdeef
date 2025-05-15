@@ -1,0 +1,86 @@
+import { Request, Response } from 'express';
+import '../types/express';
+import { DailyTaskService } from '../Services/dailyTask.service';
+
+class DailyTaskController {
+    private static taskService = new DailyTaskService();
+
+    static createTask = async (req: Request, res: Response): Promise<void> => {
+        try {
+            if (!req.user) {
+                res.status(401).json({ message: 'Unauthorized' });
+                return;
+            }
+
+            const task = await this.taskService.create(req.user.id, req.body);
+            res.status(201).json(task);
+        } catch (error) {
+            const msg = error instanceof Error ? error.message : 'Unknown error';
+            res.status(400).json({ message: msg });
+        }
+    };
+
+    static getTasks = async (req: Request, res: Response): Promise<void> => {
+        try {
+            if (!req.user) {
+                res.status(401).json({ message: 'Unauthorized' });
+                return;
+            }
+
+            const tasks = await this.taskService.getAll(req.user.id);
+            res.json(tasks);
+        } catch (error) {
+            res.status(500).json({ message: (error as Error).message });
+        }
+    };
+
+    static getTaskById = async (req: Request, res: Response): Promise<void> => {
+        try {
+            const task = await this.taskService.getById(req.params.id);
+            if (!task) {
+                res.status(404).json({ message: 'Task not found' });
+                return;
+            }
+            res.json(task);
+        } catch (error) {
+            res.status(500).json({ message: (error as Error).message });
+        }
+    };
+
+    static updateTask = async (req: Request, res: Response): Promise<void> => {
+        try {
+            const updated = await this.taskService.update(req.params.id, req.body);
+            if (!updated) {
+                res.status(404).json({ message: 'Task not found' });
+                return;
+            }
+            res.json(updated);
+        } catch (error) {
+            res.status(400).json({ message: (error as Error).message });
+        }
+    };
+
+    static deleteTask = async (req: Request, res: Response): Promise<void> => {
+        try {
+            const deleted = await this.taskService.delete(req.params.id);
+            if (!deleted) {
+                res.status(404).json({ message: 'Task not found' });
+                return;
+            }
+            res.status(204).send();
+        } catch (error) {
+            res.status(500).json({ message: (error as Error).message });
+        }
+    };
+
+    static markTaskComplete = async (req: Request, res: Response): Promise<void> => {
+        try {
+            const task = await this.taskService.markAsComplete(req.params.id);
+            res.json(task);
+        } catch (error) {
+            res.status(400).json({ message: (error as Error).message });
+        }
+    };
+}
+
+export default DailyTaskController;

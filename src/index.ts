@@ -30,9 +30,9 @@ AppDataSource.initialize()
     app.use('/api/habits', habitRoutes);
     app.use('/api/expenses', expenseRoutes);
     app.use('/api/goals', goalRoutes);
-    app.use('/api/emergency-fund', emergencyRoutes);
+    app.use('/api/emergencyFund', emergencyRoutes);
     app.use('/api/notifications', notificationRoutes);
-    app.use('/api/daily-tasks', dailyTaskRoutes);
+    app.use('/api/dailyTasks', dailyTaskRoutes);
 
     app.listen(port, () => {
       console.log(`🚀 Server is running at http://localhost:${port}`);

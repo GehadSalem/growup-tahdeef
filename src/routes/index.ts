@@ -5,10 +5,10 @@ import AuthController from '../Controller/auth.controller';
 import HabitController from '../Controller/habit.controller';
 import GoalController from '../Controller/goal.controller';
 import EmergencyController from '../Controller/emergency.controller';
-import { DailyTaskController } from '../Controller/DailyTaskController';
 import { IncomeController } from '../Controller/IncomeController';
 import { InstallmentController } from '../Controller/InstallmentController';
 import NotificationController from '../Controller/notification.controller';
+import DailyTaskController from '../Controller/DailyTask.controller';
 
 const router = Router();
 
@@ -40,14 +40,21 @@ router.get('/', asyncHandler(GoalController.getGoals));
 router.post('/:id', asyncHandler(GoalController.contributeToGoal));
 
 // Emergency fund routes
-router.post('/emergency', asyncHandler(EmergencyController.addToEmergencyFund));
-router.get('/emergency', asyncHandler(EmergencyController.getEmergencyFunds));
+router.post('/', asyncHandler(EmergencyController.addToEmergencyFund));
+router.get('/', asyncHandler(EmergencyController.getEmergencyFunds));
+
+// Notification routes
+router.get('/', asyncHandler(NotificationController.testNotification));
+router.patch('/:id/read', asyncHandler(NotificationController.markNotificationRead));
+router.delete('/:id', asyncHandler(NotificationController.testNotification));
 
 // Daily Task routes
-router.post('/daily-tasks', asyncHandler(DailyTaskController.addTask));
-router.get('/daily-tasks', asyncHandler(DailyTaskController.getTasks));
-router.patch('/daily-tasks/:id/complete', asyncHandler(DailyTaskController.markTaskComplete));
-router.delete('/daily-tasks/:id', asyncHandler(DailyTaskController.deleteTask));
+router.post('/', asyncHandler(DailyTaskController.createTask));
+router.get('/', asyncHandler(DailyTaskController.getTasks));
+router.get('/:id', asyncHandler(DailyTaskController.getTaskById));
+router.patch('/:id', asyncHandler(DailyTaskController.updateTask));
+router.patch('/:id/complete', asyncHandler(DailyTaskController.markTaskComplete)); // optional, if separate
+router.delete('/:id', asyncHandler(DailyTaskController.deleteTask));
 
 // Income routes
 router.post('/incomes', asyncHandler(IncomeController.addIncome));
@@ -64,10 +71,6 @@ router.post('/custom-installment-plans', asyncHandler(InstallmentController.addP
 router.get('/custom-installment-plans', asyncHandler(InstallmentController.getPlans));
 router.delete('/custom-installment-plans/:id', asyncHandler(InstallmentController.deletePlan));
 
-// Notification routes
-router.get('/notifications', asyncHandler(NotificationController.testNotification));
-router.patch('/notifications/:id/read', asyncHandler(NotificationController.markNotificationRead));
-router.delete('/notifications/:id', asyncHandler(NotificationController.testNotification));
 
 // Global error handler
 router.use((err: Error, req: Request, res: Response, next: NextFunction) => {

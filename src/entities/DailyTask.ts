@@ -1,4 +1,12 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  CreateDateColumn,
+  UpdateDateColumn,
+  ManyToOne,
+} from 'typeorm';
+import { User } from './User';
 
 @Entity()
 export class DailyTask {
@@ -8,8 +16,8 @@ export class DailyTask {
   @Column()
   name!: string;
 
-  @Column()
-  userId!: string;
+  @ManyToOne(() => User, user => user.dailyTasks)
+  user!: User;
 
   @Column()
   title!: string;
@@ -41,5 +49,4 @@ export class DailyTask {
 
   @UpdateDateColumn()
   updatedAt!: Date;
-  user: any;
 }

@@ -4,6 +4,7 @@ import { Expense } from './Expense';
 import { Habit } from './Habit';
 import { Goal } from './Goal';
 import { EmergencyFund } from './EmergencyFund';
+import { DailyTask } from './DailyTask';
 
 @Entity()
 export class User {
@@ -36,4 +37,7 @@ export class User {
 
     @OneToMany(() => EmergencyFund, emergency => emergency.user)
   emergencyFunds!: EmergencyFund[];
+  
+  @OneToMany(() => DailyTask, task => task.user)
+  dailyTasks!: DailyTask[];
 }
