@@ -8,9 +8,9 @@ import { IncomeController } from '../Controller/Income.controller';
 import { InstallmentController } from '../Controller/Installmen.controller';
 import NotificationController from '../Controller/notification.controller';
 import { asyncHandler } from '../Middlewares/error.middleware';
-import SavingsGoalController from '../Controller/savingsGoal.controller';
-import DailyTaskController from '../Controller/dailyTask.controller';
-import MajorGoalController from '../Controller/majorGoal.controller';
+import SavingsGoalController from '../Controller/SavingsGoal.Controller';
+import DailyTaskController from '../Controller/DailyTask.controller';
+import MajorGoalController from '../Controller/MajorGoal.Controller';
 import protectedRouter from '../utils/protectedRouter';
 
 // Authentication routes
