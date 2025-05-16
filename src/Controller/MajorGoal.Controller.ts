@@ -79,7 +79,7 @@ class MajorGoalController {
       return;
     }
 
-    const goal = await this.majorGoalService.getMajorGoalById(goalId);
+    const goal = await this.MajorGoalService.getMajorGoalById(goalId);
 
     if (!goal) {
       res.status(404).json({ message: 'Major goal not found.' });
@@ -98,6 +98,7 @@ class MajorGoalController {
     res.status(500).json({ message: errorMessage });
   }
 };
+  static MajorGoalService: any;
 
 }
 

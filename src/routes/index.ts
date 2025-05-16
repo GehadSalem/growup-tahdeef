@@ -12,6 +12,8 @@ import protectedRouter from '../utils/protectedRouter';
 import DailyTaskController from '../Controller/dailyTask.controller';
 import SavingsGoalController from '../Controller/savingsGoal.controller';
 import MajorGoalController from '../Controller/majorGoal.controller';
+import { CustomInstallmentPlanController } from '../Controller/customPlanInstallment.controller';
+
 const router = Router();
 // Error handling wrapper
 const catchHandler = (fn: Function) => 
@@ -19,8 +21,9 @@ const catchHandler = (fn: Function) =>
     Promise.resolve(fn(req, res, next)).catch(next);
 
 // Authentication routes
-router.post('/register', AuthController.register);
-router.post('/login', AuthController.login);
+router.post('/register', catchHandler(AuthController.register));
+router.post('/login', catchHandler(AuthController.login));
+
 // Expense routes
 protectedRouter.post('/expenses', asyncHandler(ExpenseController.addExpense));
 protectedRouter.get('/expenses', asyncHandler(ExpenseController.getExpenses));
@@ -63,7 +66,6 @@ protectedRouter.get('/majorGoals/:id', asyncHandler(MajorGoalController.getMajor
 protectedRouter.put('/majorGoals/:id', asyncHandler(MajorGoalController.updateMajorGoal));
 protectedRouter.delete('/majorGoals/:id', asyncHandler(MajorGoalController.deleteMajorGoal));
 protectedRouter.patch('/majorGoals/:id/', asyncHandler(MajorGoalController.updateProgress));
-// protectedRouter.post('/major-goals/:id/link-saving', asyncHandler(MajorGoalController.linkSavingsGoal));
 
 
 // Income routes
@@ -82,10 +84,12 @@ protectedRouter.patch('/installments/:id/pay', asyncHandler(InstallmentControlle
 protectedRouter.put('/installments/:id', asyncHandler(InstallmentController.updateInstallment));
 protectedRouter.delete('/installments/:id', asyncHandler(InstallmentController.deleteInstallment));
 
-// // Custom Installment Plan routes
-// protectedRouter.post('/custom-installment-plans', asyncHandler(InstallmentController.addPlan));
-// protectedRouter.get('/custom-installment-plans', asyncHandler(InstallmentController.getPlans));
-// protectedRouter.delete('/custom-installment-plans/:id', asyncHandler(InstallmentController.deletePlan));
+// Custom Installment Plan routes
+protectedRouter.post('/custom-installment-plans', asyncHandler(CustomInstallmentPlanController.addPlan));
+protectedRouter.get('/custom-installment-plans', asyncHandler(CustomInstallmentPlanController.getPlans));
+protectedRouter.get('/custom-installment-plans/:id', asyncHandler(CustomInstallmentPlanController.getPlanById));
+protectedRouter.put('/custom-installment-plans/:id', asyncHandler(CustomInstallmentPlanController.updatePlan));
+protectedRouter.delete('/custom-installment-plans3/:id', asyncHandler(CustomInstallmentPlanController.deletePlan));
 
 
 

@@ -5,6 +5,7 @@ import { User } from "../entities/User";
 export class MajorGoalService {
   
   private majorGoalRepository = AppDataSource.getRepository(MajorGoal);
+  
 
   async createMajorGoal(user: User, goalData: Partial<MajorGoal>): Promise<MajorGoal> {
     const newGoal = this.majorGoalRepository.create({
@@ -46,11 +47,41 @@ export class MajorGoalService {
     
     return await this.majorGoalRepository.save(goal);
   }
-  async getMajorGoalById(goalId: string): Promise<MajorGoal | null> {
-  return await this.majorGoalRepository.findOne({
-    where: { id: goalId },
-    relations: ['user'],
-  });
+ 
+  
+  static async getMajorGoalById(id: string): Promise<MajorGoal | null> {
+    return MajorGoal.findOne({ 
+      where: { id },
+      relations: ['user']
+    });
+  }
+  static async updateGoalProgress(goalId: string): Promise<void> {
+    const goal = await MajorGoal.findOne({
+      where: { id: goalId },
+      relations: ['linkedInstallments', 'linkedInstallments.payments']
+    });
+
+    if (!goal) return;
+
+    let totalPaid = 0;
+    
+    // Sum all payments from all linked installment plans
+    goal.linkedInstallments?.forEach((plan: { payments: any[]; }) => {
+      plan.payments?.forEach(payment => {
+        if (payment.status === 'paid') {
+          totalPaid += payment.amount;
+        }
+      });
+    });
+
+    const newProgress = (totalPaid / goal.estimatedCost) * 100;
+    const newStatus = newProgress >= 100 ? 'completed' : 
+                     newProgress > 0 ? 'in-progress' : 'planned';
+
+    await MajorGoal.update(goalId, {
+      progress: Math.min(newProgress, 100),
+      status: newStatus
+    });
+  }
 }
 
-}

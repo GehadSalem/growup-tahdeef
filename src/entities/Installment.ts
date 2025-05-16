@@ -1,19 +1,36 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from "typeorm";
-import { User } from "./User";
+import { CustomInstallmentPlan } from "./CustomInstallmentPlan";
 @Entity()
-export class Installment {
-  @PrimaryGeneratedColumn()
+export class InstallmentPayment {
+  @PrimaryGeneratedColumn('uuid')
   id!: string;
 
-  @ManyToOne(() => User, user => user.id)
-  user!: User;
+  @ManyToOne(() => CustomInstallmentPlan, plan => plan.payments)
+  installmentPlan!: CustomInstallmentPlan;
 
-  @Column()
+  @Column('decimal', { precision: 12, scale: 2 })
   amount!: number;
 
-  @Column()
+  @Column({ type: 'date' })
   paymentDate!: Date;
 
-  @Column()
+  @Column({
+    type: 'enum',
+    enum: ['pending', 'paid', 'late', 'missed'],
+    default: 'pending'
+  })
   status!: string;
+
+  @Column({
+    type: 'enum',
+    enum: ['credit_card', 'bank_transfer', 'cash', 'other'],
+    default: 'bank_transfer'
+  })
+  paymentMethod!: string;
+
+  @Column({ default: false })
+  isOnTime!: boolean;
+
+  @Column({ type: 'text', nullable: true })
+  notes!: string | null;
 }

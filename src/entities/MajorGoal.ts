@@ -1,12 +1,13 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany, CreateDateColumn, UpdateDateColumn } from "typeorm";
 import { User } from "./User";
+import { CustomInstallmentPlan } from "./CustomInstallmentPlan";
 
 @Entity()
 export class MajorGoal {
   @PrimaryGeneratedColumn('uuid')
   id!: string;
 
-  @ManyToOne(() => User, user => user.id)
+  @ManyToOne(() => User, user => user.majorGoals)
   user!: User;
 
   @Column()
@@ -18,21 +19,30 @@ export class MajorGoal {
   @Column({ type: 'enum', enum: ['financial', 'personal', 'health', 'education'] })
   category!: string;
 
-  @Column()
+  @Column('decimal', { precision: 12, scale: 2 })
   estimatedCost!: number;
 
   @Column({ type: 'date' })
   targetDate!: Date;
 
-  @Column({ default: 'planned' })
-  status!: 'planned' | 'in-progress' | 'completed' | 'postponed';
+  @Column({ 
+    type: 'enum', 
+    enum: ['planned', 'in-progress', 'completed', 'postponed'],
+    default: 'planned'
+  })
+  status!: string;
 
-  @Column({ default: 0 })
+  @Column('decimal', { precision: 5, scale: 2, default: 0 })
   progress!: number;
+
+  @OneToMany(() => CustomInstallmentPlan, installment => installment.linkedGoal)
+  linkedInstallments!: CustomInstallmentPlan[];
 
   @CreateDateColumn()
   createdAt!: Date;
 
   @UpdateDateColumn()
   updatedAt!: Date;
+    static findOne: any;
+  static update: any;
 }

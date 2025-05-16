@@ -1,4 +1,4 @@
-import { Installment } from '../entities/Installment';
+import { InstallmentPayment } from '../entities/Installment';
 import { User } from '../entities/User';
 import { InstallmentRepository } from '../repositories/installment.repository';
 
@@ -9,23 +9,23 @@ export class InstallmentService {
     this.repository = new InstallmentRepository();
   }
 
-  async createInstallment(installment: Installment): Promise<Installment> {
-    return this.repository.create(installment);
+  async createInstallment(InstallmentPayment: InstallmentPayment): Promise<InstallmentPayment> {
+    return this.repository.create(InstallmentPayment);
   }
 
-  async getUserInstallments(user: User): Promise<Installment[]> {
+  async getUserInstallments(user: User): Promise<InstallmentPayment[]> {
     return this.repository.findByUser(user);
   }
 
-  async getInstallmentById(id: string, user: User): Promise<Installment | null> {
+  async getInstallmentById(id: string, user: User): Promise<InstallmentPayment | null> {
     return this.repository.findById(id, user);
   }
 
   async updateInstallment(
     id: string,
-    updateData: Partial<Installment>,
+    updateData: Partial<InstallmentPayment>,
     user: User
-  ): Promise<Installment | null> {
+  ): Promise<InstallmentPayment | null> {
     return this.repository.update(id, updateData, user);
   }
 
@@ -37,15 +37,15 @@ export class InstallmentService {
     user: User,
     startDate: Date,
     endDate: Date
-  ): Promise<Installment[]> {
+  ): Promise<InstallmentPayment[]> {
     return this.repository.findByDateRange(user, startDate, endDate);
   }
 
-  async getInstallmentsByStatus(user: User, status: string): Promise<Installment[]> {
+  async getInstallmentsByStatus(user: User, status: string): Promise<InstallmentPayment[]> {
     return this.repository.findByStatus(user, status);
   }
 
-  async markInstallmentPaid(id: string, user: User): Promise<Installment | null> {
+  async markInstallmentPaid(id: string, user: User): Promise<InstallmentPayment | null> {
     return this.repository.markAsPaid(id, user);
   }
 }

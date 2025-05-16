@@ -5,7 +5,7 @@ import { User } from "../entities/User";
 import { Habit } from "../entities/Habit";
 import { SavingsGoal } from "../entities/SavingsGoal";
 import { Notification } from "../entities/Notification";
-import { Installment } from "../entities/Installment";
+import { InstallmentPayment } from "../entities/Installment";
 import { Income } from "../entities/Income";
 import { Expense } from "../entities/Expense";
 import { EmergencyFund } from "../entities/EmergencyFund";
@@ -31,7 +31,7 @@ export const AppDataSource = new DataSource({
     SavingsGoal,
     MajorGoal,
     Notification,
-    Installment,
+    InstallmentPayment,
     Income,
     Expense,
     EmergencyFund,

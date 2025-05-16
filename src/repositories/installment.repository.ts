@@ -1,54 +1,95 @@
 import { Repository, Between } from 'typeorm';
 import { AppDataSource } from '../dbConfig/data-source';
-import { Installment } from '../entities/Installment';
 import { User } from '../entities/User';
+import { InstallmentPayment } from '../entities/Installment';
+import { CustomInstallmentPlan } from '../entities/CustomInstallmentPlan';
 
 export class InstallmentRepository {
-  private repository: Repository<Installment>;
+  private repository: Repository<InstallmentPayment>;
 
   constructor() {
-    this.repository = AppDataSource.getRepository(Installment);
+    this.repository = AppDataSource.getRepository(InstallmentPayment);
   }
 
-  async create(installment: Installment): Promise<Installment> {
-    return this.repository.save(installment);
+  async create(installmentPayment: InstallmentPayment): Promise<InstallmentPayment> {
+    return this.repository.save(installmentPayment);
   }
 
-  async findByUser(user: User): Promise<Installment[]> {
-    return this.repository.find({ where: { user } });
+  async findByUser(user: User): Promise<InstallmentPayment[]> {
+    return this.repository.find({ 
+      where: { 
+        installmentPlan: { user: { id: user.id } } // Query through installmentPlan->user
+      },
+      relations: ['installmentPlan'] // Include the plan in the result
+    });
   }
 
-  async findById(id: string, user: User): Promise<Installment | null> {
-    return this.repository.findOne({ where: { id, user } });
+  async findById(id: string, user: User): Promise<InstallmentPayment | null> {
+    return this.repository.findOne({ 
+      where: { 
+        id, 
+        installmentPlan: { user: { id: user.id } } // Query through installmentPlan->user
+      },
+      relations: ['installmentPlan'] // Include the plan in the result
+    });
   }
 
-  async update(id: string, updateData: Partial<Installment>, user: User): Promise<Installment | null> {
-    await this.repository.update({ id, user }, updateData);
+  async update(
+    id: string, 
+    updateData: Partial<InstallmentPayment>, 
+    user: User
+  ): Promise<InstallmentPayment | null> {
+    // First verify the installment belongs to the user
+    const existing = await this.findById(id, user);
+    if (!existing) return null;
+
+    await this.repository.update(
+      { id }, 
+      updateData
+    );
     return this.findById(id, user);
   }
 
   async delete(id: string, user: User): Promise<boolean> {
-    const result = await this.repository.delete({ id, user });
+    // First verify the installment belongs to the user
+    const existing = await this.findById(id, user);
+    if (!existing) return false;
+
+    const result = await this.repository.delete({ id });
     return result.affected !== 0;
   }
 
-  async findByDateRange(user: User, startDate: Date, endDate: Date): Promise<Installment[]> {
+  async findByDateRange(user: User, startDate: Date, endDate: Date): Promise<InstallmentPayment[]> {
     return this.repository.find({
       where: {
-        user,
+        installmentPlan: { user: { id: user.id } }, // Query through installmentPlan->user
         paymentDate: Between(startDate, endDate)
-      }
+      },
+      relations: ['installmentPlan'] // Include the plan in the result
     });
   }
 
-  async findByStatus(user: User, status: string): Promise<Installment[]> {
-    return this.repository.find({ where: { user, status } });
+  async findByStatus(user: User, status: string): Promise<InstallmentPayment[]> {
+    return this.repository.find({ 
+      where: { 
+        installmentPlan: { user: { id: user.id } }, // Query through installmentPlan->user
+        status 
+      },
+      relations: ['installmentPlan'] // Include the plan in the result
+    });
   }
 
-  async markAsPaid(id: string, user: User): Promise<Installment | null> {
+  async markAsPaid(id: string, user: User): Promise<InstallmentPayment | null> {
+    // First verify the installment belongs to the user
+    const existing = await this.findById(id, user);
+    if (!existing) return null;
+
     await this.repository.update(
-      { id, user },
-      { status: 'paid', paymentDate: new Date() }
+      { id },
+      { 
+        status: 'paid', 
+        paymentDate: new Date() 
+      }
     );
     return this.findById(id, user);
   }
