@@ -17,7 +17,7 @@ export class MajorGoalService {
   async getUserMajorGoals(userId: string): Promise<MajorGoal[]> {
     return await this.majorGoalRepository.find({
       where: { user: { id: userId } },
-      relations: ['user', 'savingsGoals']
+      relations: ['user']
     });
   }
 
@@ -49,7 +49,7 @@ export class MajorGoalService {
   async getMajorGoalById(goalId: string): Promise<MajorGoal | null> {
   return await this.majorGoalRepository.findOne({
     where: { id: goalId },
-    relations: ['user', 'savingsGoals'], // include related entities if needed
+    relations: ['user'],
   });
 }
 

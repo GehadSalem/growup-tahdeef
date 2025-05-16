@@ -2,13 +2,13 @@ import express from 'express';
 import dotenv from 'dotenv';
 import cors from "cors";
 
-// import habitRouter from './routes/habits.routes'
-// import expenseRouter from './routes/expense.routes'
 
-import authRouter from './routes/index';
-import protectedRouter from './routes/index';
+import {publicRouter} from './routes/index';
+import {protectedRouter} from './routes/index';
 import { AppDataSource } from './dbConfig/data-source';
 import { globalErrorHandling } from './Middlewares/error.middleware';
+import { authenticate } from './Middlewares/auth.middleware.js';
+
 
 dotenv.config();
 
@@ -28,8 +28,10 @@ AppDataSource.initialize()
       res.send('تطبيق منظم الحياة الشخصية - API');
     });
     // API Routes
-    app.use('/api/auth', authRouter);
-    app.use('/api/', protectedRouter);
+    app.use('/api/auth', publicRouter);
+    
+    // Protected routes (require auth)
+    app.use('/api', protectedRouter);
 
     // Global error handler
     app.use(globalErrorHandling);

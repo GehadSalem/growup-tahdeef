@@ -12,11 +12,15 @@ import SavingsGoalController from '../Controller/savingsGoal.controller';
 import DailyTaskController from '../Controller/dailyTask.controller';
 import MajorGoalController from '../Controller/majorGoal.controller';
 import protectedRouter from '../utils/protectedRouter';
+const router = Router();
+// Error handling wrapper
+const catchHandler = (fn: Function) => 
+  (req: Request, res: Response, next: NextFunction) => 
+    Promise.resolve(fn(req, res, next)).catch(next);
 
 // Authentication routes
-protectedRouter.post('/register', asyncHandler(AuthController.register));
-protectedRouter.post('/login', asyncHandler(AuthController.login));
-
+router.post('/register', AuthController.register);
+router.post('/login', AuthController.login);
 // Expense routes
 protectedRouter.post('/expenses', asyncHandler(ExpenseController.addExpense));
 protectedRouter.get('/expenses', asyncHandler(ExpenseController.getExpenses));
@@ -52,7 +56,7 @@ protectedRouter.put('/savingsGoals/:id', asyncHandler(SavingsGoalController.upda
 protectedRouter.delete('/savingsGoals/:id', asyncHandler(SavingsGoalController.deleteSavingsGoal));
 protectedRouter.post('/savingsGoals/:id', asyncHandler(SavingsGoalController.addToSavingsGoal));
 
-// Major Goal routes
+// Major Goal routes /// مفيش فرق بين update البروجرس وال update العادي لكن يمكن نحتاجها في الفرونت
 protectedRouter.post('/majorGoals', asyncHandler(MajorGoalController.createMajorGoal));
 protectedRouter.get('/majorGoals', asyncHandler(MajorGoalController.getUserMajorGoals));
 protectedRouter.get('/majorGoals/:id', asyncHandler(MajorGoalController.getMajorGoalById));
@@ -62,10 +66,13 @@ protectedRouter.patch('/majorGoals/:id/', asyncHandler(MajorGoalController.updat
 // protectedRouter.post('/major-goals/:id/link-saving', asyncHandler(MajorGoalController.linkSavingsGoal));
 
 
-// // Income routes
-// protectedRouter.post('/incomes', asyncHandler(IncomeController.addIncome));
-// protectedRouter.get('/incomes', asyncHandler(IncomeController.getIncomes));
-// protectedRouter.get('/incomes/:month/:year', asyncHandler(IncomeController.getMonthlyIncomes));
+// Income routes
+protectedRouter.post('/incomes', asyncHandler(IncomeController.addIncome));
+protectedRouter.get('/incomes', asyncHandler(IncomeController.getUserIncomes));
+protectedRouter.get('/incomes/:year/:month', asyncHandler(IncomeController.getIncomesByDate));
+protectedRouter.get('/incomes/:id', asyncHandler(IncomeController.getIncomeById));
+protectedRouter.put('/incomes/:id', asyncHandler(IncomeController.updateIncome));
+protectedRouter.delete('/incomes/:id', asyncHandler(IncomeController.deleteIncome));
 
 // // Installment routes
 // protectedRouter.post('/installments', asyncHandler(InstallmentController.addInstallment));
@@ -79,4 +86,4 @@ protectedRouter.patch('/majorGoals/:id/', asyncHandler(MajorGoalController.updat
 
 
 
-export default protectedRouter;
+export { router as publicRouter, protectedRouter };

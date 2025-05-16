@@ -6,7 +6,7 @@ export class MajorGoal {
   @PrimaryGeneratedColumn('uuid')
   id!: string;
 
-  @ManyToOne(() => User, user => user.majorGoals)
+  @ManyToOne(() => User, user => user.id)
   user!: User;
 
   @Column()

@@ -2,7 +2,7 @@ import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from "typeorm";
 import { User } from "./User";
 @Entity()
 export class Income {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn('uuid')
   id!: string;
 
   @ManyToOne(() => User, user => user.id)
@@ -10,7 +10,10 @@ export class Income {
 
   @Column()
   amount!: number;
-
+  
   @Column()
+  description!: string;
+
+  @Column({ type: 'date' })
   date!: Date;
 }
