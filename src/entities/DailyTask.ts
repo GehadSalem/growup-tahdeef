@@ -8,48 +8,79 @@ import {
 } from 'typeorm';
 import { User } from './User';
 
+export enum HabitType {
+  READING = 'READING',
+  EXERCISE = 'EXERCISE',
+  MEDITATION = 'MEDITATION',
+  FINANCIAL = 'FINANCIAL',
+  OTHER = 'OTHER'
+}
+
+export enum TaskStatus {
+  PENDING = 'PENDING',
+  COMPLETED = 'COMPLETED',
+  SKIPPED = 'SKIPPED'
+}
+
 @Entity()
 export class DailyTask {
   @PrimaryGeneratedColumn('uuid')
   id!: string;
 
   @Column()
-  name!: string;
+  title!: string;
+
+  @Column({ type: 'text', nullable: true })
+  description?: string;
 
   @ManyToOne(() => User, user => user.dailyTasks)
   user!: User;
 
-  @Column()
-  title!: string;
+  @Column({
+    type: 'enum',
+    enum: HabitType,
+    default: HabitType.OTHER
+  })
+  habitType!: HabitType;
 
-  @Column()
-  habitType!: string;
-
-  @Column()
+  @Column({ default: false })
   isRecurring!: boolean;
 
-  @Column('json')
-  frequency!: {
+  @Column('json', { nullable: true })
+  frequency?: {
     interval: 'daily' | 'weekly' | 'monthly';
-    daysOfWeek?: number[];
-    dayOfMonth?: number;
+    daysOfWeek?: number[]; 
+    dayOfMonth?: number;  
   };
 
-  @Column()
-  reminderTime!: Date;
+  @Column({ type: 'time' })
+  reminderTime!: string; 
 
-  @Column()
+  @Column({
+    type: 'enum',
+    enum: TaskStatus,
+    default: TaskStatus.PENDING
+  })
+  status!: TaskStatus;
+
+  @Column({ default: false }) 
   isCompleted!: boolean;
 
-  @Column()
+  @Column({ default: 0 })
   streak!: number;
+
+  @Column({ type: 'date' })
+  dueDate!: Date;
+
+  @Column({ type: 'decimal', precision: 10, scale: 2, nullable: true })
+  currentAmount?: number;
+
+  @Column({ type: 'decimal', precision: 10, scale: 2, nullable: true })
+  targetAmount?: number;
 
   @CreateDateColumn()
   createdAt!: Date;
 
   @UpdateDateColumn()
   updatedAt!: Date;
-    currentAmount: any;
-    targetAmount: any;
-    status: string;
 }
