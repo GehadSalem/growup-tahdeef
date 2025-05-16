@@ -8,10 +8,10 @@ import { IncomeController } from '../Controller/Income.controller';
 import { InstallmentController } from '../Controller/Installmen.controller';
 import NotificationController from '../Controller/notification.controller';
 import { asyncHandler } from '../Middlewares/error.middleware';
-import SavingsGoalController from '../Controller/savingsGoal.controller';
-import DailyTaskController from '../Controller/dailyTask.controller';
-import MajorGoalController from '../Controller/majorGoal.controller';
 import protectedRouter from '../utils/protectedRouter';
+import DailyTaskController from '../Controller/dailyTask.controller';
+import SavingsGoalController from '../Controller/savingsGoal.controller';
+import MajorGoalController from '../Controller/majorGoal.controller';
 const router = Router();
 // Error handling wrapper
 const catchHandler = (fn: Function) => 
@@ -74,10 +74,13 @@ protectedRouter.get('/incomes/:id', asyncHandler(IncomeController.getIncomeById)
 protectedRouter.put('/incomes/:id', asyncHandler(IncomeController.updateIncome));
 protectedRouter.delete('/incomes/:id', asyncHandler(IncomeController.deleteIncome));
 
-// // Installment routes
-// protectedRouter.post('/installments', asyncHandler(InstallmentController.addInstallment));
-// protectedRouter.get('/installments', asyncHandler(InstallmentController.getInstallments));
-// protectedRouter.patch('/installments/:id/pay', asyncHandler(InstallmentController.markInstallmentPaid));
+// Minimal installment routes
+protectedRouter.post('/installments', asyncHandler(InstallmentController.addInstallment));
+protectedRouter.get('/installments', asyncHandler(InstallmentController.getUserInstallments));
+protectedRouter.get('/installments/:id', asyncHandler(InstallmentController.getInstallmentById));
+protectedRouter.patch('/installments/:id/pay', asyncHandler(InstallmentController.markInstallmentPaid));
+protectedRouter.put('/installments/:id', asyncHandler(InstallmentController.updateInstallment));
+protectedRouter.delete('/installments/:id', asyncHandler(InstallmentController.deleteInstallment));
 
 // // Custom Installment Plan routes
 // protectedRouter.post('/custom-installment-plans', asyncHandler(InstallmentController.addPlan));

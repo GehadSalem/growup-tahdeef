@@ -5,9 +5,11 @@ import { EmergencyFund } from './EmergencyFund';
 import { MajorGoal } from './MajorGoal';
 import { DailyTask } from './DailyTask';
 import { SavingsGoal } from './SavingsGoal'; // Make sure this import path is correct
+import { Notification } from './Notification';
 
 @Entity()
 export class User {
+    [x: string]: any;
     @PrimaryGeneratedColumn('uuid')
     id!: string;
 
@@ -43,4 +45,7 @@ export class User {
 
     @OneToMany(() => DailyTask, (task) => task.user)
     dailyTasks!: DailyTask[];
+
+    @OneToMany(() => Notification, notification => notification.user)
+    notifications: Notification[];
 }

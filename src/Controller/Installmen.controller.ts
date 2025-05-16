@@ -1,111 +1,154 @@
 import { Request, Response } from 'express';
 import { Installment } from '../entities/Installment';
-import { AppDataSource } from '../dbConfig/data-source';
+import '../types/express';
+import { InstallmentService } from '../Services/installment.service';
+import { UserService } from '../Services/users.service';
 
 export class InstallmentController {
-    static deletePlan(deletePlan: any): import("express-serve-static-core").RequestHandler<import("express-serve-static-core").ParamsDictionary, any, any, import("qs").ParsedQs, Record<string, any>> {
-      throw new Error('Method not implemented.');
-    }
-    static getPlans(getPlans: any): import("express-serve-static-core").RequestHandler<import("express-serve-static-core").ParamsDictionary, any, any, import("qs").ParsedQs, Record<string, any>> {
-      throw new Error('Method not implemented.');
-    }
-    static addPlan(addPlan: any): import("express-serve-static-core").RequestHandler<import("express-serve-static-core").ParamsDictionary, any, any, import("qs").ParsedQs, Record<string, any>> {
-      throw new Error('Method not implemented.');
-    }
-    static markInstallmentPaid(markInstallmentPaid: any): import("express-serve-static-core").RequestHandler<import("express-serve-static-core").ParamsDictionary, any, any, import("qs").ParsedQs, Record<string, any>> {
-      throw new Error('Method not implemented.');
-    }
-    static getInstallments(getInstallments: any): import("express-serve-static-core").RequestHandler<import("express-serve-static-core").ParamsDictionary, any, any, import("qs").ParsedQs, Record<string, any>> {
-      throw new Error('Method not implemented.');
-    }
-    static addInstallment(addInstallment: any): import("express-serve-static-core").RequestHandler<import("express-serve-static-core").ParamsDictionary, any, any, import("qs").ParsedQs, Record<string, any>> {
-      throw new Error('Method not implemented.');
-    }
-    private installmentRepository = AppDataSource.getRepository(Installment);
+  private static service = new InstallmentService();
+  private static userService = new UserService();
 
-    // Create a new installment
-    async create(req: Request, res: Response) {
-        try {
-            const newInstallment = this.installmentRepository.create(req.body);
-            await this.installmentRepository.save(newInstallment);
-            res.status(201).json(newInstallment);
-        } catch (error) {
-            res.status(500).json({ message: (error as Error).message });
-        }
-    }
+  static addInstallment = async (req: Request, res: Response): Promise<void> => {
+    try {
+      if (!req.user) {
+        res.status(400).json({ message: 'User information missing' });
+        return;
+      }
 
-    // Get all installments
-    async getAll(req: Request, res: Response) {
-        try {
-            const installments = await this.installmentRepository.find({ relations: ['user'] });
-            res.json(installments);
-        } catch (error) {
-            res.status(500).json({ message: (error as Error).message });
-        }
-    }
+      const user = await this.userService.getUserById(req.user.id);
+      if (!user) {
+        res.status(404).json({ message: 'User not found' });
+        return;
+      }
 
-    // Get installment by ID
-    async getById(req: Request, res: Response) {
-        try {
-            const installment = await this.installmentRepository.findOne({ 
-                where: { id: req.params.id },
-                relations: ['user']
-            });
-            if (!installment) return res.status(404).json({ message: 'Installment not found' });
-            res.json(installment);
-        } catch (error) {
-            res.status(500).json({ message: (error as Error).message });
-        }
-    }
+      const installment = new Installment();
+      Object.assign(installment, req.body);
+      installment.user = user;
 
-    // Update installment
-    async update(req: Request, res: Response) {
-        try {
-            const installment = await this.installmentRepository.findOneBy({ id: req.params.id });
-            if (!installment) return res.status(404).json({ message: 'Installment not found' });
-            
-            this.installmentRepository.merge(installment, req.body);
-            const updatedInstallment = await this.installmentRepository.save(installment);
-            res.json(updatedInstallment);
-        } catch (error) {
-            res.status(500).json({ message: (error as Error).message });
-        }
+      const created = await this.service.createInstallment(installment);
+      res.status(201).json(created);
+    } catch (error) {
+      res.status(500).json({ message: error instanceof Error ? error.message : 'Unknown error' });
     }
+  };
 
-    // Delete installment
-    async delete(req: Request, res: Response) {
-        try {
-            const result = await this.installmentRepository.delete(req.params.id);
-            if (result.affected === 0) return res.status(404).json({ message: 'Installment not found' });
-            res.status(204).send();
-        } catch (error) {
-            res.status(500).json({ message: (error as Error).message });
-        }
-    }
+  static getUserInstallments = async (req: Request, res: Response): Promise<void> => {
+    try {
+      if (!req.user) {
+        res.status(400).json({ message: 'User information missing' });
+        return;
+      }
 
-    // Get installments by user ID
-    async getByUserId(req: Request, res: Response) {
-        try {
-            const installments = await this.installmentRepository.find({ 
-                where: { user: { id: req.params.userId } },
-                relations: ['user']
-            });
-            res.json(installments);
-        } catch (error) {
-            res.status(500).json({ message: (error as Error).message });
-        }
-    }
+      const user = await this.userService.getUserById(req.user.id);
+      if (!user) {
+        res.status(404).json({ message: 'User not found' });
+        return;
+      }
 
-    // Get installments by status
-    async getByStatus(req: Request, res: Response) {
-        try {
-            const installments = await this.installmentRepository.find({ 
-                where: { status: req.params.status },
-                relations: ['user']
-            });
-            res.json(installments);
-        } catch (error) {
-            res.status(500).json({ message: (error as Error).message });
-        }
+      const installments = await this.service.getUserInstallments(user);
+      res.json(installments);
+    } catch (error) {
+      res.status(500).json({ message: error instanceof Error ? error.message : 'Unknown error' });
     }
+  };
+
+  static updateInstallment = async (req: Request, res: Response): Promise<void> => {
+    try {
+      if (!req.user) {
+        res.status(400).json({ message: 'User information missing' });
+        return;
+      }
+
+      const user = await this.userService.getUserById(req.user.id);
+      if (!user) {
+        res.status(404).json({ message: 'User not found' });
+        return;
+      }
+
+      const updated = await this.service.updateInstallment(req.params.id, req.body, user);
+      if (!updated) {
+        res.status(404).json({ message: 'Installment not found' });
+        return;
+      }
+
+      res.json(updated);
+    } catch (error) {
+      res.status(500).json({ message: error instanceof Error ? error.message : 'Unknown error' });
+    }
+  };
+
+  static deleteInstallment = async (req: Request, res: Response): Promise<void> => {
+    try {
+      if (!req.user) {
+        res.status(400).json({ message: 'User information missing' });
+        return;
+      }
+
+      const user = await this.userService.getUserById(req.user.id);
+      if (!user) {
+        res.status(404).json({ message: 'User not found' });
+        return;
+      }
+
+      const success = await this.service.deleteInstallment(req.params.id, user);
+      if (!success) {
+        res.status(404).json({ message: 'Installment not found' });
+        return;
+      }
+
+      res.status(204).send();
+    } catch (error) {
+      res.status(500).json({ message: error instanceof Error ? error.message : 'Unknown error' });
+    }
+  };
+
+  static getInstallmentById = async (req: Request, res: Response): Promise<void> => {
+    try {
+      if (!req.user) {
+        res.status(400).json({ message: 'User information missing' });
+        return;
+      }
+
+      const user = await this.userService.getUserById(req.user.id);
+      if (!user) {
+        res.status(404).json({ message: 'User not found' });
+        return;
+      }
+
+      const installment = await this.service.getInstallmentById(req.params.id, user);
+      if (!installment) {
+        res.status(404).json({ message: 'Installment not found' });
+        return;
+      }
+
+      res.json(installment);
+    } catch (error) {
+      res.status(500).json({ message: error instanceof Error ? error.message : 'Unknown error' });
+    }
+  };
+
+  static markInstallmentPaid = async (req: Request, res: Response): Promise<void> => {
+    try {
+      if (!req.user) {
+        res.status(400).json({ message: 'User information missing' });
+        return;
+      }
+
+      const user = await this.userService.getUserById(req.user.id);
+      if (!user) {
+        res.status(404).json({ message: 'User not found' });
+        return;
+      }
+
+      const installment = await this.service.markInstallmentPaid(req.params.id, user);
+      if (!installment) {
+        res.status(404).json({ message: 'Installment not found' });
+        return;
+      }
+
+      res.json(installment);
+    } catch (error) {
+      res.status(500).json({ message: error instanceof Error ? error.message : 'Unknown error' });
+    }
+  };
 }
