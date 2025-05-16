@@ -43,6 +43,34 @@ class SavingsGoalController {
             res.status(500).json({ message: (error as Error).message });
         }
     };
+static getSavingsGoalById = async (req: Request, res: Response): Promise<void> => {
+    try {
+        const goalId = req.params.id;
+
+        // Optional: check if user is authenticated (depends on your auth logic)
+        if (!req.user?.id) {
+            res.status(401).json({ message: 'Unauthorized' });
+            return;
+        }
+
+        const goal = await this.savingsGoalService.getSavingsGoalById(goalId);
+
+        if (!goal) {
+            res.status(404).json({ message: 'Savings goal not found' });
+            return;
+        }
+
+        // Optional: ensure the goal belongs to the requesting user (security check)
+        if (goal.user.id !== req.user.id) {
+            res.status(403).json({ message: 'Forbidden: Access denied' });
+            return;
+        }
+
+        res.json(goal);
+    } catch (error) {
+        res.status(500).json({ message: (error as Error).message });
+    }
+};
 
     static updateSavingsGoal = async (req: Request, res: Response): Promise<void> => {
         try {

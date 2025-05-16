@@ -19,6 +19,12 @@ export class SavingsGoalService {
       relations: ['user']
     });
   }
+  async getSavingsGoalById(goalId: string): Promise<SavingsGoal | null> {
+    return await this.savingsGoalRepository.findOne({
+        where: { id: goalId },
+        relations: ['user'], // so you can check the owner in controller
+    });
+}
 
   async updateSavingsGoal(goalId: string, updateData: Partial<SavingsGoal>): Promise<SavingsGoal> {
     const goal = await this.savingsGoalRepository.findOneBy({ id: goalId });

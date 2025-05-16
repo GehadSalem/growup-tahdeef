@@ -2,6 +2,8 @@ import axios from 'axios';
 import { User } from '../entities/User';
 
 export class NotificationService {
+    markAsRead: any;
+    updateUserToken: any;
     async sendNotification(user: User, title: string, message: string) {
         if (!user.notificationToken) {
             console.warn('لا يوجد رمز إشعار للمستخدم');

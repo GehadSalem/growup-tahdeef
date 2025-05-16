@@ -15,10 +15,10 @@ export class SavingsGoal {
   @Column('text')
   description!: string;
 
-  @Column('decimal', { precision: 12, scale: 2 })
+  @Column()
   targetAmount!: number;
 
-  @Column('decimal', { precision: 12, scale: 2, default: 0 })
+  @Column()
   currentAmount!: number;
 
   @Column({ type: 'date' })

@@ -4,12 +4,6 @@ import { DailyTask } from '../entities/DailyTask';
 
 export class DailyTaskRepository {
     private repository: Repository<DailyTask>;
-    save: any;
-    find: any;
-    findOne: any;
-    updateTask: any;
-    deleteTask: any;
-    markTaskAsComplete: any;
 
     constructor() {
         this.repository = AppDataSource.getRepository(DailyTask);
@@ -55,4 +49,5 @@ export class DailyTaskRepository {
     async delete(id: string): Promise<void> {
         await this.repository.delete(id);
     }
+    
 }

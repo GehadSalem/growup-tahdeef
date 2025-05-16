@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { HabitService } from '../Services/habit.service';
 import { NotificationService } from '../Services/notification.service';
 import { User } from '../entities/User';
+import '../types/express';
 
 class HabitController {
     private static habitService = new HabitService();

@@ -49,4 +49,7 @@ export class DailyTask {
 
   @UpdateDateColumn()
   updatedAt!: Date;
+    currentAmount: any;
+    targetAmount: any;
+    status: string;
 }

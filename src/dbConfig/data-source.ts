@@ -40,9 +40,4 @@ export const AppDataSource = new DataSource({
   ],
   migrations: [],
   subscribers: [],
-  extra: {
-    connectionLimit: 10,
-    connectTimeout: 30000,
-    acquireTimeout: 30000
-  }
 });
