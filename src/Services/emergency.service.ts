@@ -19,7 +19,6 @@ export class EmergencyService {
         if (typeof amount !== 'number' || amount <= 0) {
             throw new Error('Amount must be a positive number');
         }
-
         // Find user with proper typing
         const user = await this.userRepository.findById(userId);
         if (!user) {
