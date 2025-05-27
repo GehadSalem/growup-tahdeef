@@ -48,4 +48,10 @@ export class User {
 
     @OneToMany(() => Notification, notification => notification.user)
     notifications: Notification[];
+    @Column({ nullable: true })
+    firebaseUid?: string; // For Firebase users
+
+    @Column({ default: 'email' })
+    authProvider: 'email' | 'google'; // Add other providers as needed
+
 }

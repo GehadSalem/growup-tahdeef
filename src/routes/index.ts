@@ -23,6 +23,7 @@ const catchHandler = (fn: Function) =>
 // Authentication routes
 router.post('/register', catchHandler(AuthController.register));
 router.post('/login', catchHandler(AuthController.login));
+router.post('/google', catchHandler(AuthController.googleAuth)); // NEW Google auth route
 
 // Expense routes
 protectedRouter.post('/expenses', asyncHandler(ExpenseController.addExpense));

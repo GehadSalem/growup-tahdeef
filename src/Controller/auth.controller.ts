@@ -23,6 +23,21 @@ class AuthController {
             response.status(401).json({ message: errorMessage });
         }
     };
+    // NEW: Google Auth endpoint
+    static googleAuth = async (request: Request, response: Response): Promise<void> => {
+    try {
+        const { idToken } = request.body;
+        if (!idToken || typeof idToken !== 'string') {
+            throw new Error('Valid ID token is required');
+        }
+        
+        const token = await this.authService.verifyGoogleToken(idToken);
+        response.json({ token });
+    } catch (error) {
+        const errorMessage = error instanceof Error ? error.message : 'Google authentication failed';
+        response.status(401).json({ message: errorMessage });
+    }
+};
 }
 
 export default AuthController;
