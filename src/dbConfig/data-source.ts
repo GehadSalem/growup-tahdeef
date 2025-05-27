@@ -40,4 +40,11 @@ export const AppDataSource = new DataSource({
   ],
   migrations: [],
   subscribers: [],
+  extra: {
+    ssl: {
+      rejectUnauthorized: false
+    },
+    // socketPath: "/var/run/mysqld/mysqld.sock" // For Hostinger
+  },
+  connectTimeout: 30000 // Increase timeout
 });
