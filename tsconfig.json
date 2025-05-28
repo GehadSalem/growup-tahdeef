@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "target": "ES6",
-    "module": "CommonJS",
+        "module": "commonjs", // or "ES2020" if using ES modules
     "outDir": "./dist",
     "rootDir": "./src",
     "strict": true,
@@ -11,5 +11,7 @@
     "experimentalDecorators": true,
     "strictPropertyInitialization": false,
     "typeRoots": ["./node_modules/@types", "./src/types"],
-  }
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules"]
 }
