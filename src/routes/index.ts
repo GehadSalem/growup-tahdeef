@@ -9,9 +9,9 @@ import { InstallmentController } from '../Controller/Installmen.controller';
 import NotificationController from '../Controller/notification.controller';
 import { asyncHandler } from '../Middlewares/error.middleware';
 import protectedRouter from '../utils/protectedRouter';
-import DailyTaskController from '../Controller/dailyTask.controller';
-import SavingsGoalController from '../Controller/savingsGoal.controller';
-import MajorGoalController from '../Controller/majorGoal.controller';
+import DailyTaskController from '../Controller/DailyTask.controller';
+import SavingsGoalController from '../Controller/SavingsGoal.Controller';
+import MajorGoalController from '../Controller/MajorGoal.Controller';
 import { CustomInstallmentPlanController } from '../Controller/customPlanInstallment.controller';
 
 const router = Router();
@@ -23,7 +23,6 @@ const catchHandler = (fn: Function) =>
 // Authentication routes
 router.post('/register', catchHandler(AuthController.register));
 router.post('/login', catchHandler(AuthController.login));
-router.post('/google', catchHandler(AuthController.googleAuth)); // NEW Google auth route
 
 // Expense routes
 protectedRouter.post('/expenses', asyncHandler(ExpenseController.addExpense));
