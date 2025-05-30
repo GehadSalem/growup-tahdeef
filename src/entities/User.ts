@@ -1,57 +1,80 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  OneToMany,
+  BeforeInsert,
+} from 'typeorm';
+import { randomBytes } from 'crypto';
 import { Expense } from './Expense';
 import { Habit } from './Habit';
 import { EmergencyFund } from './EmergencyFund';
 import { MajorGoal } from './MajorGoal';
 import { DailyTask } from './DailyTask';
-import { SavingsGoal } from './SavingsGoal'; // Make sure this import path is correct
+import { SavingsGoal } from './SavingsGoal';
 import { Notification } from './Notification';
+import { CustomInstallmentPlan } from './CustomInstallmentPlan';
 
 @Entity()
 export class User {
-    [x: string]: any;
-    @PrimaryGeneratedColumn('uuid')
-    id!: string;
+  @PrimaryGeneratedColumn('uuid')
+  id!: string;
 
-    @Column()
-    name!: string;
+  @Column()
+  name!: string;
 
-    @Column({ unique: true })
-    email!: string;
+  @Column({ unique: true })
+  email!: string;
 
-    @Column()
-    password!: string;
+  @Column()
+  password!: string;
 
-    @Column({ nullable: true })
-    notificationToken!: string;
+  @Column({ nullable: true })
+  notificationToken?: string;
 
-    @Column({ type: 'float', default: 0 })
-    monthlyIncome!: number;
+  @Column({ type: 'float', default: 0 })
+  monthlyIncome!: number;
 
-    @OneToMany(() => Expense, (expense) => expense.user)
-    expenses!: Expense[];
-  
-    @OneToMany(() => Habit, (habit) => habit.user)
-    habits!: Habit[];
+  @Column({ nullable: true })
+  firebaseUid?: string;
 
-    @OneToMany(() => MajorGoal, (majorGoal) => majorGoal.user)
-    majorGoals!: MajorGoal[];
+  @Column({ default: 'email' })
+  authProvider: 'email' | 'google';
 
-    @OneToMany(() => SavingsGoal, (savingsGoal) => savingsGoal.user) // Fixed parameter name
-    savingsGoals!: SavingsGoal[];
+  @Column({ unique: true })
+  referralCode!: string;
 
-    @OneToMany(() => EmergencyFund, (emergency) => emergency.user)
-    emergencyFunds!: EmergencyFund[];
+  @Column({ nullable: true })
+  referredBy?: string;
 
-    @OneToMany(() => DailyTask, (task) => task.user)
-    dailyTasks!: DailyTask[];
+  @OneToMany(() => Expense, (expense) => expense.user)
+  expenses!: Expense[];
 
-    @OneToMany(() => Notification, notification => notification.user)
-    notifications: Notification[];
-    @Column({ nullable: true })
-    firebaseUid?: string; // For Firebase users
+  @OneToMany(() => Habit, (habit) => habit.user)
+  habits!: Habit[];
 
-    @Column({ default: 'email' })
-    authProvider: 'email' | 'google'; // Add other providers as needed
+  @OneToMany(() => MajorGoal, (majorGoal) => majorGoal.user)
+  majorGoals!: MajorGoal[];
 
+  @OneToMany(() => SavingsGoal, (savingsGoal) => savingsGoal.user)
+  savingsGoals!: SavingsGoal[];
+
+  @OneToMany(() => EmergencyFund, (emergency) => emergency.user)
+  emergencyFunds!: EmergencyFund[];
+
+  @OneToMany(() => DailyTask, (task) => task.user)
+  dailyTasks!: DailyTask[];
+
+  @OneToMany(() => Notification, (notification) => notification.user)
+  notifications!: Notification[];
+
+  @OneToMany(() => CustomInstallmentPlan, (plan) => plan.user)
+  installmentPlans!: CustomInstallmentPlan[];
+
+  @BeforeInsert()
+  generateReferralCode() {
+    if (!this.referralCode) {
+      this.referralCode = randomBytes(4).toString('hex');
+    }
+  }
 }

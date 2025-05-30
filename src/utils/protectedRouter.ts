@@ -8,6 +8,6 @@ const protectedRouter = Router();
 
 // Apply authentication to all routes using this router
 protectedRouter.use(asyncHandler(authenticate));
-
+// 
 
 export default protectedRouter;

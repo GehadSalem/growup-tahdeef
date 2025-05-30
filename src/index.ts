@@ -1,77 +1,71 @@
 import express from 'express';
 import dotenv from 'dotenv';
-import cors from "cors";
-import { publicRouter } from './routes/index';
-import { protectedRouter } from './routes/index';
+import cors from 'cors';
+import { publicRouter, protectedRouter } from './routes/index';
 import { AppDataSource } from './dbConfig/data-source';
 import { globalErrorHandling } from './Middlewares/error.middleware';
-import { authenticate } from './Middlewares/auth.middleware.js';
+import { authenticate } from './Middlewares/auth.middleware';
 
 dotenv.config();
 
 const app = express();
 const port = process.env.PORT || 3000;
 
-// Enhanced CORS configuration
+// CORS configuration
 const corsOptions = {
-  origin: process.env.ALLOWED_ORIGINS?.split(',') || '*', // You can specify domains
+  origin: process.env.ALLOWED_ORIGINS?.split(',') || '*',
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
-  credentials: true // If you need to support credentials
+  credentials: true
 };
 
-// Apply CORS middleware before other middleware
 app.use(cors(corsOptions));
-
-// Body parsing middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Health check endpoint (outside DB connection check)
+// Health check
 app.get('/health', (req, res) => {
   res.status(200).json({ status: 'ok' });
 });
 
-// Initialize database connection
+// DB connection
 AppDataSource.initialize()
   .then(() => {
-    console.log('Database connected');
+    console.log('✅ Database connected');
 
-    // Main route
     app.get('/', (req, res) => {
       res.send('تطبيق منظم الحياة الشخصية - API');
     });
 
-    // API Routes
+    // Public routes
     app.use('/api/auth', publicRouter);
-    
-    // Protected routes (require auth)
-    app.use('/api', protectedRouter); // Added authenticate middleware here
 
-    // Global error handler
+    // Protected routes
+    app.use('/api', (req, res, next) => {
+      Promise.resolve(authenticate(req, res, next)).catch(next);
+    }, protectedRouter);
+
+    // Error handler
     app.use(globalErrorHandling);
 
-    // Start server
     const server = app.listen(port, () => {
-      console.log(`🚀 Server is running at http://localhost:${port}`);
+      console.log(`🚀 Server running on http://localhost:${port}`);
     });
 
-    // Handle server errors
     server.on('error', (error) => {
       console.error('Server error:', error);
     });
   })
   .catch((error: Error) => {
-    console.error('❌ Database connection failed', error);
+    console.error('❌ Database connection failed:', error);
     process.exit(1);
   });
 
-// Handle unhandled promise rejections
+// Error safety
 process.on('unhandledRejection', (reason, promise) => {
-  console.error('Unhandled Rejection at:', promise, 'reason:', reason);
+  console.error('Unhandled Rejection:', promise, 'reason:', reason);
 });
 
-// Handle uncaught exceptions
 process.on('uncaughtException', (error) => {
   console.error('Uncaught Exception:', error);
   process.exit(1);
