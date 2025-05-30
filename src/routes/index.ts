@@ -9,10 +9,10 @@ import { InstallmentController } from '../Controller/Installmen.controller';
 import NotificationController from '../Controller/notification.controller';
 import { asyncHandler } from '../Middlewares/error.middleware';
 import protectedRouter from '../utils/protectedRouter';
-import DailyTaskController from '../Controller/dailyTask.controller';
-import SavingsGoalController from '../Controller/savingsGoal.controller';
-import MajorGoalController from '../Controller/majorGoal.controller';
 import { CustomInstallmentPlanController } from '../Controller/customPlanInstallment.controller';
+import DailyTaskController from '../Controller/DailyTask.controller';
+import SavingsGoalController from '../Controller/SavingsGoal.Controller';
+import MajorGoalController from '../Controller/MajorGoal.Controller';
 
 const router = Router();
 // Error handling wrapper
