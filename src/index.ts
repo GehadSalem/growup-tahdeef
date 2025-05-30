@@ -1,11 +1,10 @@
 import express from 'express';
-import dotenv from 'dotenv';
 import cors from 'cors';
 import { publicRouter, protectedRouter } from './routes/index';
 import { AppDataSource } from './dbConfig/data-source';
 import { globalErrorHandling } from './Middlewares/error.middleware';
 import { authenticate } from './Middlewares/auth.middleware';
-
+import * as dotenv from 'dotenv';
 dotenv.config();
 
 const app = express();
