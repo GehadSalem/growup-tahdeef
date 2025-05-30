@@ -14,7 +14,7 @@ import DailyTaskController from '../Controller/dailyTask.controller';
 import SavingsGoalController from '../Controller/savingsGoals.controller';
 import InstallmentController from '../Controller/installment.controller';
 import IncomeController from '../Controller/income.controller';
-import MajorGoalController from '../Controller/majorGoals.controller.js';
+import MajorGoalController from '../Controller/majorGoals.controller';
 const publicRouter = Router();
 
 /* ---------------------- Public Routes ---------------------- */
