@@ -9,15 +9,18 @@ export const getTodaysTasks = (tasks: DailyTask[]): DailyTask[] => {
   
   return tasks.filter(task => {
     if (!task.isRecurring) return true;
-    
-    switch (task.frequency.interval) {
+    if (!task.frequency) return false;
+
+    const frequency = task.frequency; // ✅ هيساعد TypeScript يتأكد إنه موجود
+
+    switch (frequency.interval) {
       case 'daily':
         return true;
       case 'weekly':
-        return task.frequency.daysOfWeek?.includes(today);
+        return frequency.daysOfWeek?.includes(today) ?? false;
       case 'monthly':
         const currentDay = new Date().getDate();
-        return task.frequency.dayOfMonth === currentDay;
+        return frequency.dayOfMonth === currentDay;
       default:
         return false;
     }

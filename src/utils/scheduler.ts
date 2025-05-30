@@ -18,10 +18,10 @@ export const createDailyTaskScheduler = (tasks: DailyTask[], notifyCallback: (ta
         notifyCallback(task);
         
         // إذا كانت المهمة متكررة، نعيد جدولتها لليوم التالي
-        if (task.isRecurring && task.frequency.interval === 'daily') {
+       if (task.isRecurring && task.frequency?.interval === 'daily') {
           const nextDay = new Date(reminderTime);
           nextDay.setDate(nextDay.getDate() + 1);
-          task.reminderTime = nextDay;
+          task.reminderTime = nextDay.toISOString();
           createDailyTaskScheduler([task], notifyCallback);
         }
       }, delay);
