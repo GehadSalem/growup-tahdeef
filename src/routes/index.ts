@@ -10,11 +10,11 @@ import protectedRouter from '../utils/protectedRouter';
 import { CustomInstallmentPlanController } from '../Controller/customPlanInstallment.controller';
 const getCurrency = require("../middlewares/getCurrency");
 import { getReferrals } from '../Controller/referral.controller'; 
-import SavingsGoalController from '../Controller/SavingsGoal.Controller';
-import MajorGoalController from '../Controller/MajorGoal.Controller';
 import DailyTaskController from '../Controller/dailyTask.controller';
+import SavingsGoalController from '../Controller/savingsGoals.controller';
+import InstallmentController from '../Controller/installment.controller';
 import IncomeController from '../Controller/income.controller';
-import InstallmentController from '../Controller/installmen.controller';
+import MajorGoalController from '../Controller/majorGoals.controller.js';
 const publicRouter = Router();
 
 /* ---------------------- Public Routes ---------------------- */
