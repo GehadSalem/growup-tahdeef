@@ -13,8 +13,15 @@ import DailyTaskController from '../Controller/DailyTask.controller';
 import SavingsGoalController from '../Controller/SavingsGoal.Controller';
 import MajorGoalController from '../Controller/MajorGoal.Controller';
 import { CustomInstallmentPlanController } from '../Controller/customPlanInstallment.controller';
+const getCurrency = require("./middlewares/getCurrency");
 
 const router = Router();
+
+// Currency route
+router.get('/currency', getCurrency, (req: Request, res: Response) => {
+  res.json({ currency: (req as any).userCurrency });
+});
+
 // Error handling wrapper
 const catchHandler = (fn: Function) => 
   (req: Request, res: Response, next: NextFunction) => 
