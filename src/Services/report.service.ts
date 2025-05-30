@@ -1,6 +1,7 @@
-import { ExpenseService } from './expense.service';
-import { MajorGoalService } from './majorGoal.service';
-import { SavingsGoalService } from './savingsGoals.service';
+import { ExpenseService } from "./expense.service";
+import { MajorGoalService } from "./majorGoal.service";
+import { SavingsGoalService } from "./savingsGoals.service";
+
 
 export class ReportService {
     private expenseService = new ExpenseService();
@@ -39,7 +40,7 @@ export class ReportService {
             },
             majorGoals: majorGoals.map(goal => ({
                 id: goal.id,
-                name: goal.name,
+                name: goal.title,
                 progress: goal.progress,
                 status: goal.status
             }))
