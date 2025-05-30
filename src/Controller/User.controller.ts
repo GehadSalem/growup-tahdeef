@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { UserService } from "../Services/users.service";
 
-export class UserController {
+class UserController {
     private userService = new UserService();
 
     async register(req: Request, res: Response) {
@@ -57,3 +57,5 @@ export class UserController {
         }
     }
 }
+
+export default UserController

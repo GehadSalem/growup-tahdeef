@@ -5,6 +5,9 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
 export class UserService {
+    setupDefaultHabits(id: string) {
+        throw new Error("Method not implemented.");
+    }
     private userRepository = AppDataSource.getRepository(User);
 
     private generateToken(userId: string): string {
