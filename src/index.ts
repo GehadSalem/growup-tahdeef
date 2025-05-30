@@ -9,7 +9,7 @@ import { authenticate } from './Middlewares/auth.middleware';
 dotenv.config();
 
 const app = express();
-const port = Number(process.env.PORT);
+const port = Number(process.env.PORT) || 3000;
 
 // CORS configuration
 const corsOptions = {
