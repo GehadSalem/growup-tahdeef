@@ -8,13 +8,13 @@ import NotificationController from '../Controller/notification.controller';
 import { asyncHandler } from '../Middlewares/error.middleware';
 import protectedRouter from '../utils/protectedRouter';
 import { CustomInstallmentPlanController } from '../Controller/customPlanInstallment.controller';
-const getCurrency = require("../middlewares/getCurrency");
 import { getReferrals } from '../Controller/referral.controller'; 
 import SavingsGoalController from '../Controller/savingsGoals.controller';
 import InstallmentController from '../Controller/installment.controller';
 import MajorGoalController from '../Controller/majorGoals.controller';
 import DailyTaskController from '../Controller/dailyTasks.controller';
 import IncomeController from '../Controller/incomes.controller';
+import { getCurrency } from '../Middlewares/getCurrency';
 const publicRouter = Router();
 
 /* ---------------------- Public Routes ---------------------- */
