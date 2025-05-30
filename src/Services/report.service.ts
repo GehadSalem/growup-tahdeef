@@ -1,6 +1,6 @@
 import { ExpenseService } from './expense.service';
 import { MajorGoalService } from './majorGoal.service';
-import { SavingsGoalService } from './savingsGoal.service';
+import { SavingsGoalService } from './savingsGoals.service';
 
 export class ReportService {
     private expenseService = new ExpenseService();
