@@ -1,5 +1,5 @@
 import { DailyTask } from '../entities/DailyTask';
-import { DailyTaskRepository } from '../repositories/DailyTask.repository.js';
+import { DailyTaskRepository } from '../repositories/DailyTask.repository';
 
 export class DailyTaskService {
   private dailyTaskRepo: DailyTaskRepository;
