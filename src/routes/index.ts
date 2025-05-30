@@ -7,7 +7,6 @@ import EmergencyController from '../Controller/emergency.controller';
 import NotificationController from '../Controller/notification.controller';
 import { asyncHandler } from '../Middlewares/error.middleware';
 import protectedRouter from '../utils/protectedRouter';
-import DailyTaskController from '../Controller/dailyTask.controller';
 import { CustomInstallmentPlanController } from '../Controller/customPlanInstallment.controller';
 const getCurrency = require("../middlewares/getCurrency");
 import { getReferrals } from '../Controller/referral.controller'; 
@@ -15,6 +14,7 @@ import SavingsGoalController from '../Controller/SavingsGoal.Controller';
 import MajorGoalController from '../Controller/MajorGoal.Controller';
 import { IncomeController } from '../Controller/Income.controller';
 import { InstallmentController } from '../Controller/Installmen.controller';
+import DailyTaskController from '../Controller/dailyTask.controller';
 const publicRouter = Router();
 
 /* ---------------------- Public Routes ---------------------- */
