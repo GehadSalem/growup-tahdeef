@@ -5,7 +5,7 @@ import { UserService } from '../Services/users.service';
 import '../types/express';
 import { Between } from 'typeorm';
 
-export class IncomeController {
+class IncomeController {
   private static incomeRepository = AppDataSource.getRepository(Income);
   private static userService = new UserService();
 
@@ -236,3 +236,5 @@ export class IncomeController {
 
 
 }
+
+export default IncomeController

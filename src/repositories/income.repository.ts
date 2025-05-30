@@ -3,7 +3,7 @@ import { AppDataSource } from '../../src/dbConfig/data-source';
 import { Income } from '../entities/Income';
 import { User } from '../entities/User';
 
-export class IncomeRepository {
+class IncomeRepository {
     private repository: Repository<Income>;
 
     constructor() {
@@ -88,3 +88,6 @@ export class IncomeRepository {
         return result.affected !== 0;
     }
 }
+
+
+export default IncomeRepository

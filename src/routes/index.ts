@@ -12,9 +12,9 @@ const getCurrency = require("../middlewares/getCurrency");
 import { getReferrals } from '../Controller/referral.controller'; 
 import SavingsGoalController from '../Controller/SavingsGoal.Controller';
 import MajorGoalController from '../Controller/MajorGoal.Controller';
-import { IncomeController } from '../Controller/Income.controller';
-import { InstallmentController } from '../Controller/Installmen.controller';
 import DailyTaskController from '../Controller/dailyTask.controller';
+import IncomeController from '../Controller/income.controller';
+import InstallmentController from '../Controller/installmen.controller';
 const publicRouter = Router();
 
 /* ---------------------- Public Routes ---------------------- */

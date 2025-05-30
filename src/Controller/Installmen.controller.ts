@@ -7,7 +7,7 @@ import { MajorGoalService } from '../Services/majorGoal.service';
 import { CustomInstallmentPlan } from '../entities/CustomInstallmentPlan';
 import { AppDataSource } from '../dbConfig/data-source';
 
-export class InstallmentController {
+class InstallmentController {
   private static service = new InstallmentService();
   private static userService = new UserService();
 
@@ -174,3 +174,5 @@ export class InstallmentController {
     static MajorGoalService: any;
 
 }
+
+export default InstallmentController
