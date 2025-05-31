@@ -4,13 +4,14 @@ import { UserRepository } from '../repositories/user.repository';
 import '../types/express';
 
 export async function authenticate(req: Request, res: Response, next: NextFunction) {
-    // Skip auth for public routes (register/login)
+    
+
+    try {
+        // Skip auth for public routes (register/login)
     const publicRoutes = ['/api/auth/register', '/api/auth/login'];
     if (publicRoutes.includes(req.path)) {
         return next(); // Skip authentication
     }
-
-    try {
         const { authorization } = req.headers;
         console.log('Authentication started');
         console.log('Received headers:', req.headers);
