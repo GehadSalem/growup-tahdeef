@@ -15,7 +15,6 @@ import { MajorGoal } from "../entities/MajorGoal";
 
 dotenv.config();
 
-
 export const AppDataSource = new DataSource({
   type: "mysql",
   host: process.env.DB_HOST,

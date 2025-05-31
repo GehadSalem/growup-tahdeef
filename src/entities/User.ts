@@ -4,6 +4,8 @@ import {
   Column,
   OneToMany,
   BeforeInsert,
+  UpdateDateColumn,
+  CreateDateColumn,
 } from 'typeorm';
 import { randomBytes } from 'crypto';
 import { Expense } from './Expense';
@@ -41,12 +43,24 @@ export class User {
   @Column({ default: 'email' })
   authProvider: 'email' | 'google';
 
-  @Column({ unique: true })
-  referralCode!: string;
+    @Column({ nullable: false })
+    referralCode!: string;
 
   @Column({ nullable: true })
   referredBy?: string;
 
+    //جديد: هل المستخدم نشط؟ (مطلوب في لوحة التحكم)
+  @Column({ default: true })
+  isActive!: boolean;
+
+  //جديد: تاريخ التسجيل (مطلوب للإحصائيات الشهرية)
+  @CreateDateColumn()
+  createdAt!: Date;
+
+  //جديد: تاريخ آخر تعديل (اختياري)
+  @UpdateDateColumn()
+  updatedAt!: Date;
+  
   @OneToMany(() => Expense, (expense) => expense.user)
   expenses!: Expense[];
 

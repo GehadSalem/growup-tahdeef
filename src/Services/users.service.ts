@@ -7,6 +7,7 @@ import jwt from 'jsonwebtoken';
 export class UserService {
     private userRepository = AppDataSource.getRepository(User);
 
+    // ✅ مستخدمة في كل مكان
     private generateToken(userId: string): string {
         return jwt.sign(
             { id: userId },
@@ -20,21 +21,13 @@ export class UserService {
         return Array.from({ length }, () => chars[Math.floor(Math.random() * chars.length)]).join('');
     }
 
-    async createUser(data: Partial<User>): Promise<User> {
-        const user = this.userRepository.create(data);
-        return await this.userRepository.save(user);
+    // ✅ الوظائف الجديدة للوحة التحكم
+    async getAllUsers(): Promise<User[]> {
+        return await this.userRepository.find();
     }
 
-    async findByEmail(email: string): Promise<User | null> {
-        return await this.userRepository.findOne({ where: { email } });
-    }
-
-    async findByReferralCode(code: string): Promise<User | null> {
-        return await this.userRepository.findOne({ where: { referralCode: code } });
-    }
-
-    async findReferrals(referralCode: string): Promise<User[]> {
-        return await this.userRepository.find({ where: { referredBy: referralCode } });
+    async updateUserStatus(id: string, isActive: boolean): Promise<void> {
+        await this.userRepository.update(id, { isActive });
     }
 
     async getUserById(id: string): Promise<User | null> {
@@ -46,6 +39,63 @@ export class UserService {
             return user;
         } catch (error) {
             throw new Error('Failed to fetch user');
+        }
+    }
+
+    // ✅ تسجيل مستخدم جديد
+    async register(userData: {
+        email: string;
+        password: string;
+        name: string;
+        monthlyIncome: number;
+        referredBy?: string;
+    }): Promise<{ user: User; token: string }> {
+        try {
+            const existingUser = await this.userRepository.findOne({
+                where: { email: userData.email }
+            });
+            if (existingUser) throw new Error('البريد الإلكتروني مسجل بالفعل');
+
+            const hashedPassword = await bcrypt.hash(userData.password, 10);
+            const emergencyFundTarget = userData.monthlyIncome * 0.7;
+            const referralCode = this.generateReferralCode();
+
+            const newUser = this.userRepository.create({
+                name: userData.name,
+                email: userData.email,
+                password: hashedPassword,
+                monthlyIncome: userData.monthlyIncome,
+                referralCode,
+                referredBy: userData.referredBy || undefined,
+                savingsGoals: [{
+                    goalName: "صندوق الطوارئ",
+                    targetAmount: emergencyFundTarget,
+                    currentAmount: 0,
+                    isEmergencyFund: true,
+                    status: "active"
+                } as unknown as SavingsGoal]
+            });
+
+            await this.userRepository.save(newUser);
+            const token = this.generateToken(newUser.id);
+            return { user: newUser, token };
+        } catch (error) {
+            throw new Error(error instanceof Error ? error.message : 'Registration failed');
+        }
+    }
+
+    async login(email: string, password: string): Promise<{ user: User; token: string }> {
+        try {
+            const user = await this.userRepository.findOne({ where: { email } });
+            if (!user) throw new Error('المستخدم غير موجود');
+
+            const isMatch = await bcrypt.compare(password, user.password);
+            if (!isMatch) throw new Error('كلمة المرور غير صحيحة');
+
+            const token = this.generateToken(user.id);
+            return { user, token };
+        } catch (error) {
+            throw new Error(error instanceof Error ? error.message : 'Login failed');
         }
     }
 
@@ -103,61 +153,26 @@ export class UserService {
         }
     }
 
-    async register(userData: {
-        email: string;
-        password: string;
-        name: string;
-        monthlyIncome: number;
-        referredBy?: string;
-    }): Promise<{ user: User; token: string }> {
-        try {
-            const existingUser = await this.userRepository.findOne({
-                where: { email: userData.email }
-            });
-            if (existingUser) throw new Error('البريد الإلكتروني مسجل بالفعل');
-
-            const hashedPassword = await bcrypt.hash(userData.password, 10);
-            const emergencyFundTarget = userData.monthlyIncome * 0.7;
-
-            const referralCode = this.generateReferralCode();
-
-            const newUser = this.userRepository.create({
-                name: userData.name,
-                email: userData.email,
-                password: hashedPassword,
-                monthlyIncome: userData.monthlyIncome,
-                referralCode,
-                referredBy: userData.referredBy || undefined,
-                savingsGoals: [{
-                    goalName: "صندوق الطوارئ",
-                    targetAmount: emergencyFundTarget,
-                    currentAmount: 0,
-                    isEmergencyFund: true,
-                    status: "active"
-                } as unknown as SavingsGoal]
-            });
-
-            await this.userRepository.save(newUser);
-            const token = this.generateToken(newUser.id);
-
-            return { user: newUser, token };
-        } catch (error) {
-            throw new Error(error instanceof Error ? error.message : 'Registration failed');
-        }
+    // ✅ placeholder - لاحقًا لتحديد العادات الافتراضية للمستخدم
+    async setupDefaultHabits(userId: string): Promise<void> {
+        // ممكن تفعيلها لاحقًا
+        return;
     }
 
-    async login(email: string, password: string): Promise<{ user: User; token: string }> {
-        try {
-            const user = await this.userRepository.findOne({ where: { email } });
-            if (!user) throw new Error('المستخدم غير موجود');
+    async createUser(data: Partial<User>): Promise<User> {
+        const user = this.userRepository.create(data);
+        return await this.userRepository.save(user);
+    }
 
-            const isMatch = await bcrypt.compare(password, user.password);
-            if (!isMatch) throw new Error('كلمة المرور غير صحيحة');
+    async findByEmail(email: string): Promise<User | null> {
+        return await this.userRepository.findOne({ where: { email } });
+    }
 
-            const token = this.generateToken(user.id);
-            return { user, token };
-        } catch (error) {
-            throw new Error(error instanceof Error ? error.message : 'Login failed');
-        }
+    async findByReferralCode(code: string): Promise<User | null> {
+        return await this.userRepository.findOne({ where: { referralCode: code } });
+    }
+
+    async findReferrals(referralCode: string): Promise<User[]> {
+        return await this.userRepository.find({ where: { referredBy: referralCode } });
     }
 }
