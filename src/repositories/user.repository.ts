@@ -9,7 +9,7 @@ export class UserRepository {
     constructor() {
         this.repository = AppDataSource.getRepository(User);
     }
-    async findOne(arg0: { where: { id: string; }; }) {
+    async findOne() {
         throw new Error('Method not implemented.');
     }
     async findByEmail(email: string): Promise<User | null> {
