@@ -10,7 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserRepository = void 0;
-const data_source_1 = require("../../src/dbConfig/data-source");
+const data_source_1 = require("../dbConfig/data-source");
 const User_1 = require("../entities/User");
 class UserRepository {
     findOne(arg0) {
