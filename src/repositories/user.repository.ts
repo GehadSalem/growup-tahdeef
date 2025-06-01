@@ -1,6 +1,6 @@
 import { Repository } from 'typeorm';
 import { AppDataSource } from '../../src/dbConfig/data-source';
-import { User } from '../entities/User';
+import { User } from '../entities/User.entity';
 
 export class UserRepository {
     findOne(arg0: { where: { id: string; }; }) {

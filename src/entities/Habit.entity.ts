@@ -1,6 +1,6 @@
 // src/entities/Habit.ts
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn, CreateDateColumn } from 'typeorm';
-import { User } from './User';
+import { User } from './User.entity';
 
 @Entity()
 export class Habit {

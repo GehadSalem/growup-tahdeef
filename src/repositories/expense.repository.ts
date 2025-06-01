@@ -1,6 +1,6 @@
 import { Between, Repository } from 'typeorm';
 import { AppDataSource } from '../../src/dbConfig/data-source';
-import { Expense } from '../entities/Expense';
+import { Expense } from '../entities/Expense.entity';
 
 export class ExpenseRepository {
     private repository: Repository<Expense>;

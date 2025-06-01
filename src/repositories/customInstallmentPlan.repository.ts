@@ -1,7 +1,7 @@
 import { Repository } from 'typeorm';
 import { AppDataSource } from '../dbConfig/data-source';
-import { CustomInstallmentPlan } from '../entities/CustomInstallmentPlan';
-import { User } from '../entities/User';
+import { CustomInstallmentPlan } from '../entities/CustomInstallmentPlan.entity';
+import { User } from '../entities/User.entity';
 
 export class CustomInstallmentPlanRepository {
   private repository: Repository<CustomInstallmentPlan>;

@@ -1,6 +1,6 @@
 import { AppDataSource } from "../dbConfig/data-source";
-import { MajorGoal } from "../entities/MajorGoal";
-import { User } from "../entities/User";
+import { MajorGoal } from "../entities/MajorGoal.entity";
+import { User } from "../entities/User.entity";
 
 export class MajorGoalService {
   

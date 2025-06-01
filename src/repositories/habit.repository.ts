@@ -1,6 +1,6 @@
 import { FindManyOptions, FindOneOptions, Repository, UpdateResult, FindOptionsWhere } from 'typeorm';
 import { AppDataSource } from '../../src/dbConfig/data-source';
-import { Habit } from '../entities/Habit';
+import { Habit } from '../entities/Habit.entity';
 
 export class HabitRepository {
     private repository: Repository<Habit>;

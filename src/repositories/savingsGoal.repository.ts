@@ -1,7 +1,7 @@
 import { Repository } from 'typeorm';
 import { AppDataSource } from '../dbConfig/data-source';
-import { SavingsGoal } from '../entities/SavingsGoal';
-import { User } from '../entities/User';
+import { SavingsGoal } from '../entities/SavingsGoal.entity';
+import { User } from '../entities/User.entity';
 
 export class SavingsGoalRepository {
     private repository: Repository<SavingsGoal>;

@@ -6,14 +6,14 @@ import {
   BeforeInsert,
 } from 'typeorm';
 import { randomBytes } from 'crypto';
-import { Expense } from './Expense';
-import { Habit } from './Habit';
-import { EmergencyFund } from './EmergencyFund';
-import { MajorGoal } from './MajorGoal';
-import { DailyTask } from './DailyTask';
-import { SavingsGoal } from './SavingsGoal';
-import { Notification } from './Notification';
-import { CustomInstallmentPlan } from './CustomInstallmentPlan';
+import { Expense } from './Expense.entity';
+import { Habit } from './Habit.entity';
+import { EmergencyFund } from './EmergencyFund.entity';
+import { MajorGoal } from './MajorGoal.entity';
+import { DailyTask } from './DailyTask.entity';
+import { SavingsGoal } from './SavingsGoal.entity';
+import { Notification } from './Notification.entity';
+import { CustomInstallmentPlan } from './CustomInstallmentPlan.entity';
 
 @Entity()
 export class User {

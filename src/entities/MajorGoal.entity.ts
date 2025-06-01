@@ -1,6 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany, CreateDateColumn, UpdateDateColumn } from "typeorm";
-import { User } from "./User";
-import { CustomInstallmentPlan } from "./CustomInstallmentPlan";
+import { User } from "./User.entity";
+import { CustomInstallmentPlan } from "./CustomInstallmentPlan.entity";
 
 @Entity()
 export class MajorGoal {

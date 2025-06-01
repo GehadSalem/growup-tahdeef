@@ -1,4 +1,4 @@
-import { DailyTask } from '../entities/DailyTask';
+import { DailyTask } from '../entities/DailyTask.entity';
 
 /**
  * @param tasks قائمة بالمهام

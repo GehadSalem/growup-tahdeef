@@ -1,7 +1,7 @@
 import { FindManyOptions, FindOneOptions, Repository, UpdateResult, FindOptionsWhere, Between } from 'typeorm';
 import { AppDataSource } from '../../src/dbConfig/data-source';
-import { Income } from '../entities/Income';
-import { User } from '../entities/User';
+import { Income } from '../entities/Income.entity';
+import { User } from '../entities/User.entity';
 
 class IncomeRepository {
     private repository: Repository<Income>;

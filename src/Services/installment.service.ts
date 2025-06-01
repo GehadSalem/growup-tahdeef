@@ -1,5 +1,5 @@
-import { InstallmentPayment } from '../entities/Installment';
-import { User } from '../entities/User';
+import { InstallmentPayment } from '../entities/Installment.entity';
+import { User } from '../entities/User.entity';
 import { InstallmentRepository } from '../repositories/installment.repository';
 
 export class InstallmentService {

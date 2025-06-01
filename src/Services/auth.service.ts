@@ -1,6 +1,6 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import { User } from '../entities/User';
+import { User } from '../entities/User.entity';
 import { UserRepository } from '../repositories/user.repository';
 import admin from '../config/firebase-admin';
 

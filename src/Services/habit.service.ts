@@ -1,4 +1,4 @@
-import { Habit } from '../entities/Habit';
+import { Habit } from '../entities/Habit.entity';
 import { HabitRepository } from '../repositories/habit.repository';
 import { UserRepository } from '../repositories/user.repository';
 

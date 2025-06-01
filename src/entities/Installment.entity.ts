@@ -1,5 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from "typeorm";
-import { CustomInstallmentPlan } from "./CustomInstallmentPlan";
+import { CustomInstallmentPlan } from "./CustomInstallmentPlan.entity";
 @Entity()
 export class InstallmentPayment {
   @PrimaryGeneratedColumn('uuid')
