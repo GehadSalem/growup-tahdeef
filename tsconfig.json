@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-     "module": "ES2020",
+     "module": "commonjs",
     "target": "ES2020",
     "outDir": "./dist",
     "rootDir": "./src",
@@ -13,7 +13,9 @@
     "strictPropertyInitialization": false,
     "moduleResolution": "node",
     "baseUrl": "./src",
-   
+    "paths": {
+      "@entities/*": ["entities/*"]
+    }
   },
   "include": ["src/**/*.ts", "src/**/*.tsx"],
   "exclude": ["node_modules", "dist", "test"]

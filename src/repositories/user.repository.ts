@@ -1,6 +1,6 @@
 
-import { AppDataSource } from 'dbConfig/data-source';
-import { User } from 'entities/User.entity';
+import { AppDataSource } from '../dbConfig/data-source';
+import { User } from '../entities/User.entity';
 import { Repository } from 'typeorm';
 
 
