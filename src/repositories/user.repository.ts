@@ -1,6 +1,7 @@
+import { User } from '@entities/User.entity';
+import { AppDataSource } from 'dbConfig/data-source.js';
 import { Repository } from 'typeorm';
-import { AppDataSource } from '../../src/dbConfig/data-source';
-import { User } from '../entities/User.entity';
+
 
 export class UserRepository {
     
