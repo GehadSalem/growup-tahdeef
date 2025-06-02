@@ -1,4 +1,4 @@
-import { InstallmentPayment } from '../entities/Installment.entity';
+import { InstallmentPayment } from '../entities/Installment';
 import { User } from '../entities/User.entity';
 import { InstallmentRepository } from '../repositories/installment.repository';
 

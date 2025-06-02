@@ -1,21 +1,20 @@
-import AuthController from 'Controller/auth.controller';
-import { CustomInstallmentPlanController } from 'Controller/customPlanInstallment.controller';
-import DailyTaskController from 'Controller/dailyTasks.controller';
-import EmergencyController from 'Controller/emergency.controller';
-import ExpenseController from 'Controller/expense.controller';
-import HabitController from 'Controller/habit.controller';
-import IncomeController from 'Controller/incomes.controller';
-import InstallmentController from 'Controller/installment.controller';
-import MajorGoalController from 'Controller/majorGoals.controller';
-import NotificationController from 'Controller/notification.controller';
-import { getReferrals } from 'Controller/referral.controller';
-import SavingsGoalController from 'Controller/savingsGoals.controller';
 import { Router, Request, Response, NextFunction } from 'express';
-import { authenticate } from 'Middlewares/auth.middleware';
-import { asyncHandler } from 'Middlewares/error.middleware';
-import { getCurrency } from 'Middlewares/getCurrency';
-import protectedRouter from 'utils/protectedRouter';
-
+import { authenticate } from '../Middlewares/auth.middleware';
+import ExpenseController from '../Controller/expense.controller';
+import AuthController from '../Controller/auth.controller';
+import HabitController from '../Controller/habit.controller';
+import EmergencyController from '../Controller/emergency.controller';
+import NotificationController from '../Controller/notification.controller';
+import { asyncHandler } from '../Middlewares/error.middleware';
+import protectedRouter from '../utils/protectedRouter';
+import { CustomInstallmentPlanController } from '../Controller/customPlanInstallment.controller';
+import { getReferrals } from '../Controller/referral.controller'; 
+import SavingsGoalController from '../Controller/savingsGoals.controller';
+import InstallmentController from '../Controller/installment.controller';
+import MajorGoalController from '../Controller/majorGoals.controller';
+import DailyTaskController from '../Controller/dailyTasks.controller';
+import IncomeController from '../Controller/incomes.controller';
+import { getCurrency } from '../Middlewares/getCurrency';
 const publicRouter = Router();
 
 /* ---------------------- Public Routes ---------------------- */
@@ -29,7 +28,6 @@ publicRouter.get('/currency', getCurrency, (req: Request, res: Response) => {
 publicRouter.post('/register', asyncHandler(AuthController.register));
 publicRouter.post('/login', asyncHandler(AuthController.login));
 publicRouter.post('/google', asyncHandler(AuthController.googleAuth)); // Google auth route
-
 
 /* ---------------------- Protected Routes ---------------------- */
 
