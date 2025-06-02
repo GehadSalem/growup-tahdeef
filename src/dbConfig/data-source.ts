@@ -2,17 +2,17 @@ import "reflect-metadata";
 import { DataSource } from "typeorm";
 import * as dotenv from "dotenv";
 import path from "path";
-import { User } from "@entities/User.entity";
-import { Habit } from "@entities/Habit.entity";
-import { SavingsGoal } from "@entities/SavingsGoal.entity";
-import { MajorGoal } from "@entities/MajorGoal.entity";
-import { Notification } from "@entities/Notification.entity";
-import { InstallmentPayment } from "@entities/Installment.entity";
-import { Income } from "@entities/Income.entity";
-import { Expense } from "@entities/Expense.entity";
-import { EmergencyFund } from "@entities/EmergencyFund.entity";
-import { CustomInstallmentPlan } from "@entities/CustomInstallmentPlan.entity";
-import { DailyTask } from "@entities/DailyTask.entity";
+import { User } from "../entities/User.entity";
+import { Habit } from "../entities/Habit.entity";
+import { SavingsGoal } from "../entities/SavingsGoal.entity";
+import { MajorGoal } from "../entities/MajorGoal.entity";
+import { Notification } from "../entities/Notification.entity";
+import { InstallmentPayment } from "../entities/Installment.entity";
+import { Income } from "../entities/Income.entity";
+import { Expense } from "../entities/Expense.entity";
+import { EmergencyFund } from "../entities/EmergencyFund.entity";
+import { CustomInstallmentPlan } from "../entities/CustomInstallmentPlan.entity";
+import { DailyTask } from "../entities/DailyTask.entity";
 
 // Entity imports
 
