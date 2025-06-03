@@ -37,8 +37,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 require("../types/express");
-var users_service_1 = require("../Services/users.service");
-var savingsGoals_service_1 = require("../Services/savingsGoals.service");
+var users_service_1 = require("../Services/users.service.js");
+var savingsGoals_service_1 = require("../Services/savingsGoals.service.js");
 var SavingsGoalController = /** @class */ (function () {
     function SavingsGoalController() {
     }

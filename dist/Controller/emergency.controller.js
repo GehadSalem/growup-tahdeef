@@ -36,8 +36,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-require("../types/express");
-var emergency_service_1 = require("../Services/emergency.service");
+require("../types/express.js");
+var emergency_service_1 = require("../Services/emergency.service.js");
 var EmergencyController = /** @class */ (function () {
     function EmergencyController() {
     }

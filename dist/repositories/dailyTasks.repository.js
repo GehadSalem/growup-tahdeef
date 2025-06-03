@@ -37,8 +37,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.DailyTaskRepository = void 0;
-var data_source_1 = require("../dbConfig/data-source");
-var DailyTask_entity_1 = require("../entities/DailyTask.entity");
+var data_source_1 = require("../dbConfig/data-source.js");
+var DailyTask_entity_1 = require("../entities/DailyTask.entity.js");
 var DailyTaskRepository = /** @class */ (function () {
     function DailyTaskRepository() {
         this.repository = data_source_1.AppDataSource.getRepository(DailyTask_entity_1.DailyTask);

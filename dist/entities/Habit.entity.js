@@ -12,7 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Habit = void 0;
 // src/entities/Habit.ts
 var typeorm_1 = require("typeorm");
-var User_entity_1 = require("./User.entity");
+var User_entity_1 = require("./User.entity.js");
 var Habit = /** @class */ (function () {
     function Habit() {
     }

@@ -48,8 +48,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.SavingsGoalRepository = void 0;
-var data_source_1 = require("../dbConfig/data-source");
-var SavingsGoal_entity_1 = require("../entities/SavingsGoal.entity");
+var data_source_1 = require("../dbConfig/data-source.js");
+var SavingsGoal_entity_1 = require("../entities/SavingsGoal.entity.js");
 var SavingsGoalRepository = /** @class */ (function () {
     function SavingsGoalRepository() {
         this.repository = data_source_1.AppDataSource.getRepository(SavingsGoal_entity_1.SavingsGoal);

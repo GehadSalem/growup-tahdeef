@@ -11,7 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.DailyTask = exports.TaskStatus = exports.HabitType = void 0;
 var typeorm_1 = require("typeorm");
-var User_entity_1 = require("./User.entity");
+var User_entity_1 = require("./User.entity.js");
 var HabitType;
 (function (HabitType) {
     HabitType["READING"] = "READING";

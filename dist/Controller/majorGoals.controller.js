@@ -36,9 +36,9 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var majorGoal_service_1 = require("../Services/majorGoal.service");
-var users_service_1 = require("../Services/users.service");
-require("../types/express");
+var majorGoal_service_1 = require("../Services/majorGoal.service.js");
+var users_service_1 = require("../Services/users.service.js");
+require("../types/express.js");
 var MajorGoalController = /** @class */ (function () {
     function MajorGoalController() {
     }

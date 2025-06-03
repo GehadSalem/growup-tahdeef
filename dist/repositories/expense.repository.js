@@ -38,8 +38,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ExpenseRepository = void 0;
 var typeorm_1 = require("typeorm");
-var data_source_1 = require("../dbConfig/data-source");
-var Expense_entity_1 = require("../entities/Expense.entity");
+var data_source_1 = require("../dbConfig/data-source.js");
+var Expense_entity_1 = require("../entities/Expense.entity.js");
 var ExpenseRepository = /** @class */ (function () {
     function ExpenseRepository() {
         this.repository = data_source_1.AppDataSource.getRepository(Expense_entity_1.Expense);

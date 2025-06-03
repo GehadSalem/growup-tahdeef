@@ -78,17 +78,17 @@ require("reflect-metadata");
 var typeorm_1 = require("typeorm");
 var dotenv = __importStar(require("dotenv"));
 var path_1 = __importDefault(require("path"));
-var User_entity_1 = require("../entities/User.entity");
-var Habit_entity_1 = require("../entities/Habit.entity");
-var SavingsGoal_entity_1 = require("../entities/SavingsGoal.entity");
-var MajorGoal_entity_1 = require("../entities/MajorGoal.entity");
-var Notification_entity_1 = require("../entities/Notification.entity");
-var Installment_entity_1 = require("../entities/Installment.entity");
-var Income_entity_1 = require("../entities/Income.entity");
-var Expense_entity_1 = require("../entities/Expense.entity");
-var EmergencyFund_entity_1 = require("../entities/EmergencyFund.entity");
-var CustomInstallmentPlan_entity_1 = require("../entities/CustomInstallmentPlan.entity");
-var DailyTask_entity_1 = require("../entities/DailyTask.entity");
+var User_entity_1 = require("../entities/User.entity.js");
+var Habit_entity_1 = require("../entities/Habit.entity.js");
+var SavingsGoal_entity_1 = require("../entities/SavingsGoal.entity.js");
+var MajorGoal_entity_1 = require("../entities/MajorGoal.entity.js");
+var Notification_entity_1 = require("../entities/Notification.entity.js");
+var Installment_entity_1 = require("../entities/Installment.entity.js");
+var Income_entity_1 = require("../entities/Income.entity.js");
+var Expense_entity_1 = require("../entities/Expense.entity.js");
+var EmergencyFund_entity_1 = require("../entities/EmergencyFund.entity.js");
+var CustomInstallmentPlan_entity_1 = require("../entities/CustomInstallmentPlan.entity.js");
+var DailyTask_entity_1 = require("../entities/DailyTask.entity.js");
 // Entity imports
 dotenv.config();
 exports.AppDataSource = new typeorm_1.DataSource({

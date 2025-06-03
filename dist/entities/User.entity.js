@@ -12,14 +12,14 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.User = void 0;
 var typeorm_1 = require("typeorm");
 var crypto_1 = require("crypto");
-var Expense_entity_1 = require("./Expense.entity");
-var Habit_entity_1 = require("./Habit.entity");
-var EmergencyFund_entity_1 = require("./EmergencyFund.entity");
-var MajorGoal_entity_1 = require("./MajorGoal.entity");
-var DailyTask_entity_1 = require("./DailyTask.entity");
-var SavingsGoal_entity_1 = require("./SavingsGoal.entity");
-var Notification_entity_1 = require("./Notification.entity");
-var CustomInstallmentPlan_entity_1 = require("./CustomInstallmentPlan.entity");
+var Expense_entity_1 = require("./Expense.entity.js");
+var Habit_entity_1 = require("./Habit.entity.js");
+var EmergencyFund_entity_1 = require("./EmergencyFund.entity.js");
+var MajorGoal_entity_1 = require("./MajorGoal.entity.js");
+var DailyTask_entity_1 = require("./DailyTask.entity.js");
+var SavingsGoal_entity_1 = require("./SavingsGoal.entity.js");
+var Notification_entity_1 = require("./Notification.entity.js");
+var CustomInstallmentPlan_entity_1 = require("./CustomInstallmentPlan.entity.js");
 var User = /** @class */ (function () {
     function User() {
     }

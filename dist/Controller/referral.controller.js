@@ -37,7 +37,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getReferrals = exports.register = void 0;
-var referral_service_1 = require("../Services/referral.service");
+var referral_service_1 = require("../Services/referral.service.js");
 var referralService = new referral_service_1.ReferralService();
 var register = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var _a, name_1, email, password, referredBy, user, error_1;

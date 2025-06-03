@@ -41,8 +41,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.authenticate = authenticate;
 var jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
-var user_repository_1 = require("../repositories/user.repository");
-require("../types/express");
+var user_repository_1 = require("../repositories/user.repository.js");
+require("../types/express.js");
 function authenticate(req, res, next) {
     return __awaiter(this, void 0, void 0, function () {
         var publicRoutes, authorization, _a, prefix, token, decoded, userRepository, user, error_1;

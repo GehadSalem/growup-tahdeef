@@ -37,8 +37,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.HabitRepository = void 0;
-var data_source_1 = require("../../src/dbConfig/data-source");
-var Habit_entity_1 = require("../entities/Habit.entity");
+var data_source_1 = require("../dbConfig/data-source.js");
+var Habit_entity_1 = require("../entities/Habit.entity.js");
 var HabitRepository = /** @class */ (function () {
     function HabitRepository() {
         this.repository = data_source_1.AppDataSource.getRepository(Habit_entity_1.Habit);

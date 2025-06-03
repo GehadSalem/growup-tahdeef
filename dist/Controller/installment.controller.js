@@ -37,12 +37,12 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 require("../types/express");
-var installment_service_1 = require("../Services/installment.service");
-var users_service_1 = require("../Services/users.service");
-var Installment_entity_1 = require("../entities/Installment.entity");
-var majorGoal_service_1 = require("../Services/majorGoal.service");
-var CustomInstallmentPlan_entity_1 = require("../entities/CustomInstallmentPlan.entity");
-var data_source_1 = require("../dbConfig/data-source");
+var installment_service_1 = require("../Services/installment.service.js");
+var users_service_1 = require("../Services/users.service.js");
+var Installment_entity_1 = require("../entities/Installment.entity.js");
+var majorGoal_service_1 = require("../Services/majorGoal.service.js");
+var CustomInstallmentPlan_entity_1 = require("../entities/CustomInstallmentPlan.entity.js");
+var data_source_1 = require("../dbConfig/data-source.js");
 var InstallmentController = /** @class */ (function () {
     function InstallmentController() {
     }

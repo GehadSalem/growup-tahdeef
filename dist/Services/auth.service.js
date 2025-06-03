@@ -53,8 +53,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthService = void 0;
 var bcrypt_1 = __importDefault(require("bcrypt"));
 var jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
-var user_repository_1 = require("../repositories/user.repository");
-var firebase_admin_1 = __importDefault(require("../config/firebase-admin"));
+var user_repository_1 = require("../repositories/user.repository.js");
+var firebase_admin_1 = __importDefault(require("../config/firebase-admin.js"));
 var AuthService = /** @class */ (function () {
     function AuthService() {
         this.userRepository = new user_repository_1.UserRepository();

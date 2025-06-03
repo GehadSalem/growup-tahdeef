@@ -48,9 +48,9 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CustomInstallmentPlanService = void 0;
-var CustomInstallmentPlan_entity_1 = require("../entities/CustomInstallmentPlan.entity");
-var MajorGoal_entity_1 = require("../entities/MajorGoal.entity");
-var customInstallmentPlan_repository_1 = require("../repositories/customInstallmentPlan.repository");
+var CustomInstallmentPlan_entity_1 = require("../entities/CustomInstallmentPlan.entity.js");
+var MajorGoal_entity_1 = require("../entities/MajorGoal.entity.js");
+var customInstallmentPlan_repository_1 = require("../repositories/customInstallmentPlan.repository.js");
 var CustomInstallmentPlanService = /** @class */ (function () {
     function CustomInstallmentPlanService() {
         this.repository = new customInstallmentPlan_repository_1.CustomInstallmentPlanRepository();

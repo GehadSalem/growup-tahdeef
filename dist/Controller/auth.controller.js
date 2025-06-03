@@ -36,7 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var auth_service_1 = require("../Services/auth.service");
+var auth_service_1 = require("../Services/auth.service.js");
 var AuthController = /** @class */ (function () {
     function AuthController() {
     }

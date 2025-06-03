@@ -37,9 +37,9 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ReportService = void 0;
-var expense_service_1 = require("./expense.service");
-var majorGoal_service_1 = require("./majorGoal.service");
-var savingsGoals_service_1 = require("./savingsGoals.service");
+var expense_service_1 = require("./expense.service.js");
+var majorGoal_service_1 = require("./majorGoal.service.js");
+var savingsGoals_service_1 = require("./savingsGoals.service.js");
 var ReportService = /** @class */ (function () {
     function ReportService() {
         this.expenseService = new expense_service_1.ExpenseService();

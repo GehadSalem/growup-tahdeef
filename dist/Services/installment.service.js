@@ -37,7 +37,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.InstallmentService = void 0;
-var installment_repository_1 = require("../repositories/installment.repository");
+var installment_repository_1 = require("../repositories/installment.repository.js");
 var InstallmentService = /** @class */ (function () {
     function InstallmentService() {
         this.repository = new installment_repository_1.InstallmentRepository();

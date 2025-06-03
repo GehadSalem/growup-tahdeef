@@ -37,12 +37,12 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CustomInstallmentPlanController = void 0;
-require("../types/express");
-var customPlanInstallment_service_1 = require("../Services/customPlanInstallment.service");
-var users_service_1 = require("../Services/users.service");
-var CustomInstallmentPlan_entity_1 = require("../entities/CustomInstallmentPlan.entity");
-var MajorGoal_entity_1 = require("../entities/MajorGoal.entity");
-var data_source_1 = require("../dbConfig/data-source");
+require("../types/express.js");
+var customPlanInstallment_service_1 = require("../Services/customPlanInstallment.service.js");
+var users_service_1 = require("../Services/users.service.js");
+var CustomInstallmentPlan_entity_1 = require("../entities/CustomInstallmentPlan.entity.js");
+var MajorGoal_entity_1 = require("../entities/MajorGoal.entity.js");
+var data_source_1 = require("../dbConfig/data-source.js");
 var CustomInstallmentPlanController = /** @class */ (function () {
     function CustomInstallmentPlanController() {
     }

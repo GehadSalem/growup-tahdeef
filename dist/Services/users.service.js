@@ -40,9 +40,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserService = void 0;
-var data_source_1 = require("../dbConfig/data-source");
-var User_entity_1 = require("../entities/User.entity");
-var SavingsGoal_entity_1 = require("../entities/SavingsGoal.entity");
+var data_source_1 = require("../dbConfig/data-source.js");
+var User_entity_1 = require("../entities/User.entity.js");
+var SavingsGoal_entity_1 = require("../entities/SavingsGoal.entity.js");
 var bcrypt_1 = __importDefault(require("bcrypt"));
 var jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 var UserService = /** @class */ (function () {

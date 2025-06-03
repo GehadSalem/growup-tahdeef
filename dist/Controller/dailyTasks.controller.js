@@ -36,8 +36,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-require("../types/express");
-var dailyTask_service_1 = require("../Services/dailyTask.service");
+require("../types/express.js");
+var dailyTask_service_1 = require("../Services/dailyTask.service.js");
 var DailyTaskController = /** @class */ (function () {
     function DailyTaskController() {
     }
