@@ -41,7 +41,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getCurrency = void 0;
 var axios_1 = __importDefault(require("axios"));
-require("../types/express.js");
+require("../types/express");
 var getCurrency = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
     var ip, response, err_1;
     return __generator(this, function (_a) {

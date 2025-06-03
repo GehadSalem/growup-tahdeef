@@ -40,7 +40,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var users_service_1 = require("../Services/users.service.js");
-require("../types/express.js");
+require("../types/express");
 var income_service_1 = __importDefault(require("../Services/income.service.js"));
 var IncomeController = /** @class */ (function () {
     function IncomeController() {
