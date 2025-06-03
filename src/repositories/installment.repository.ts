@@ -1,8 +1,8 @@
 import { Repository, Between } from 'typeorm';
 import { AppDataSource } from '../dbConfig/data-source';
-import { User } from '../entities/User';
-import { InstallmentPayment } from '../entities/Installment';
-import { CustomInstallmentPlan } from '../entities/CustomInstallmentPlan';
+import { User } from '../entities/User.entity';
+import { InstallmentPayment } from '../entities/Installment.entity';
+import { CustomInstallmentPlan } from '../entities/CustomInstallmentPlan.entity';
 
 export class InstallmentRepository {
   private repository: Repository<InstallmentPayment>;

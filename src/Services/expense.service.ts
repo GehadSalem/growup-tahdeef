@@ -1,4 +1,4 @@
-import { Expense } from '../entities/Expense';
+import { Expense } from '../entities/Expense.entity';
 import { ExpenseRepository } from '../repositories/expense.repository';
 import { UserRepository } from '../repositories/user.repository';
 

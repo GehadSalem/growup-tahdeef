@@ -1,4 +1,4 @@
-import { EmergencyFund } from '../entities/EmergencyFund';
+import { EmergencyFund } from '../entities/EmergencyFund.entity';
 import { EmergencyRepository } from '../repositories/emergency.repository';
 import { UserRepository } from '../repositories/user.repository';
 

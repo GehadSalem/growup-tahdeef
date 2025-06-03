@@ -3,12 +3,15 @@
   "version": "1.0.0",
   "description": "",
   "main": "src/index.ts",
+  "type": "commonjs",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "ts-node-dev src/index.ts",
     "start": "ts-node src/index.ts",
-    "build": "tsc",
-    "serve": "node dist/index.js"
+      "build": "tsc",
+    "serve": "node dist/index.js",
+     "pm2:start": "pm2 start pm2.config.js",
+  "pm2:start:esm": "pm2 start pm2.config.js --node-args=\"--experimental-specifier-resolution=node\""
   },
   "dependencies": {
     "@firebase/auth": "^1.10.6",
@@ -107,6 +110,5 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
-  "type": "commonjs"
+  "license": "ISC"
 }

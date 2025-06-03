@@ -3,8 +3,8 @@ import '../types/express';
 import { CustomInstallmentPlanService } from '../Services/customPlanInstallment.service';
 import { UserService } from '../Services/users.service';
 import { MajorGoalService } from '../Services/majorGoal.service';
-import { CustomInstallmentPlan } from '../entities/CustomInstallmentPlan';
-import { MajorGoal } from '../entities/MajorGoal';
+import { CustomInstallmentPlan } from '../entities/CustomInstallmentPlan.entity';
+import { MajorGoal } from '../entities/MajorGoal.entity';
 import { AppDataSource } from '../dbConfig/data-source';
 
 export class CustomInstallmentPlanController {

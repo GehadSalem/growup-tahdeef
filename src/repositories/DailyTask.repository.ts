@@ -1,6 +1,6 @@
 import { Repository } from 'typeorm';
 import { AppDataSource } from '../dbConfig/data-source';
-import { DailyTask } from '../entities/DailyTask';
+import { DailyTask } from '../entities/DailyTask.entity';
 
 export class DailyTaskRepository {
     private repository: Repository<DailyTask>;

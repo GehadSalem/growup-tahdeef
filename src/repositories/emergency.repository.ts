@@ -1,6 +1,6 @@
 import { Repository } from 'typeorm';
 import { AppDataSource } from '../dbConfig/data-source';
-import { EmergencyFund } from '../entities/EmergencyFund';
+import { EmergencyFund } from '../entities/EmergencyFund.entity';
 
 export class EmergencyRepository {
     private repository: Repository<EmergencyFund>;

@@ -30,6 +30,7 @@ publicRouter.get('/currency', getCurrency, (req: Request, res: Response) => {
 // Authentication
 publicRouter.post('/register', asyncHandler(AuthController.register));
 publicRouter.post('/login', asyncHandler(AuthController.login));
+publicRouter.post('/google', asyncHandler(AuthController.googleAuth)); // Google auth route
 
 /* ---------------------- Protected Routes ---------------------- */
 

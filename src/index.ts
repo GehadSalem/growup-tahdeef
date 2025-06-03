@@ -9,11 +9,12 @@ import { authenticate } from './Middlewares/auth.middleware';
 dotenv.config();
 
 const app = express();
-const port = process.env.PORT || 3000;
-
+const port = Number(process.env.PORT) || 3000;
+const allowedOrigins = process.env.ALLOWED_ORIGINS?.split(',') || [];
+allowedOrigins.push('http://31.97.55.57');
 // CORS configuration
 const corsOptions = {
-  origin: process.env.ALLOWED_ORIGINS?.split(',') || '*',
+  origin: allowedOrigins,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true

@@ -1,6 +1,6 @@
-import { CustomInstallmentPlan } from '../entities/CustomInstallmentPlan';
-import { MajorGoal } from '../entities/MajorGoal';
-import { User } from '../entities/User';
+import { CustomInstallmentPlan } from '../entities/CustomInstallmentPlan.entity';
+import { MajorGoal } from '../entities/MajorGoal.entity';
+import { User } from '../entities/User.entity';
 import { CustomInstallmentPlanRepository } from '../repositories/customInstallmentPlan.repository';
 
 export class CustomInstallmentPlanService {

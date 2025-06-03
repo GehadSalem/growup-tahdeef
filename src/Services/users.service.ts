@@ -1,6 +1,6 @@
 import { AppDataSource } from '../dbConfig/data-source';
-import { User } from '../entities/User';
-import { SavingsGoal } from '../entities/SavingsGoal';
+import { User } from '../entities/User.entity';
+import { SavingsGoal } from '../entities/SavingsGoal.entity';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 

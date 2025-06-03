@@ -1,17 +1,19 @@
+
+import { AppDataSource } from '../dbConfig/data-source';
+import { User } from '../entities/User.entity';
 import { Repository } from 'typeorm';
-import { AppDataSource } from '../../src/dbConfig/data-source';
-import { User } from '../entities/User';
+
 
 export class UserRepository {
-    findOne(arg0: { where: { id: string; }; }) {
-        throw new Error('Method not implemented.');
-    }
+    
     private repository: Repository<User>;
 
     constructor() {
         this.repository = AppDataSource.getRepository(User);
     }
-
+    async findOne() {
+        throw new Error('Method not implemented.');
+    }
     async findByEmail(email: string): Promise<User | null> {
         return this.repository.findOne({ where: { email } });
     }

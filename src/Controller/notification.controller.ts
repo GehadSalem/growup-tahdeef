@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { NotificationService } from '../Services/notification.service';
-import { User } from '../entities/User';
+import { User } from '../entities/User.entity';
 import '../types/express';
 
 class NotificationController {
