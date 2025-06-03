@@ -1,6 +1,7 @@
 import { Between } from 'typeorm';
 import { AppDataSource } from '../dbConfig/data-source';
 import { Income } from '../entities/Income.entity';
+import { User } from 'entities/User.entity';
 
 export class IncomeService {
     private incomeRepository = AppDataSource.getRepository(Income);
