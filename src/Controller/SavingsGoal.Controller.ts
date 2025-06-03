@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import '../types/express';
-import { SavingsGoalService } from '../Services/savingsGoal.service';
+import { SavingsGoalService } from '../Services/SavingsGoal.Service';
 import { UserService } from '../Services/users.service';
 
 class SavingsGoalController {

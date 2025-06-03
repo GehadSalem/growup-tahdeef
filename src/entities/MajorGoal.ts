@@ -45,4 +45,5 @@ export class MajorGoal {
   updatedAt!: Date;
     static findOne: any;
   static update: any;
+    name: any;
 }
