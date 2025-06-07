@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { Income } from '../entities/Income';
+import { Income } from '../entities/Income.entity';
 import { AppDataSource } from '../dbConfig/data-source';
 import { UserService } from '../Services/users.service';
 import '../types/express';

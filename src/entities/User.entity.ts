@@ -17,6 +17,11 @@ import { SavingsGoal } from './SavingsGoal.entity';
 import { Notification } from './Notification.entity';
 import { CustomInstallmentPlan } from './CustomInstallmentPlan.entity';
 
+export enum UserRole {
+  USER = 'user',
+  ADMIN = 'admin',
+}
+
 @Entity()
 export class User {
   @PrimaryGeneratedColumn('uuid')
@@ -43,24 +48,25 @@ export class User {
   @Column({ default: 'email' })
   authProvider: 'email' | 'google';
 
-    @Column({ nullable: false })
-    referralCode!: string;
+  @Column({ nullable: false })
+  referralCode!: string;
 
   @Column({ nullable: true })
   referredBy?: string;
 
-    //جديد: هل المستخدم نشط؟ (مطلوب في لوحة التحكم)
   @Column({ default: true })
   isActive!: boolean;
 
-  //جديد: تاريخ التسجيل (مطلوب للإحصائيات الشهرية)
   @CreateDateColumn()
   createdAt!: Date;
 
-  //جديد: تاريخ آخر تعديل (اختياري)
   @UpdateDateColumn()
   updatedAt!: Date;
-  
+
+  // ✅ الدور (admin أو user)
+  @Column({ type: 'enum', enum: UserRole, default: UserRole.USER })
+  role!: UserRole;
+
   @OneToMany(() => Expense, (expense) => expense.user)
   expenses!: Expense[];
 

@@ -11,6 +11,7 @@ export async function authenticate(req: Request, res: Response, next: NextFuncti
     }
 
     try {
+        
         const { authorization } = req.headers;
         console.log('Authentication started');
         console.log('Received headers:', req.headers);

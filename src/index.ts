@@ -11,7 +11,7 @@ dotenv.config();
 const app = express();
 const port = Number(process.env.PORT) || 3000;
 const allowedOrigins = process.env.ALLOWED_ORIGINS?.split(',') || [];
-allowedOrigins.push('http://31.97.55.57');
+// allowedOrigins.push('http://31.97.55.57');
 // CORS configuration
 const corsOptions = {
   origin: allowedOrigins,
@@ -49,10 +49,9 @@ AppDataSource.initialize()
     // Error handler
     app.use(globalErrorHandling);
 
-    const server = app.listen(port, () => {
-      console.log(`🚀 Server running on http://localhost:${port}`);
-    });
-
+    const server = app.listen(port, '0.0.0.0', () => {
+  console.log(`Server running on port ${port}`);
+});
     server.on('error', (error) => {
       console.error('Server error:', error);
     });

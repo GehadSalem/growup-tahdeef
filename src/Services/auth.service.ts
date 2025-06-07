@@ -7,7 +7,7 @@ import admin from '../config/firebase-admin';
 export class AuthService {
     private userRepository = new UserRepository();
 
-    async register(userData: Partial<User>) {
+    async register(userData: Partial<User>): Promise<{ user: User, token: string }> {
         // Add validation for required fields
         if (!userData.email || !userData.password) {
             throw new Error('Email and password are required');
@@ -23,57 +23,54 @@ export class AuthService {
             authProvider: 'email' // Track auth provider
         });
     
-        return user;
+        const token = this.generateJWT(user.id);
+        return { user, token };
     }
 
-    async login(email: string, password: string) {
+    async login(email: string, password: string): Promise<{ user: User, token: string }> {
         const user = await this.userRepository.findByEmail(email);
         if (!user) throw new Error('Invalid credentials');
 
         const isValid = await bcrypt.compare(password, user.password);
         if (!isValid) throw new Error('Invalid credentials');
 
-        const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET || 'secret', {
-            expiresIn: '7d'
-        });
-
-        return token;
+        const token = this.generateJWT(user.id);
+        return { user, token };
     }
-    // NEW: Google Auth methods
-    async verifyGoogleToken(idToken: string) {
-    try {
-        const decodedToken = await admin.auth().verifyIdToken(idToken);
-        
-        // Validate required fields from the decoded token
-        if (!decodedToken.email) {
-            throw new Error('Google token is missing email');
-        }
-        
-        const { email, name, uid } = decodedToken;
-        const userName = name || 'User'; // Provide default name if not available
 
-        let user = await this.userRepository.findByEmail(email);
-        
-        if (!user) {
-            // Create new user if doesn't exist
-            user = await this.userRepository.create({
-                email,
-                name: userName,
-                firebaseUid: uid,
-                authProvider: 'google'
-            });
-        } else if (user.authProvider !== 'google') {
-            throw new Error('Email already registered with another method');
-        }
+    async verifyGoogleToken(idToken: string): Promise<{ user: User, token: string }> {
+        try {
+            const decodedToken = await admin.auth().verifyIdToken(idToken);
+            
+            if (!decodedToken.email) {
+                throw new Error('Google token is missing email');
+            }
+            
+            const { email, name, uid } = decodedToken;
+            const userName = name || 'User';
 
-        return this.generateJWT(user.id);
-    } catch (error) {
-        console.error('Google token verification error:', error);
-        throw new Error('Invalid Google token');
+            let user = await this.userRepository.findByEmail(email);
+            
+            if (!user) {
+                user = await this.userRepository.create({
+                    email,
+                    name: userName,
+                    firebaseUid: uid,
+                    authProvider: 'google'
+                });
+            } else if (user.authProvider !== 'google') {
+                throw new Error('Email already registered with another method');
+            }
+
+            const token = this.generateJWT(user.id);
+            return { user, token };
+        } catch (error) {
+            console.error('Google token verification error:', error);
+            throw new Error('Invalid Google token');
+        }
     }
-}
 
-    private generateJWT(userId: string) {
+    private generateJWT(userId: string): string {
         return jwt.sign({ id: userId }, process.env.JWT_SECRET || 'secret', {
             expiresIn: '7d'
         });

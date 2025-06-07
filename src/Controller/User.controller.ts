@@ -1,86 +1,116 @@
 import { Request, Response } from "express";
+import '../types/express';
 import { UserService } from "../Services/users.service";
 
-export class UserController {
-  private userService = new UserService();
+class UserController {
+    private static userService = new UserService();
 
-  async register(req: Request, res: Response) {
-    try {
-      const { user, token } = await this.userService.register(req.body);
-      await this.userService.setupDefaultHabits(user.id);
-      res.status(201).json({ user, token });
-    } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : "An unknown error occurred";
-      res.status(400).json({ message: errorMessage });
-    }
-  }
+    static register = async (req: Request, res: Response): Promise<void> => {
+        try {
+            const { user, token } = await this.userService.register(req.body);
+            await this.userService.setupDefaultHabits(user.id);
+            res.status(201).json({ user, token });
+        } catch (error) {
+            res.status(400).json({ 
+                message: error instanceof Error ? error.message : 'Registration failed' 
+            });
+        }
+    };
 
-  async login(req: Request, res: Response) {
-    try {
-      const { email, password } = req.body;
-      const { user, token } = await this.userService.login(email, password);
-      res.json({ user, token });
-    } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : "An unknown error occurred";
-      res.status(401).json({ message: errorMessage });
-    }
-  }
+    static login = async (req: Request, res: Response): Promise<void> => {
+        try {
+            const { email, password } = req.body;
+            const { user, token } = await this.userService.login(email, password);
+            res.json({ user, token });
+        } catch (error) {
+            res.status(401).json({ 
+                message: error instanceof Error ? error.message : 'Login failed' 
+            });
+        }
+    };
 
-  async updateIncome(req: Request, res: Response) {
-    try {
-      if (!req.user) {
-        return res.status(400).json({ message: "User information is missing in the request." });
-      }
-      const user = await this.userService.updateMonthlyIncome(req.user.id, req.body.monthlyIncome);
-      res.json(user);
-    } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : "An unknown error occurred";
-      res.status(400).json({ message: errorMessage });
-    }
-  }
+    static updateIncome = async (req: Request, res: Response): Promise<void> => {
+        try {
+            if (!req.user?.id) {
+                res.status(401).json({ message: 'Unauthorized' });
+                return;
+            }
 
-  async getFinancialOverview(req: Request, res: Response) {
-    try {
-      if (!req.user) {
-        return res.status(400).json({ message: "User information is missing in the request." });
-      }
-      const overview = await this.userService.getFinancialOverview(req.user.id);
-      res.json(overview);
-    } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : "An unknown error occurred";
-      res.status(400).json({ message: errorMessage });
-    }
-  }
+            const user = await this.userService.updateMonthlyIncome(
+                req.user.id, 
+                req.body.monthlyIncome
+            );
+            res.json(user);
+        } catch (error) {
+            res.status(500).json({ 
+                message: error instanceof Error ? error.message : 'Income update failed' 
+            });
+        }
+    };
 
-  // ✅ إدارة المستخدمين للوحة التحكم
-  async getAllUsers(_: Request, res: Response) {
-    try {
-      const users = await this.userService.getAllUsers();
-      res.json(users);
-    } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : "An unknown error occurred";
-      res.status(500).json({ message: errorMessage });
-    }
-  }
+    static getFinancialOverview = async (req: Request, res: Response): Promise<void> => {
+        try {
+            if (!req.user?.id) {
+                res.status(401).json({ message: 'Unauthorized' });
+                return;
+            }
 
-  async getUserById(req: Request, res: Response) {
-    try {
-      const user = await this.userService.getUserById(req.params.id);
-      if (!user) return res.status(404).json({ message: "User not found" });
-      res.json(user);
-    } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : "An unknown error occurred";
-      res.status(500).json({ message: errorMessage });
-    }
-  }
+            const overview = await this.userService.getFinancialOverview(req.user.id);
+            res.json(overview);
+        } catch (error) {
+            res.status(500).json({ 
+                message: error instanceof Error ? error.message : 'Failed to get financial overview' 
+            });
+        }
+    };
 
-  async updateUserStatus(req: Request, res: Response) {
-    try {
-      await this.userService.updateUserStatus(req.params.id, req.body.isActive);
-      res.json({ message: "User status updated" });
-    } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : "An unknown error occurred";
-      res.status(500).json({ message: errorMessage });
-    }
-  }
+    // Admin Endpoints
+    static getAllUsers = async (_: Request, res: Response): Promise<void> => {
+        try {
+            const users = await this.userService.getAllUsers();
+            res.json(users);
+        } catch (error) {
+            res.status(500).json({ 
+                message: error instanceof Error ? error.message : 'Failed to get users' 
+            });
+        }
+    };
+
+    static getUserById = async (req: Request, res: Response): Promise<void> => {
+        try {
+            const user = await this.userService.getUserById(req.params.id);
+            
+            if (!user) {
+                res.status(404).json({ message: 'User not found' });
+                return;
+            }
+            
+            res.json(user);
+        } catch (error) {
+            res.status(500).json({ 
+                message: error instanceof Error ? error.message : 'Failed to get user' 
+            });
+        }
+    };
+
+    static updateUserStatus = async (req: Request, res: Response): Promise<void> => {
+        try {
+            if (!req.params.id || typeof req.body.isActive !== 'boolean') {
+                res.status(400).json({ message: 'Invalid request parameters' });
+                return;
+            }
+
+            await this.userService.updateUserStatus(
+                req.params.id, 
+                req.body.isActive
+            );
+            res.json({ message: 'User status updated successfully' });
+        } catch (error) {
+            res.status(500).json({ 
+                message: error instanceof Error ? error.message : 'Failed to update user status' 
+            });
+        }
+    };
 }
+
+export default UserController;
