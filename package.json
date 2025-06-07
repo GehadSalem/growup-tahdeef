@@ -7,8 +7,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "ts-node-dev src/index.ts",
-    "start": "ts-node src/index.ts",
-      "build": "tsc",
+    "build": "tsc",
+  "start": "node dist/index.js",
     "serve": "node dist/index.js",
      "pm2:start": "pm2 start pm2.config.js",
   "pm2:start:esm": "pm2 start pm2.config.js --node-args=\"--experimental-specifier-resolution=node\""
