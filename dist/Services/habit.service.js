@@ -48,8 +48,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.HabitService = void 0;
-var habit_repository_1 = require("../repositories/habit.repository.js");
-var user_repository_1 = require("../repositories/user.repository.js");
+var habit_repository_1 = require("../repositories/habit.repository");
+var user_repository_1 = require("../repositories/user.repository");
 var HabitService = /** @class */ (function () {
     function HabitService() {
         this.habitRepository = new habit_repository_1.HabitRepository();

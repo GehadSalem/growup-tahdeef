@@ -47,20 +47,26 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var typeorm_1 = require("typeorm");
-var data_source_1 = require("../dbConfig/data-source.js");
-var Income_entity_1 = require("../entities/Income.entity.js");
+exports.IncomeService = void 0;
+var data_source_1 = require("../dbConfig/data-source");
+var Income_entity_1 = require("../entities/Income.entity");
 var IncomeService = /** @class */ (function () {
     function IncomeService() {
         this.incomeRepository = data_source_1.AppDataSource.getRepository(Income_entity_1.Income);
     }
-    IncomeService.prototype.createIncome = function (incomeData, userId) {
+    IncomeService.prototype.createIncome = function (user, incomeData) {
         return __awaiter(this, void 0, void 0, function () {
             var newIncome;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        newIncome = this.incomeRepository.create(__assign(__assign({}, incomeData), { user: { id: userId } }));
+                        if (!incomeData.amount || incomeData.amount <= 0) {
+                            throw new Error('Amount must be a positive number');
+                        }
+                        if (!incomeData.description || incomeData.description.trim() === '') {
+                            throw new Error('Income description is required');
+                        }
+                        newIncome = this.incomeRepository.create(__assign(__assign({}, incomeData), { user: user, date: incomeData.date || new Date() }));
                         return [4 /*yield*/, this.incomeRepository.save(newIncome)];
                     case 1: return [2 /*return*/, _a.sent()];
                 }
@@ -72,25 +78,81 @@ var IncomeService = /** @class */ (function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, this.incomeRepository.find({
-                            where: { user: { id: userId } }
+                            where: { user: { id: userId } },
+                            relations: ['user'],
+                            order: { date: 'DESC' }
                         })];
                     case 1: return [2 /*return*/, _a.sent()];
                 }
             });
         });
     };
-    IncomeService.prototype.updateIncome = function (incomeId, userId, updateData) {
+    IncomeService.prototype.getMonthlyIncomes = function (userId, year, month) {
+        return __awaiter(this, void 0, void 0, function () {
+            var startDate, endDate;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        if (month < 1 || month > 12) {
+                            throw new Error('Month must be between 1 and 12');
+                        }
+                        startDate = new Date(year, month - 1, 1);
+                        endDate = new Date(year, month, 0, 23, 59, 59);
+                        return [4 /*yield*/, this.incomeRepository.createQueryBuilder('income')
+                                .leftJoinAndSelect('income.user', 'user')
+                                .where('income.userId = :userId', { userId: userId })
+                                .andWhere('income.date BETWEEN :startDate AND :endDate', {
+                                startDate: startDate.toISOString(),
+                                endDate: endDate.toISOString()
+                            })
+                                .orderBy('income.date', 'DESC')
+                                .getMany()];
+                    case 1: return [2 /*return*/, _a.sent()];
+                }
+            });
+        });
+    };
+    IncomeService.prototype.getYearlyIncomes = function (userId, year) {
+        return __awaiter(this, void 0, void 0, function () {
+            var currentYear, startDate, endDate;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        currentYear = new Date().getFullYear();
+                        if (year < 2000 || year > currentYear + 5) {
+                            throw new Error("Year must be between 2000 and ".concat(currentYear + 5));
+                        }
+                        startDate = new Date(year, 0, 1);
+                        endDate = new Date(year, 11, 31, 23, 59, 59);
+                        return [4 /*yield*/, this.incomeRepository.createQueryBuilder('income')
+                                .leftJoinAndSelect('income.user', 'user')
+                                .where('income.userId = :userId', { userId: userId })
+                                .andWhere('income.date BETWEEN :startDate AND :endDate', {
+                                startDate: startDate.toISOString(),
+                                endDate: endDate.toISOString()
+                            })
+                                .orderBy('income.date', 'DESC')
+                                .getMany()];
+                    case 1: return [2 /*return*/, _a.sent()];
+                }
+            });
+        });
+    };
+    IncomeService.prototype.updateIncome = function (id, updateData) {
         return __awaiter(this, void 0, void 0, function () {
             var income;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.incomeRepository.findOne({
-                            where: { id: incomeId, user: { id: userId } }
-                        })];
+                    case 0:
+                        if (updateData.amount && updateData.amount <= 0) {
+                            throw new Error('Amount must be a positive number');
+                        }
+                        return [4 /*yield*/, this.incomeRepository.findOneBy({ id: id })];
                     case 1:
                         income = _a.sent();
-                        if (!income)
-                            return [2 /*return*/, null];
+                        if (!income) {
+                            throw new Error('Income not found');
+                        }
                         Object.assign(income, updateData);
                         return [4 /*yield*/, this.incomeRepository.save(income)];
                     case 2: return [2 /*return*/, _a.sent()];
@@ -98,59 +160,42 @@ var IncomeService = /** @class */ (function () {
             });
         });
     };
-    IncomeService.prototype.deleteIncome = function (incomeId, userId) {
+    IncomeService.prototype.deleteIncome = function (id) {
         return __awaiter(this, void 0, void 0, function () {
             var result;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.incomeRepository.delete({
-                            id: incomeId,
-                            user: { id: userId }
-                        })];
+                    case 0: return [4 /*yield*/, this.incomeRepository.delete(id)];
                     case 1:
                         result = _a.sent();
-                        return [2 /*return*/, result.affected !== 0];
+                        if (result.affected === 0) {
+                            throw new Error('Income not found or could not be deleted');
+                        }
+                        return [2 /*return*/];
                 }
             });
         });
     };
-    IncomeService.prototype.getIncomeById = function (incomeId, userId) {
+    IncomeService.prototype.getIncomeById = function (id) {
         return __awaiter(this, void 0, void 0, function () {
+            var income;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, this.incomeRepository.findOne({
-                            where: { id: incomeId, user: { id: userId } }
+                            where: { id: id },
+                            relations: ['user']
                         })];
-                    case 1: return [2 /*return*/, _a.sent()];
-                }
-            });
-        });
-    };
-    IncomeService.prototype.getIncomesByDateRange = function (userId, year, month) {
-        return __awaiter(this, void 0, void 0, function () {
-            var startDate, endDate;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        startDate = month !== undefined
-                            ? new Date(year, month - 1, 1)
-                            : new Date(year, 0, 1);
-                        endDate = month !== undefined
-                            ? new Date(year, month, 0, 23, 59, 59)
-                            : new Date(year, 11, 31, 23, 59, 59);
-                        return [4 /*yield*/, this.incomeRepository.find({
-                                where: {
-                                    user: { id: userId },
-                                    date: (0, typeorm_1.Between)(startDate, endDate)
-                                },
-                                order: { date: 'DESC' }
-                            })];
-                    case 1: return [2 /*return*/, _a.sent()];
+                    case 1:
+                        income = _a.sent();
+                        if (!income) {
+                            throw new Error('Income not found');
+                        }
+                        return [2 /*return*/, income];
                 }
             });
         });
     };
     return IncomeService;
 }());
-exports.default = IncomeService;
+exports.IncomeService = IncomeService;
 //# sourceMappingURL=income.service.js.map

@@ -37,8 +37,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.EmergencyService = void 0;
-var emergency_repository_1 = require("../repositories/emergency.repository.js");
-var user_repository_1 = require("../repositories/user.repository.js");
+var emergency_repository_1 = require("../repositories/emergency.repository");
+var user_repository_1 = require("../repositories/user.repository");
 var EmergencyService = /** @class */ (function () {
     function EmergencyService(emergencyRepository, userRepository) {
         this.emergencyRepository = emergencyRepository || new emergency_repository_1.EmergencyRepository();

@@ -36,7 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var auth_service_1 = require("../Services/auth.service.js");
+var auth_service_1 = require("../Services/auth.service");
 var AuthController = /** @class */ (function () {
     function AuthController() {
     }
@@ -44,86 +44,64 @@ var AuthController = /** @class */ (function () {
     _a = AuthController;
     AuthController.authService = new auth_service_1.AuthService();
     AuthController.register = function (request, response) { return __awaiter(void 0, void 0, void 0, function () {
-        var user, error_1, errorMessage;
-        return __generator(_a, function (_b) {
-            switch (_b.label) {
+        var _b, user, token, error_1, errorMessage;
+        return __generator(_a, function (_c) {
+            switch (_c.label) {
                 case 0:
-                    _b.trys.push([0, 2, , 3]);
+                    _c.trys.push([0, 2, , 3]);
                     return [4 /*yield*/, this.authService.register(request.body)];
                 case 1:
-                    user = _b.sent();
-                    response.status(201).json(user);
+                    _b = _c.sent(), user = _b.user, token = _b.token;
+                    response.status(201).json({ user: user, token: token });
                     return [3 /*break*/, 3];
                 case 2:
-                    error_1 = _b.sent();
+                    error_1 = _c.sent();
                     errorMessage = error_1 instanceof Error ? error_1.message : 'An unknown error occurred';
-                    response.status(400).json({
-                        message: errorMessage,
-                        errorType: 'registration_error' // إضافة نوع الخطأ
-                    });
+                    response.status(400).json({ message: errorMessage });
                     return [3 /*break*/, 3];
                 case 3: return [2 /*return*/];
             }
         });
     }); };
     AuthController.login = function (request, response) { return __awaiter(void 0, void 0, void 0, function () {
-        var token, error_2, errorMessage, errorType;
-        return __generator(_a, function (_b) {
-            switch (_b.label) {
+        var _b, user, token, error_2, errorMessage;
+        return __generator(_a, function (_c) {
+            switch (_c.label) {
                 case 0:
-                    _b.trys.push([0, 2, , 3]);
+                    _c.trys.push([0, 2, , 3]);
                     return [4 /*yield*/, this.authService.login(request.body.email, request.body.password)];
                 case 1:
-                    token = _b.sent();
-                    response.json({ token: token });
+                    _b = _c.sent(), user = _b.user, token = _b.token;
+                    response.json({ user: user, token: token });
                     return [3 /*break*/, 3];
                 case 2:
-                    error_2 = _b.sent();
-                    errorMessage = 'An unknown error occurred';
-                    errorType = 'authentication_error';
-                    if (error_2 instanceof Error) {
-                        errorMessage = error_2.message;
-                        // تحديد نوع الخطأ بناءً على الرسالة
-                        if (error_2.message.includes('User not found')) {
-                            errorType = 'user_not_found';
-                            errorMessage = 'لا يوجد حساب مرتبط بهذا البريد الإلكتروني';
-                        }
-                        else if (error_2.message.includes('Invalid password')) {
-                            errorType = 'invalid_password';
-                            errorMessage = 'كلمة المرور غير صحيحة';
-                        }
-                    }
-                    response.status(401).json({
-                        message: errorMessage,
-                        errorType: errorType
-                    });
+                    error_2 = _c.sent();
+                    errorMessage = error_2 instanceof Error ? error_2.message : 'An unknown error occurred';
+                    response.status(401).json({ message: errorMessage });
                     return [3 /*break*/, 3];
                 case 3: return [2 /*return*/];
             }
         });
     }); };
     AuthController.googleAuth = function (request, response) { return __awaiter(void 0, void 0, void 0, function () {
-        var idToken, token, error_3, errorMessage;
-        return __generator(_a, function (_b) {
-            switch (_b.label) {
+        var idToken, _b, user, token, error_3, errorMessage;
+        return __generator(_a, function (_c) {
+            switch (_c.label) {
                 case 0:
-                    _b.trys.push([0, 2, , 3]);
+                    _c.trys.push([0, 2, , 3]);
                     idToken = request.body.idToken;
                     if (!idToken || typeof idToken !== 'string') {
                         throw new Error('Valid ID token is required');
                     }
                     return [4 /*yield*/, this.authService.verifyGoogleToken(idToken)];
                 case 1:
-                    token = _b.sent();
-                    response.json({ token: token });
+                    _b = _c.sent(), user = _b.user, token = _b.token;
+                    response.json({ user: user, token: token });
                     return [3 /*break*/, 3];
                 case 2:
-                    error_3 = _b.sent();
+                    error_3 = _c.sent();
                     errorMessage = error_3 instanceof Error ? error_3.message : 'Google authentication failed';
-                    response.status(401).json({
-                        message: errorMessage,
-                        errorType: 'google_auth_error'
-                    });
+                    response.status(401).json({ message: errorMessage });
                     return [3 /*break*/, 3];
                 case 3: return [2 /*return*/];
             }

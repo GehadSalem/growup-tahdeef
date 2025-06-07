@@ -48,8 +48,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.MajorGoalService = void 0;
-var data_source_1 = require("../dbConfig/data-source.js");
-var MajorGoal_entity_1 = require("../entities/MajorGoal.entity.js");
+var data_source_1 = require("../dbConfig/data-source");
+var MajorGoal_entity_1 = require("../entities/MajorGoal.entity");
 var MajorGoalService = /** @class */ (function () {
     function MajorGoalService() {
         this.majorGoalRepository = data_source_1.AppDataSource.getRepository(MajorGoal_entity_1.MajorGoal);

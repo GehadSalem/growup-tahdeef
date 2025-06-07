@@ -9,40 +9,40 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Expense = void 0;
+exports.Payment = void 0;
 var typeorm_1 = require("typeorm");
 var User_entity_1 = require("./User.entity");
-var Expense = /** @class */ (function () {
-    function Expense() {
+var Payment = /** @class */ (function () {
+    function Payment() {
     }
     __decorate([
-        (0, typeorm_1.PrimaryGeneratedColumn)('uuid'),
-        __metadata("design:type", String)
-    ], Expense.prototype, "id", void 0);
-    __decorate([
-        (0, typeorm_1.Column)({ type: 'decimal', precision: 10, scale: 2 }),
+        (0, typeorm_1.PrimaryGeneratedColumn)(),
         __metadata("design:type", Number)
-    ], Expense.prototype, "amount", void 0);
+    ], Payment.prototype, "id", void 0);
     __decorate([
-        (0, typeorm_1.Column)(),
-        __metadata("design:type", String)
-    ], Expense.prototype, "category", void 0);
-    __decorate([
-        (0, typeorm_1.Column)(),
-        __metadata("design:type", String)
-    ], Expense.prototype, "description", void 0);
-    __decorate([
-        (0, typeorm_1.Column)({ type: 'date' }),
-        __metadata("design:type", Date)
-    ], Expense.prototype, "date", void 0);
-    __decorate([
-        (0, typeorm_1.ManyToOne)(function () { return User_entity_1.User; }, function (user) { return user.expenses; }),
+        (0, typeorm_1.ManyToOne)(function () { return User_entity_1.User; }),
         __metadata("design:type", User_entity_1.User)
-    ], Expense.prototype, "user", void 0);
-    Expense = __decorate([
+    ], Payment.prototype, "user", void 0);
+    __decorate([
+        (0, typeorm_1.Column)(),
+        __metadata("design:type", Number)
+    ], Payment.prototype, "amount", void 0);
+    __decorate([
+        (0, typeorm_1.Column)(),
+        __metadata("design:type", String)
+    ], Payment.prototype, "currency", void 0);
+    __decorate([
+        (0, typeorm_1.Column)(),
+        __metadata("design:type", String)
+    ], Payment.prototype, "status", void 0);
+    __decorate([
+        (0, typeorm_1.CreateDateColumn)(),
+        __metadata("design:type", Date)
+    ], Payment.prototype, "createdAt", void 0);
+    Payment = __decorate([
         (0, typeorm_1.Entity)()
-    ], Expense);
-    return Expense;
+    ], Payment);
+    return Payment;
 }());
-exports.Expense = Expense;
-//# sourceMappingURL=Expense.entity.js.map
+exports.Payment = Payment;
+//# sourceMappingURL=Payment.entity.js.map

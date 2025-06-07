@@ -37,8 +37,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserRepository = void 0;
-var data_source_1 = require("../dbConfig/data-source.js");
-var User_entity_1 = require("../entities/User.entity.js");
+var data_source_1 = require("../dbConfig/data-source");
+var User_entity_1 = require("../entities/User.entity");
 var UserRepository = /** @class */ (function () {
     function UserRepository() {
         this.repository = data_source_1.AppDataSource.getRepository(User_entity_1.User);

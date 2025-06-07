@@ -36,7 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var notification_service_1 = require("../Services/notification.service.js");
+var notification_service_1 = require("../Services/notification.service");
 require("../types/express");
 var NotificationController = /** @class */ (function () {
     function NotificationController() {

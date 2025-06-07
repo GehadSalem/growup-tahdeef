@@ -48,10 +48,10 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.DailyTaskService = void 0;
-var dailyTasks_repository_1 = require("../repositories/dailyTasks.repository.js");
+var dailyTask_repository_1 = require("../repositories/dailyTask.repository");
 var DailyTaskService = /** @class */ (function () {
     function DailyTaskService(dailyTaskRepo) {
-        this.dailyTaskRepo = dailyTaskRepo || new dailyTasks_repository_1.DailyTaskRepository();
+        this.dailyTaskRepo = dailyTaskRepo || new dailyTask_repository_1.DailyTaskRepository();
     }
     DailyTaskService.prototype.create = function (userId, data) {
         return __awaiter(this, void 0, void 0, function () {

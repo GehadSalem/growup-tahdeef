@@ -9,17 +9,22 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.User = void 0;
+exports.User = exports.UserRole = void 0;
 var typeorm_1 = require("typeorm");
 var crypto_1 = require("crypto");
-var Expense_entity_1 = require("./Expense.entity.js");
-var Habit_entity_1 = require("./Habit.entity.js");
-var EmergencyFund_entity_1 = require("./EmergencyFund.entity.js");
-var MajorGoal_entity_1 = require("./MajorGoal.entity.js");
-var DailyTask_entity_1 = require("./DailyTask.entity.js");
-var SavingsGoal_entity_1 = require("./SavingsGoal.entity.js");
-var Notification_entity_1 = require("./Notification.entity.js");
-var CustomInstallmentPlan_entity_1 = require("./CustomInstallmentPlan.entity.js");
+var Expense_entity_1 = require("./Expense.entity");
+var Habit_entity_1 = require("./Habit.entity");
+var EmergencyFund_entity_1 = require("./EmergencyFund.entity");
+var MajorGoal_entity_1 = require("./MajorGoal.entity");
+var DailyTask_entity_1 = require("./DailyTask.entity");
+var SavingsGoal_entity_1 = require("./SavingsGoal.entity");
+var Notification_entity_1 = require("./Notification.entity");
+var CustomInstallmentPlan_entity_1 = require("./CustomInstallmentPlan.entity");
+var UserRole;
+(function (UserRole) {
+    UserRole["USER"] = "user";
+    UserRole["ADMIN"] = "admin";
+})(UserRole || (exports.UserRole = UserRole = {}));
 var User = /** @class */ (function () {
     function User() {
     }
@@ -61,13 +66,29 @@ var User = /** @class */ (function () {
         __metadata("design:type", String)
     ], User.prototype, "authProvider", void 0);
     __decorate([
-        (0, typeorm_1.Column)({ unique: true, nullable: false }),
+        (0, typeorm_1.Column)({ nullable: false }),
         __metadata("design:type", String)
     ], User.prototype, "referralCode", void 0);
     __decorate([
         (0, typeorm_1.Column)({ nullable: true }),
         __metadata("design:type", String)
     ], User.prototype, "referredBy", void 0);
+    __decorate([
+        (0, typeorm_1.Column)({ default: true }),
+        __metadata("design:type", Boolean)
+    ], User.prototype, "isActive", void 0);
+    __decorate([
+        (0, typeorm_1.CreateDateColumn)(),
+        __metadata("design:type", Date)
+    ], User.prototype, "createdAt", void 0);
+    __decorate([
+        (0, typeorm_1.UpdateDateColumn)(),
+        __metadata("design:type", Date)
+    ], User.prototype, "updatedAt", void 0);
+    __decorate([
+        (0, typeorm_1.Column)({ type: 'enum', enum: UserRole, default: UserRole.USER }),
+        __metadata("design:type", String)
+    ], User.prototype, "role", void 0);
     __decorate([
         (0, typeorm_1.OneToMany)(function () { return Expense_entity_1.Expense; }, function (expense) { return expense.user; }),
         __metadata("design:type", Array)

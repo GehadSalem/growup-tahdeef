@@ -36,69 +36,89 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.InstallmentService = void 0;
-var installment_repository_1 = require("../repositories/installment.repository");
-var InstallmentService = /** @class */ (function () {
-    function InstallmentService() {
-        this.repository = new installment_repository_1.InstallmentRepository();
+exports.DailyTaskRepository = void 0;
+var data_source_1 = require("../dbConfig/data-source");
+var DailyTask_entity_1 = require("../entities/DailyTask.entity");
+var DailyTaskRepository = /** @class */ (function () {
+    function DailyTaskRepository() {
+        this.repository = data_source_1.AppDataSource.getRepository(DailyTask_entity_1.DailyTask);
     }
-    InstallmentService.prototype.createInstallment = function (InstallmentPayment) {
+    DailyTaskRepository.prototype.create = function (dailyTaskData) {
         return __awaiter(this, void 0, void 0, function () {
+            var dailyTask;
             return __generator(this, function (_a) {
-                return [2 /*return*/, this.repository.create(InstallmentPayment)];
+                dailyTask = this.repository.create(dailyTaskData);
+                return [2 /*return*/, this.repository.save(dailyTask)];
             });
         });
     };
-    InstallmentService.prototype.getUserInstallments = function (user) {
+    DailyTaskRepository.prototype.findByUserId = function (userId) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
-                return [2 /*return*/, this.repository.findByUser(user)];
+                return [2 /*return*/, this.repository.find({
+                        where: { user: { id: userId } },
+                        relations: ['user'],
+                        order: { createdAt: 'DESC' }
+                    })];
             });
         });
     };
-    InstallmentService.prototype.getInstallmentById = function (id, user) {
+    DailyTaskRepository.prototype.findById = function (id) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
-                return [2 /*return*/, this.repository.findById(id, user)];
+                return [2 /*return*/, this.repository.findOne({
+                        where: { id: id },
+                        relations: ['user']
+                    })];
             });
         });
     };
-    InstallmentService.prototype.updateInstallment = function (id, updateData, user) {
+    DailyTaskRepository.prototype.update = function (id, dailyTaskData) {
         return __awaiter(this, void 0, void 0, function () {
+            var dailyTask;
             return __generator(this, function (_a) {
-                return [2 /*return*/, this.repository.update(id, updateData, user)];
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.repository.findOneBy({ id: id })];
+                    case 1:
+                        dailyTask = _a.sent();
+                        if (!dailyTask)
+                            return [2 /*return*/, null];
+                        Object.assign(dailyTask, dailyTaskData);
+                        return [2 /*return*/, this.repository.save(dailyTask)];
+                }
             });
         });
     };
-    InstallmentService.prototype.deleteInstallment = function (id, user) {
+    DailyTaskRepository.prototype.markAsComplete = function (id) {
         return __awaiter(this, void 0, void 0, function () {
+            var dailyTask;
             return __generator(this, function (_a) {
-                return [2 /*return*/, this.repository.delete(id, user)];
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.repository.findOneBy({ id: id })];
+                    case 1:
+                        dailyTask = _a.sent();
+                        if (!dailyTask)
+                            return [2 /*return*/, null];
+                        dailyTask.isCompleted = true;
+                        dailyTask.streak += 1;
+                        return [2 /*return*/, this.repository.save(dailyTask)];
+                }
             });
         });
     };
-    InstallmentService.prototype.getInstallmentsByDateRange = function (user, startDate, endDate) {
+    DailyTaskRepository.prototype.delete = function (id) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
-                return [2 /*return*/, this.repository.findByDateRange(user, startDate, endDate)];
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.repository.delete(id)];
+                    case 1:
+                        _a.sent();
+                        return [2 /*return*/];
+                }
             });
         });
     };
-    InstallmentService.prototype.getInstallmentsByStatus = function (user, status) {
-        return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                return [2 /*return*/, this.repository.findByStatus(user, status)];
-            });
-        });
-    };
-    InstallmentService.prototype.markInstallmentPaid = function (id, user) {
-        return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                return [2 /*return*/, this.repository.markAsPaid(id, user)];
-            });
-        });
-    };
-    return InstallmentService;
+    return DailyTaskRepository;
 }());
-exports.InstallmentService = InstallmentService;
-//# sourceMappingURL=installment.service.js.map
+exports.DailyTaskRepository = DailyTaskRepository;
+//# sourceMappingURL=dailyTask.repository.js.map

@@ -38,7 +38,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ReferralService = void 0;
 // src/services/referral.service.ts
-var users_service_1 = require("../Services/users.service.js");
+var users_service_1 = require("../Services/users.service");
 var ReferralService = /** @class */ (function () {
     function ReferralService() {
         this.userService = new users_service_1.UserService();

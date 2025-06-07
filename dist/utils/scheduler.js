@@ -14,10 +14,9 @@ var createDailyTaskScheduler = function (tasks, notifyCallback) {
         if (reminderTime > now) {
             var delay = reminderTime.getTime() - now.getTime();
             setTimeout(function () {
-                var _a;
                 notifyCallback(task);
                 // إذا كانت المهمة متكررة، نعيد جدولتها لليوم التالي
-                if (task.isRecurring && ((_a = task.frequency) === null || _a === void 0 ? void 0 : _a.interval) === 'daily') {
+                if (task.isRecurring && task.frequency && task.frequency.interval === 'daily') {
                     var nextDay = new Date(reminderTime);
                     nextDay.setDate(nextDay.getDate() + 1);
                     task.reminderTime = nextDay.toISOString();

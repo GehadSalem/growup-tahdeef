@@ -46,11 +46,11 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.IncomeRepository = void 0;
 var typeorm_1 = require("typeorm");
-var data_source_1 = require("../dbConfig/data-source.js");
-var Income_entity_1 = require("../entities/Income.entity.js");
+var data_source_1 = require("../../src/dbConfig/data-source");
+var Income_entity_1 = require("../entities/Income.entity");
 var IncomeRepository = /** @class */ (function () {
     function IncomeRepository() {
         this.repository = data_source_1.AppDataSource.getRepository(Income_entity_1.Income);
@@ -172,5 +172,5 @@ var IncomeRepository = /** @class */ (function () {
     };
     return IncomeRepository;
 }());
-exports.default = IncomeRepository;
+exports.IncomeRepository = IncomeRepository;
 //# sourceMappingURL=income.repository.js.map

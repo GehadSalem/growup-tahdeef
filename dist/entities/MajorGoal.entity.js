@@ -11,8 +11,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.MajorGoal = void 0;
 var typeorm_1 = require("typeorm");
-var User_entity_1 = require("./User.entity.js");
-var CustomInstallmentPlan_entity_1 = require("./CustomInstallmentPlan.entity.js");
+var User_entity_1 = require("./User.entity");
+var CustomInstallmentPlan_entity_1 = require("./CustomInstallmentPlan.entity");
 var MajorGoal = /** @class */ (function () {
     function MajorGoal() {
     }

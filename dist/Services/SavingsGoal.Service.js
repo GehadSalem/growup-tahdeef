@@ -47,91 +47,74 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.SavingsGoalRepository = void 0;
+exports.SavingsGoalService = void 0;
 var data_source_1 = require("../dbConfig/data-source");
 var SavingsGoal_entity_1 = require("../entities/SavingsGoal.entity");
-var SavingsGoalRepository = /** @class */ (function () {
-    function SavingsGoalRepository() {
-        this.repository = data_source_1.AppDataSource.getRepository(SavingsGoal_entity_1.SavingsGoal);
+var SavingsGoalService = /** @class */ (function () {
+    function SavingsGoalService() {
+        this.savingsGoalRepository = data_source_1.AppDataSource.getRepository(SavingsGoal_entity_1.SavingsGoal);
     }
-    SavingsGoalRepository.prototype.create = function (user, goalData) {
+    SavingsGoalService.prototype.createSavingsGoal = function (user, goalData) {
         return __awaiter(this, void 0, void 0, function () {
-            var goal;
-            return __generator(this, function (_a) {
-                goal = this.repository.create(__assign(__assign({}, goalData), { user: user }));
-                return [2 /*return*/, this.repository.save(goal)];
-            });
-        });
-    };
-    SavingsGoalRepository.prototype.findByUserId = function (userId) {
-        return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                return [2 /*return*/, this.repository.find({
-                        where: { user: { id: userId } },
-                        relations: ['user'],
-                        order: { createdAt: 'DESC' }
-                    })];
-            });
-        });
-    };
-    SavingsGoalRepository.prototype.findById = function (id) {
-        return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                return [2 /*return*/, this.repository.findOne({
-                        where: { id: id },
-                        relations: ['user']
-                    })];
-            });
-        });
-    };
-    SavingsGoalRepository.prototype.update = function (id, goalData) {
-        return __awaiter(this, void 0, void 0, function () {
-            var goal;
+            var newGoal;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.repository.findOneBy({ id: id })];
-                    case 1:
-                        goal = _a.sent();
-                        if (!goal)
-                            return [2 /*return*/, null];
-                        Object.assign(goal, goalData);
-                        return [2 /*return*/, this.repository.save(goal)];
+                    case 0:
+                        newGoal = this.savingsGoalRepository.create(__assign(__assign({}, goalData), { user: user }));
+                        return [4 /*yield*/, this.savingsGoalRepository.save(newGoal)];
+                    case 1: return [2 /*return*/, _a.sent()];
                 }
             });
         });
     };
-    SavingsGoalRepository.prototype.addToGoal = function (id, amount) {
+    SavingsGoalService.prototype.getUserSavingsGoals = function (userId) {
         return __awaiter(this, void 0, void 0, function () {
-            var goal, current, amountToAdd, newAmount;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.repository.findOneBy({ id: id })];
-                    case 1:
-                        goal = _a.sent();
-                        if (!goal)
-                            return [2 /*return*/, null];
-                        current = typeof goal.currentAmount === 'string'
-                            ? parseFloat(goal.currentAmount)
-                            : goal.currentAmount;
-                        amountToAdd = typeof amount === 'string'
-                            ? parseFloat(amount)
-                            : amount;
-                        newAmount = current + amountToAdd;
-                        goal.currentAmount = parseFloat(newAmount.toFixed(2));
-                        // Update status if target is reached
-                        if (goal.currentAmount >= goal.targetAmount) {
-                            goal.status = 'completed';
-                        }
-                        return [2 /*return*/, this.repository.save(goal)];
+                    case 0: return [4 /*yield*/, this.savingsGoalRepository.find({
+                            where: { user: { id: userId } },
+                            relations: ['user']
+                        })];
+                    case 1: return [2 /*return*/, _a.sent()];
                 }
             });
         });
     };
-    SavingsGoalRepository.prototype.delete = function (id) {
+    SavingsGoalService.prototype.getSavingsGoalById = function (goalId) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.repository.delete(id)];
+                    case 0: return [4 /*yield*/, this.savingsGoalRepository.findOne({
+                            where: { id: goalId },
+                            relations: ['user'], // so you can check the owner in controller
+                        })];
+                    case 1: return [2 /*return*/, _a.sent()];
+                }
+            });
+        });
+    };
+    SavingsGoalService.prototype.updateSavingsGoal = function (goalId, updateData) {
+        return __awaiter(this, void 0, void 0, function () {
+            var goal;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.savingsGoalRepository.findOneBy({ id: goalId })];
+                    case 1:
+                        goal = _a.sent();
+                        if (!goal)
+                            throw new Error('Savings goal not found');
+                        Object.assign(goal, updateData);
+                        return [4 /*yield*/, this.savingsGoalRepository.save(goal)];
+                    case 2: return [2 /*return*/, _a.sent()];
+                }
+            });
+        });
+    };
+    SavingsGoalService.prototype.deleteSavingsGoal = function (goalId) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.savingsGoalRepository.delete(goalId)];
                     case 1:
                         _a.sent();
                         return [2 /*return*/];
@@ -139,20 +122,27 @@ var SavingsGoalRepository = /** @class */ (function () {
             });
         });
     };
-    SavingsGoalRepository.prototype.getCompletedGoals = function (userId) {
+    SavingsGoalService.prototype.addToSavingsGoal = function (goalId, amount) {
         return __awaiter(this, void 0, void 0, function () {
+            var goal;
             return __generator(this, function (_a) {
-                return [2 /*return*/, this.repository.find({
-                        where: {
-                            user: { id: userId },
-                            status: 'completed'
-                        },
-                        order: { targetDate: 'ASC' }
-                    })];
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.savingsGoalRepository.findOneBy({ id: goalId })];
+                    case 1:
+                        goal = _a.sent();
+                        if (!goal)
+                            throw new Error('Savings goal not found');
+                        goal.currentAmount += amount;
+                        if (goal.currentAmount >= goal.targetAmount) {
+                            goal.status = 'completed';
+                        }
+                        return [4 /*yield*/, this.savingsGoalRepository.save(goal)];
+                    case 2: return [2 /*return*/, _a.sent()];
+                }
             });
         });
     };
-    return SavingsGoalRepository;
+    return SavingsGoalService;
 }());
-exports.SavingsGoalRepository = SavingsGoalRepository;
-//# sourceMappingURL=savingsGoal.repository.js.map
+exports.SavingsGoalService = SavingsGoalService;
+//# sourceMappingURL=SavingsGoal.Service.js.map

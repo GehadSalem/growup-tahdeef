@@ -36,109 +36,184 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var users_service_1 = require("../Services/users.service.js");
+require("../types/express");
+var users_service_1 = require("../Services/users.service");
 var UserController = /** @class */ (function () {
     function UserController() {
-        this.userService = new users_service_1.UserService();
     }
-    UserController.prototype.register = function (req, res) {
-        return __awaiter(this, void 0, void 0, function () {
-            var _a, user, token, error_1, errorMessage;
-            return __generator(this, function (_b) {
-                switch (_b.label) {
-                    case 0:
-                        _b.trys.push([0, 3, , 4]);
-                        return [4 /*yield*/, this.userService.register(req.body)];
-                    case 1:
-                        _a = _b.sent(), user = _a.user, token = _a.token;
-                        return [4 /*yield*/, this.userService.setupDefaultHabits(user.id)];
-                    case 2:
-                        _b.sent();
-                        res.status(201).json({ user: user, token: token });
-                        return [3 /*break*/, 4];
-                    case 3:
-                        error_1 = _b.sent();
-                        errorMessage = error_1 instanceof Error ? error_1.message : "An unknown error occurred";
-                        res.status(400).json({ message: errorMessage });
-                        return [3 /*break*/, 4];
-                    case 4: return [2 /*return*/];
-                }
-            });
+    var _a;
+    _a = UserController;
+    UserController.userService = new users_service_1.UserService();
+    UserController.register = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+        var _b, user, token, error_1;
+        return __generator(_a, function (_c) {
+            switch (_c.label) {
+                case 0:
+                    _c.trys.push([0, 3, , 4]);
+                    return [4 /*yield*/, this.userService.register(req.body)];
+                case 1:
+                    _b = _c.sent(), user = _b.user, token = _b.token;
+                    return [4 /*yield*/, this.userService.setupDefaultHabits(user.id)];
+                case 2:
+                    _c.sent();
+                    res.status(201).json({ user: user, token: token });
+                    return [3 /*break*/, 4];
+                case 3:
+                    error_1 = _c.sent();
+                    res.status(400).json({
+                        message: error_1 instanceof Error ? error_1.message : 'Registration failed'
+                    });
+                    return [3 /*break*/, 4];
+                case 4: return [2 /*return*/];
+            }
         });
-    };
-    UserController.prototype.login = function (req, res) {
-        return __awaiter(this, void 0, void 0, function () {
-            var _a, email, password, _b, user, token, error_2, errorMessage;
-            return __generator(this, function (_c) {
-                switch (_c.label) {
-                    case 0:
-                        _c.trys.push([0, 2, , 3]);
-                        _a = req.body, email = _a.email, password = _a.password;
-                        return [4 /*yield*/, this.userService.login(email, password)];
-                    case 1:
-                        _b = _c.sent(), user = _b.user, token = _b.token;
-                        res.json({ user: user, token: token });
-                        return [3 /*break*/, 3];
-                    case 2:
-                        error_2 = _c.sent();
-                        errorMessage = error_2 instanceof Error ? error_2.message : "An unknown error occurred";
-                        res.status(401).json({ message: errorMessage });
-                        return [3 /*break*/, 3];
-                    case 3: return [2 /*return*/];
-                }
-            });
+    }); };
+    UserController.login = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+        var _b, email, password, _c, user, token, error_2;
+        return __generator(_a, function (_d) {
+            switch (_d.label) {
+                case 0:
+                    _d.trys.push([0, 2, , 3]);
+                    _b = req.body, email = _b.email, password = _b.password;
+                    return [4 /*yield*/, this.userService.login(email, password)];
+                case 1:
+                    _c = _d.sent(), user = _c.user, token = _c.token;
+                    res.json({ user: user, token: token });
+                    return [3 /*break*/, 3];
+                case 2:
+                    error_2 = _d.sent();
+                    res.status(401).json({
+                        message: error_2 instanceof Error ? error_2.message : 'Login failed'
+                    });
+                    return [3 /*break*/, 3];
+                case 3: return [2 /*return*/];
+            }
         });
-    };
-    UserController.prototype.updateIncome = function (req, res) {
-        return __awaiter(this, void 0, void 0, function () {
-            var user, error_3, errorMessage;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        _a.trys.push([0, 2, , 3]);
-                        if (!req.user) {
-                            return [2 /*return*/, res.status(400).json({ message: "User information is missing in the request." })];
-                        }
-                        return [4 /*yield*/, this.userService.updateMonthlyIncome(req.user.id, req.body.monthlyIncome)];
-                    case 1:
-                        user = _a.sent();
-                        res.json(user);
-                        return [3 /*break*/, 3];
-                    case 2:
-                        error_3 = _a.sent();
-                        errorMessage = error_3 instanceof Error ? error_3.message : "An unknown error occurred";
-                        res.status(400).json({ message: errorMessage });
-                        return [3 /*break*/, 3];
-                    case 3: return [2 /*return*/];
-                }
-            });
+    }); };
+    UserController.updateIncome = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+        var user, error_3;
+        var _b;
+        return __generator(_a, function (_c) {
+            switch (_c.label) {
+                case 0:
+                    _c.trys.push([0, 2, , 3]);
+                    if (!((_b = req.user) === null || _b === void 0 ? void 0 : _b.id)) {
+                        res.status(401).json({ message: 'Unauthorized' });
+                        return [2 /*return*/];
+                    }
+                    return [4 /*yield*/, this.userService.updateMonthlyIncome(req.user.id, req.body.monthlyIncome)];
+                case 1:
+                    user = _c.sent();
+                    res.json(user);
+                    return [3 /*break*/, 3];
+                case 2:
+                    error_3 = _c.sent();
+                    res.status(500).json({
+                        message: error_3 instanceof Error ? error_3.message : 'Income update failed'
+                    });
+                    return [3 /*break*/, 3];
+                case 3: return [2 /*return*/];
+            }
         });
-    };
-    UserController.prototype.getFinancialOverview = function (req, res) {
-        return __awaiter(this, void 0, void 0, function () {
-            var overview, error_4, errorMessage;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        _a.trys.push([0, 2, , 3]);
-                        if (!req.user) {
-                            return [2 /*return*/, res.status(400).json({ message: "User information is missing in the request." })];
-                        }
-                        return [4 /*yield*/, this.userService.getFinancialOverview(req.user.id)];
-                    case 1:
-                        overview = _a.sent();
-                        res.json(overview);
-                        return [3 /*break*/, 3];
-                    case 2:
-                        error_4 = _a.sent();
-                        errorMessage = error_4 instanceof Error ? error_4.message : "An unknown error occurred";
-                        res.status(400).json({ message: errorMessage });
-                        return [3 /*break*/, 3];
-                    case 3: return [2 /*return*/];
-                }
-            });
+    }); };
+    UserController.getFinancialOverview = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+        var overview, error_4;
+        var _b;
+        return __generator(_a, function (_c) {
+            switch (_c.label) {
+                case 0:
+                    _c.trys.push([0, 2, , 3]);
+                    if (!((_b = req.user) === null || _b === void 0 ? void 0 : _b.id)) {
+                        res.status(401).json({ message: 'Unauthorized' });
+                        return [2 /*return*/];
+                    }
+                    return [4 /*yield*/, this.userService.getFinancialOverview(req.user.id)];
+                case 1:
+                    overview = _c.sent();
+                    res.json(overview);
+                    return [3 /*break*/, 3];
+                case 2:
+                    error_4 = _c.sent();
+                    res.status(500).json({
+                        message: error_4 instanceof Error ? error_4.message : 'Failed to get financial overview'
+                    });
+                    return [3 /*break*/, 3];
+                case 3: return [2 /*return*/];
+            }
         });
-    };
+    }); };
+    // Admin Endpoints
+    UserController.getAllUsers = function (_, res) { return __awaiter(void 0, void 0, void 0, function () {
+        var users, error_5;
+        return __generator(_a, function (_b) {
+            switch (_b.label) {
+                case 0:
+                    _b.trys.push([0, 2, , 3]);
+                    return [4 /*yield*/, this.userService.getAllUsers()];
+                case 1:
+                    users = _b.sent();
+                    res.json(users);
+                    return [3 /*break*/, 3];
+                case 2:
+                    error_5 = _b.sent();
+                    res.status(500).json({
+                        message: error_5 instanceof Error ? error_5.message : 'Failed to get users'
+                    });
+                    return [3 /*break*/, 3];
+                case 3: return [2 /*return*/];
+            }
+        });
+    }); };
+    UserController.getUserById = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+        var user, error_6;
+        return __generator(_a, function (_b) {
+            switch (_b.label) {
+                case 0:
+                    _b.trys.push([0, 2, , 3]);
+                    return [4 /*yield*/, this.userService.getUserById(req.params.id)];
+                case 1:
+                    user = _b.sent();
+                    if (!user) {
+                        res.status(404).json({ message: 'User not found' });
+                        return [2 /*return*/];
+                    }
+                    res.json(user);
+                    return [3 /*break*/, 3];
+                case 2:
+                    error_6 = _b.sent();
+                    res.status(500).json({
+                        message: error_6 instanceof Error ? error_6.message : 'Failed to get user'
+                    });
+                    return [3 /*break*/, 3];
+                case 3: return [2 /*return*/];
+            }
+        });
+    }); };
+    UserController.updateUserStatus = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+        var error_7;
+        return __generator(_a, function (_b) {
+            switch (_b.label) {
+                case 0:
+                    _b.trys.push([0, 2, , 3]);
+                    if (!req.params.id || typeof req.body.isActive !== 'boolean') {
+                        res.status(400).json({ message: 'Invalid request parameters' });
+                        return [2 /*return*/];
+                    }
+                    return [4 /*yield*/, this.userService.updateUserStatus(req.params.id, req.body.isActive)];
+                case 1:
+                    _b.sent();
+                    res.json({ message: 'User status updated successfully' });
+                    return [3 /*break*/, 3];
+                case 2:
+                    error_7 = _b.sent();
+                    res.status(500).json({
+                        message: error_7 instanceof Error ? error_7.message : 'Failed to update user status'
+                    });
+                    return [3 /*break*/, 3];
+                case 3: return [2 /*return*/];
+            }
+        });
+    }); };
     return UserController;
 }());
 exports.default = UserController;

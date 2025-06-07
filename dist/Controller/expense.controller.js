@@ -36,7 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var expense_service_1 = require("../Services/expense.service.js");
+var expense_service_1 = require("../Services/expense.service");
 var ExpenseController = /** @class */ (function () {
     function ExpenseController() {
     }

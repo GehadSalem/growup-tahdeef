@@ -37,14 +37,14 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ReportService = void 0;
-var expense_service_1 = require("./expense.service.js");
-var majorGoal_service_1 = require("./majorGoal.service.js");
-var savingsGoals_service_1 = require("./savingsGoals.service.js");
+var expense_service_1 = require("./expense.service");
+var majorGoal_service_1 = require("./majorGoal.service");
+var SavingsGoal_Service_1 = require("../Services/SavingsGoal.Service");
 var ReportService = /** @class */ (function () {
     function ReportService() {
         this.expenseService = new expense_service_1.ExpenseService();
         this.majorGoalService = new majorGoal_service_1.MajorGoalService();
-        this.savingsGoalService = new savingsGoals_service_1.SavingsGoalService();
+        this.savingsGoalService = new SavingsGoal_Service_1.SavingsGoalService();
     }
     ReportService.prototype.generateFinancialReport = function (userId) {
         return __awaiter(this, void 0, void 0, function () {
@@ -79,7 +79,7 @@ var ReportService = /** @class */ (function () {
                                 },
                                 majorGoals: majorGoals.map(function (goal) { return ({
                                     id: goal.id,
-                                    name: goal.title,
+                                    name: goal.name,
                                     progress: goal.progress,
                                     status: goal.status
                                 }); })

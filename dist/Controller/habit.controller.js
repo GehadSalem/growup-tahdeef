@@ -36,8 +36,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var habit_service_1 = require("../Services/habit.service.js");
-var notification_service_1 = require("../Services/notification.service.js");
+var habit_service_1 = require("../Services/habit.service");
+var notification_service_1 = require("../Services/notification.service");
 require("../types/express");
 var HabitController = /** @class */ (function () {
     function HabitController() {

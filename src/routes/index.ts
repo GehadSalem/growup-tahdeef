@@ -12,7 +12,7 @@ import { getReferrals } from '../Controller/referral.controller';
 import { getCurrency } from '../Middlewares/getCurrency';
 import DailyTaskController from '../Controller/dailyTask.controller';
 import SavingsGoalController from '../Controller/savingsGoal.controller';
-import MajorGoalController from '../Controller/majorGoal.controller';
+import MajorGoalController from '../Controller/majorGoals.controller';
 import { IncomeController } from '../Controller/income.controller';
 import { InstallmentController } from '../Controller/installment.controller';
 import UserController from '../Controller/user.controller';

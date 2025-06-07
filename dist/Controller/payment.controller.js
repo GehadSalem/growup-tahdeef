@@ -36,49 +36,66 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getReferrals = exports.register = void 0;
-var referral_service_1 = require("../Services/referral.service");
-var referralService = new referral_service_1.ReferralService();
-var register = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var _a, name_1, email, password, referredBy, user, error_1;
-    return __generator(this, function (_b) {
-        switch (_b.label) {
-            case 0:
-                _b.trys.push([0, 2, , 3]);
-                _a = req.body, name_1 = _a.name, email = _a.email, password = _a.password, referredBy = _a.referredBy;
-                return [4 /*yield*/, referralService.registerUser(name_1, email, password, referredBy)];
-            case 1:
-                user = _b.sent();
-                res.status(201).json({ message: 'User registered successfully', referralCode: user.referralCode });
-                return [3 /*break*/, 3];
-            case 2:
-                error_1 = _b.sent();
-                res.status(500).json({ error: 'Registration failed' });
-                return [3 /*break*/, 3];
-            case 3: return [2 /*return*/];
-        }
-    });
-}); };
-exports.register = register;
-var getReferrals = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var referralCode, referrals, error_2;
+exports.createPayment = exports.getPaymentById = exports.getAllPayments = void 0;
+var data_source_1 = require("../dbConfig/data-source");
+var Payment_entity_1 = require("../entities/Payment.entity");
+var User_entity_1 = require("../entities/User.entity");
+var getAllPayments = function (_, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var paymentRepo, payments;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                _a.trys.push([0, 2, , 3]);
-                referralCode = req.params.referralCode;
-                return [4 /*yield*/, referralService.getReferrals(referralCode)];
+                paymentRepo = data_source_1.AppDataSource.getRepository(Payment_entity_1.Payment);
+                return [4 /*yield*/, paymentRepo.find({ relations: ['user'] })];
             case 1:
-                referrals = _a.sent();
-                res.status(200).json(referrals);
-                return [3 /*break*/, 3];
-            case 2:
-                error_2 = _a.sent();
-                res.status(500).json({ error: 'Failed to retrieve referrals' });
-                return [3 /*break*/, 3];
-            case 3: return [2 /*return*/];
+                payments = _a.sent();
+                res.json(payments);
+                return [2 /*return*/];
         }
     });
 }); };
-exports.getReferrals = getReferrals;
-//# sourceMappingURL=referral.controller.js.map
+exports.getAllPayments = getAllPayments;
+var getPaymentById = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var paymentRepo, payment;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                paymentRepo = data_source_1.AppDataSource.getRepository(Payment_entity_1.Payment);
+                return [4 /*yield*/, paymentRepo.findOne({
+                        where: { id: parseInt(req.params.id) },
+                        relations: ['user'],
+                    })];
+            case 1:
+                payment = _a.sent();
+                if (!payment)
+                    return [2 /*return*/, res.status(404).json({ message: 'Payment not found' })];
+                res.json(payment);
+                return [2 /*return*/];
+        }
+    });
+}); };
+exports.getPaymentById = getPaymentById;
+var createPayment = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var _a, userId, amount, currency, status, paymentRepo, userRepo, user, payment;
+    return __generator(this, function (_b) {
+        switch (_b.label) {
+            case 0:
+                _a = req.body, userId = _a.userId, amount = _a.amount, currency = _a.currency, status = _a.status;
+                paymentRepo = data_source_1.AppDataSource.getRepository(Payment_entity_1.Payment);
+                userRepo = data_source_1.AppDataSource.getRepository(User_entity_1.User);
+                return [4 /*yield*/, userRepo.findOneBy({ id: userId })];
+            case 1:
+                user = _b.sent();
+                if (!user)
+                    return [2 /*return*/, res.status(404).json({ message: 'User not found' })];
+                payment = paymentRepo.create({ user: user, amount: amount, currency: currency, status: status });
+                return [4 /*yield*/, paymentRepo.save(payment)];
+            case 2:
+                _b.sent();
+                res.status(201).json(payment);
+                return [2 /*return*/];
+        }
+    });
+}); };
+exports.createPayment = createPayment;
+//# sourceMappingURL=payment.controller.js.map

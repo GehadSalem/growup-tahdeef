@@ -53,15 +53,15 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthService = void 0;
 var bcrypt_1 = __importDefault(require("bcrypt"));
 var jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
-var user_repository_1 = require("../repositories/user.repository.js");
-var firebase_admin_1 = __importDefault(require("../config/firebase-admin.js"));
+var user_repository_1 = require("../repositories/user.repository");
+var firebase_admin_1 = __importDefault(require("../config/firebase-admin"));
 var AuthService = /** @class */ (function () {
     function AuthService() {
         this.userRepository = new user_repository_1.UserRepository();
     }
     AuthService.prototype.register = function (userData) {
         return __awaiter(this, void 0, void 0, function () {
-            var existingUser, hashedPassword, user;
+            var existingUser, hashedPassword, user, token;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -81,7 +81,8 @@ var AuthService = /** @class */ (function () {
                              }))];
                     case 3:
                         user = _a.sent();
-                        return [2 /*return*/, user];
+                        token = this.generateJWT(user.id);
+                        return [2 /*return*/, { user: user, token: token }];
                 }
             });
         });
@@ -101,18 +102,15 @@ var AuthService = /** @class */ (function () {
                         isValid = _a.sent();
                         if (!isValid)
                             throw new Error('Invalid credentials');
-                        token = jsonwebtoken_1.default.sign({ id: user.id }, process.env.JWT_SECRET || 'secret', {
-                            expiresIn: '7d'
-                        });
-                        return [2 /*return*/, token];
+                        token = this.generateJWT(user.id);
+                        return [2 /*return*/, { user: user, token: token }];
                 }
             });
         });
     };
-    // NEW: Google Auth methods
     AuthService.prototype.verifyGoogleToken = function (idToken) {
         return __awaiter(this, void 0, void 0, function () {
-            var decodedToken, email, name_1, uid, userName, user, error_1;
+            var decodedToken, email, name_1, uid, userName, user, token, error_1;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -120,7 +118,6 @@ var AuthService = /** @class */ (function () {
                         return [4 /*yield*/, firebase_admin_1.default.auth().verifyIdToken(idToken)];
                     case 1:
                         decodedToken = _a.sent();
-                        // Validate required fields from the decoded token
                         if (!decodedToken.email) {
                             throw new Error('Google token is missing email');
                         }
@@ -137,7 +134,6 @@ var AuthService = /** @class */ (function () {
                                 authProvider: 'google'
                             })];
                     case 3:
-                        // Create new user if doesn't exist
                         user = _a.sent();
                         return [3 /*break*/, 5];
                     case 4:
@@ -145,7 +141,9 @@ var AuthService = /** @class */ (function () {
                             throw new Error('Email already registered with another method');
                         }
                         _a.label = 5;
-                    case 5: return [2 /*return*/, this.generateJWT(user.id)];
+                    case 5:
+                        token = this.generateJWT(user.id);
+                        return [2 /*return*/, { user: user, token: token }];
                     case 6:
                         error_1 = _a.sent();
                         console.error('Google token verification error:', error_1);

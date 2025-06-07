@@ -1,8 +1,8 @@
 // src/controllers/payment.controller.ts
 import { Request, Response } from 'express';
 import { AppDataSource } from '../dbConfig/data-source';
-import { Payment } from '../entities/Payment';
-import { User } from '../entities/User';
+import { Payment } from '../entities/Payment.entity';
+import { User } from '../entities/User.entity';
 
 export const getAllPayments = async (_: Request, res: Response) => {
   const paymentRepo = AppDataSource.getRepository(Payment);

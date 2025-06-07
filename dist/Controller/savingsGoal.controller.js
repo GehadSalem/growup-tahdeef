@@ -36,167 +36,166 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var majorGoal_service_1 = require("../Services/majorGoal.service");
-var users_service_1 = require("../Services/users.service");
 require("../types/express");
-var MajorGoalController = /** @class */ (function () {
-    function MajorGoalController() {
+var SavingsGoal_Service_1 = require("../Services/SavingsGoal.Service");
+var users_service_1 = require("../Services/users.service");
+var SavingsGoalController = /** @class */ (function () {
+    function SavingsGoalController() {
     }
     var _a;
-    _a = MajorGoalController;
-    MajorGoalController.majorGoalService = new majorGoal_service_1.MajorGoalService();
-    MajorGoalController.userService = new users_service_1.UserService();
-    MajorGoalController.createMajorGoal = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-        var user, newGoal, error_1, errorMessage;
-        return __generator(_a, function (_b) {
-            switch (_b.label) {
+    _a = SavingsGoalController;
+    SavingsGoalController.savingsGoalService = new SavingsGoal_Service_1.SavingsGoalService();
+    SavingsGoalController.userService = new users_service_1.UserService();
+    SavingsGoalController.createSavingsGoal = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+        var user, newGoal, error_1;
+        var _b;
+        return __generator(_a, function (_c) {
+            switch (_c.label) {
                 case 0:
-                    _b.trys.push([0, 3, , 4]);
-                    if (!req.user) {
-                        res.status(400).json({ message: 'User information is missing in the request.' });
+                    _c.trys.push([0, 3, , 4]);
+                    if (!((_b = req.user) === null || _b === void 0 ? void 0 : _b.id)) {
+                        res.status(401).json({ message: 'Unauthorized' });
                         return [2 /*return*/];
                     }
                     return [4 /*yield*/, this.userService.getUserById(req.user.id)];
                 case 1:
-                    user = _b.sent();
+                    user = _c.sent();
                     if (!user) {
-                        res.status(404).json({ message: 'User not found.' });
+                        res.status(404).json({ message: 'User not found' });
                         return [2 /*return*/];
                     }
-                    return [4 /*yield*/, this.majorGoalService.createMajorGoal(user, req.body)];
+                    return [4 /*yield*/, this.savingsGoalService.createSavingsGoal(user, req.body)];
                 case 2:
-                    newGoal = _b.sent();
+                    newGoal = _c.sent();
                     res.status(201).json(newGoal);
                     return [3 /*break*/, 4];
                 case 3:
-                    error_1 = _b.sent();
-                    errorMessage = error_1 instanceof Error ? error_1.message : 'An unknown error occurred';
-                    res.status(500).json({ message: errorMessage });
+                    error_1 = _c.sent();
+                    res.status(500).json({
+                        message: error_1 instanceof Error ? error_1.message : 'Unknown error'
+                    });
                     return [3 /*break*/, 4];
                 case 4: return [2 /*return*/];
             }
         });
     }); };
-    MajorGoalController.getUserMajorGoals = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-        var goals, error_2, errorMessage;
+    SavingsGoalController.getUserSavingsGoals = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+        var goals, error_2;
         return __generator(_a, function (_b) {
             switch (_b.label) {
                 case 0:
                     _b.trys.push([0, 2, , 3]);
                     if (!req.user) {
-                        res.status(400).json({ message: 'User information is missing in the request.' });
+                        res.status(400).json({ message: 'User information is missing in the request' });
                         return [2 /*return*/];
                     }
-                    return [4 /*yield*/, this.majorGoalService.getUserMajorGoals(req.user.id)];
+                    return [4 /*yield*/, this.savingsGoalService.getUserSavingsGoals(req.user.id)];
                 case 1:
                     goals = _b.sent();
                     res.json(goals);
                     return [3 /*break*/, 3];
                 case 2:
                     error_2 = _b.sent();
-                    errorMessage = error_2 instanceof Error ? error_2.message : 'An unknown error occurred';
-                    res.status(500).json({ message: errorMessage });
+                    res.status(500).json({ message: error_2.message });
                     return [3 /*break*/, 3];
                 case 3: return [2 /*return*/];
             }
         });
     }); };
-    MajorGoalController.updateMajorGoal = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-        var updatedGoal, error_3, errorMessage;
-        return __generator(_a, function (_b) {
-            switch (_b.label) {
+    SavingsGoalController.getSavingsGoalById = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+        var goalId, goal, error_3;
+        var _b;
+        return __generator(_a, function (_c) {
+            switch (_c.label) {
                 case 0:
-                    _b.trys.push([0, 2, , 3]);
-                    return [4 /*yield*/, this.majorGoalService.updateMajorGoal(req.params.id, req.body)];
-                case 1:
-                    updatedGoal = _b.sent();
-                    res.json(updatedGoal);
-                    return [3 /*break*/, 3];
-                case 2:
-                    error_3 = _b.sent();
-                    errorMessage = error_3 instanceof Error ? error_3.message : 'An unknown error occurred';
-                    res.status(500).json({ message: errorMessage });
-                    return [3 /*break*/, 3];
-                case 3: return [2 /*return*/];
-            }
-        });
-    }); };
-    MajorGoalController.deleteMajorGoal = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-        var error_4, errorMessage;
-        return __generator(_a, function (_b) {
-            switch (_b.label) {
-                case 0:
-                    _b.trys.push([0, 2, , 3]);
-                    return [4 /*yield*/, this.majorGoalService.deleteMajorGoal(req.params.id)];
-                case 1:
-                    _b.sent();
-                    res.status(204).send();
-                    return [3 /*break*/, 3];
-                case 2:
-                    error_4 = _b.sent();
-                    errorMessage = error_4 instanceof Error ? error_4.message : 'An unknown error occurred';
-                    res.status(500).json({ message: errorMessage });
-                    return [3 /*break*/, 3];
-                case 3: return [2 /*return*/];
-            }
-        });
-    }); };
-    MajorGoalController.updateProgress = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-        var progress, updatedGoal, error_5, errorMessage;
-        return __generator(_a, function (_b) {
-            switch (_b.label) {
-                case 0:
-                    _b.trys.push([0, 2, , 3]);
-                    progress = req.body.progress;
-                    return [4 /*yield*/, this.majorGoalService.updateProgress(req.params.id, progress)];
-                case 1:
-                    updatedGoal = _b.sent();
-                    res.json(updatedGoal);
-                    return [3 /*break*/, 3];
-                case 2:
-                    error_5 = _b.sent();
-                    errorMessage = error_5 instanceof Error ? error_5.message : 'An unknown error occurred';
-                    res.status(500).json({ message: errorMessage });
-                    return [3 /*break*/, 3];
-                case 3: return [2 /*return*/];
-            }
-        });
-    }); };
-    MajorGoalController.getMajorGoalById = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-        var goalId, goal, error_6, errorMessage;
-        return __generator(_a, function (_b) {
-            switch (_b.label) {
-                case 0:
-                    _b.trys.push([0, 2, , 3]);
+                    _c.trys.push([0, 2, , 3]);
                     goalId = req.params.id;
-                    if (!req.user) {
-                        res.status(400).json({ message: 'User information is missing in the request.' });
+                    // Optional: check if user is authenticated (depends on your auth logic)
+                    if (!((_b = req.user) === null || _b === void 0 ? void 0 : _b.id)) {
+                        res.status(401).json({ message: 'Unauthorized' });
                         return [2 /*return*/];
                     }
-                    return [4 /*yield*/, this.MajorGoalService.getMajorGoalById(goalId)];
+                    return [4 /*yield*/, this.savingsGoalService.getSavingsGoalById(goalId)];
                 case 1:
-                    goal = _b.sent();
+                    goal = _c.sent();
                     if (!goal) {
-                        res.status(404).json({ message: 'Major goal not found.' });
+                        res.status(404).json({ message: 'Savings goal not found' });
                         return [2 /*return*/];
                     }
-                    // Optional: ensure the goal belongs to the current user
-                    if ((goal === null || goal === void 0 ? void 0 : goal.user.id) !== req.user.id) {
-                        res.status(403).json({ message: 'Access denied to this goal.' });
+                    // Optional: ensure the goal belongs to the requesting user (security check)
+                    if (goal.user.id !== req.user.id) {
+                        res.status(403).json({ message: 'Forbidden: Access denied' });
                         return [2 /*return*/];
                     }
                     res.json(goal);
                     return [3 /*break*/, 3];
                 case 2:
-                    error_6 = _b.sent();
-                    errorMessage = error_6 instanceof Error ? error_6.message : 'An unknown error occurred';
-                    res.status(500).json({ message: errorMessage });
+                    error_3 = _c.sent();
+                    res.status(500).json({ message: error_3.message });
                     return [3 /*break*/, 3];
                 case 3: return [2 /*return*/];
             }
         });
     }); };
-    return MajorGoalController;
+    SavingsGoalController.updateSavingsGoal = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+        var updatedGoal, error_4;
+        return __generator(_a, function (_b) {
+            switch (_b.label) {
+                case 0:
+                    _b.trys.push([0, 2, , 3]);
+                    return [4 /*yield*/, this.savingsGoalService.updateSavingsGoal(req.params.id, req.body)];
+                case 1:
+                    updatedGoal = _b.sent();
+                    res.json(updatedGoal);
+                    return [3 /*break*/, 3];
+                case 2:
+                    error_4 = _b.sent();
+                    res.status(500).json({ message: error_4.message });
+                    return [3 /*break*/, 3];
+                case 3: return [2 /*return*/];
+            }
+        });
+    }); };
+    SavingsGoalController.deleteSavingsGoal = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+        var error_5;
+        return __generator(_a, function (_b) {
+            switch (_b.label) {
+                case 0:
+                    _b.trys.push([0, 2, , 3]);
+                    return [4 /*yield*/, this.savingsGoalService.deleteSavingsGoal(req.params.id)];
+                case 1:
+                    _b.sent();
+                    res.status(204).send();
+                    return [3 /*break*/, 3];
+                case 2:
+                    error_5 = _b.sent();
+                    res.status(500).json({ message: error_5.message });
+                    return [3 /*break*/, 3];
+                case 3: return [2 /*return*/];
+            }
+        });
+    }); };
+    SavingsGoalController.addToSavingsGoal = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+        var amount, updatedGoal, error_6;
+        return __generator(_a, function (_b) {
+            switch (_b.label) {
+                case 0:
+                    _b.trys.push([0, 2, , 3]);
+                    amount = req.body.amount;
+                    return [4 /*yield*/, this.savingsGoalService.addToSavingsGoal(req.params.id, amount)];
+                case 1:
+                    updatedGoal = _b.sent();
+                    res.json(updatedGoal);
+                    return [3 /*break*/, 3];
+                case 2:
+                    error_6 = _b.sent();
+                    res.status(500).json({ message: error_6.message });
+                    return [3 /*break*/, 3];
+                case 3: return [2 /*return*/];
+            }
+        });
+    }); };
+    return SavingsGoalController;
 }());
-exports.default = MajorGoalController;
-//# sourceMappingURL=majorGoals.controller.js.map
+exports.default = SavingsGoalController;
+//# sourceMappingURL=savingsGoal.controller.js.map

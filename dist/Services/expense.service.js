@@ -48,8 +48,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ExpenseService = void 0;
-var expense_repository_1 = require("../repositories/expense.repository.js");
-var user_repository_1 = require("../repositories/user.repository.js");
+var expense_repository_1 = require("../repositories/expense.repository");
+var user_repository_1 = require("../repositories/user.repository");
 var ExpenseService = /** @class */ (function () {
     function ExpenseService() {
         this.expenseRepository = new expense_repository_1.ExpenseRepository();
