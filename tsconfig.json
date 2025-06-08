@@ -17,9 +17,6 @@
     "allowJs": true,
   "resolveJsonModule": true,
   "noEmitOnError": false,
-  "paths": {
-    "*": ["*"]
-  }
   },
   "include": ["src/**/*.ts", "src/**/*.tsx"],
   "exclude": ["node_modules", "dist", "test"]
