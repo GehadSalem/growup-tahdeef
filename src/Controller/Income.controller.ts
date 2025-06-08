@@ -1,9 +1,9 @@
 import { Request, Response } from 'express';
 import { Income } from '../entities/Income.entity';
 import { AppDataSource } from '../dbConfig/data-source';
-import { UserService } from '../services/users.service';
 import '../types/express';
 import { Between } from 'typeorm';
+import { UserService } from '../services/users.service';
 
 export class IncomeController {
   private static incomeRepository = AppDataSource.getRepository(Income);

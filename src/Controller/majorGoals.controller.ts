@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
+import '../types/express';
 import { MajorGoalService } from '../services/majorGoal.service';
 import { UserService } from '../services/users.service';
-import '../types/express';
 
 class MajorGoalController {
   private static majorGoalService = new MajorGoalService();

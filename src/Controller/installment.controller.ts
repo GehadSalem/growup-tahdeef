@@ -1,11 +1,11 @@
 import { Request, Response } from 'express';
 import '../types/express';
-import { InstallmentService } from '../services/installment.service';
-import { UserService } from '../services/users.service';
 import { InstallmentPayment } from '../entities/Installment.entity';
-import { MajorGoalService } from '../services/majorGoal.service';
 import { CustomInstallmentPlan } from '../entities/CustomInstallmentPlan.entity';
 import { AppDataSource } from '../dbConfig/data-source';
+import { UserService } from '../services/users.service';
+import { InstallmentService } from '../services/installment.service';
+import { MajorGoalService } from '../services/majorGoal.service';
 
 export class InstallmentController {
   private static service = new InstallmentService();
