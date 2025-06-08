@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import '../types/express';
-import { EmergencyService } from '../Services/emergency.service';
+import { EmergencyService } from '../services/emergency.service';
 
 class EmergencyController {
     private static emergencyService = new EmergencyService();

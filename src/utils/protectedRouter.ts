@@ -1,7 +1,7 @@
 // utils/protectedRouter.ts
 import { Router } from 'express';
-import { asyncHandler } from '../Middlewares/error.middleware';
-import {authenticate} from '../Middlewares/auth.middleware';
+import { asyncHandler } from '../middlewares/error.middleware';
+import {authenticate} from '../middlewares/auth.middleware';
 
 const protectedRouter = Router();
 

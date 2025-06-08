@@ -1,6 +1,6 @@
 // src/controllers/referral.controller.ts
 import { Request, Response } from 'express';
-import { ReferralService } from '../Services/referral.service';
+import { ReferralService } from '../services/referral.service';
 
 const referralService = new ReferralService();
 
