@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import '../types/express';
-import { DailyTaskService } from '../services/dailyTask.service';
+import { DailyTaskService } from '../Services/dailyTask.service';
 
 class DailyTaskController {
   private static taskService = new DailyTaskService();

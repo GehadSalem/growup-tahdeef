@@ -1,10 +1,10 @@
 import { Request, Response } from 'express';
 import '../types/express';
-import { CustomInstallmentPlanService } from '../services/customPlanInstallment.service';
+import { CustomInstallmentPlanService } from '../Services/customPlanInstallment.service';
 import { CustomInstallmentPlan } from '../entities/CustomInstallmentPlan.entity';
 import { MajorGoal } from '../entities/MajorGoal.entity';
 import { AppDataSource } from '../dbConfig/data-source';
-import { UserService } from '../services/users.service';
+import { UserService } from '../Services/users.service';
 
 export class CustomInstallmentPlanController {
   private static service = new CustomInstallmentPlanService();

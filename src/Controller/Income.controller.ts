@@ -3,7 +3,7 @@ import { Income } from '../entities/Income.entity';
 import { AppDataSource } from '../dbConfig/data-source';
 import '../types/express';
 import { Between } from 'typeorm';
-import { UserService } from '../services/users.service';
+import { UserService } from '../Services/users.service';
 
 export class IncomeController {
   private static incomeRepository = AppDataSource.getRepository(Income);

@@ -3,9 +3,9 @@ import '../types/express';
 import { InstallmentPayment } from '../entities/Installment.entity';
 import { CustomInstallmentPlan } from '../entities/CustomInstallmentPlan.entity';
 import { AppDataSource } from '../dbConfig/data-source';
-import { UserService } from '../services/users.service';
-import { InstallmentService } from '../services/installment.service';
-import { MajorGoalService } from '../services/majorGoal.service';
+import { UserService } from '../Services/users.service';
+import { InstallmentService } from '../Services/installment.service';
+import { MajorGoalService } from '../Services/majorGoal.service';
 
 export class InstallmentController {
   private static service = new InstallmentService();

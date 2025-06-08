@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import '../types/express';
-import { UserService } from "../services/users.service";
+import { UserService } from "../Services/users.service";
 
 class UserController {
     private static userService = new UserService();
