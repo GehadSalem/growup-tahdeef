@@ -1,9 +1,9 @@
 import { Request, Response } from 'express';
 import '../types/express';
-import { InstallmentService } from '../Services/installment.service';
-import { UserService } from '../Services/users.service';
+import { InstallmentService } from '../services/installment.service';
+import { UserService } from '../services/users.service';
 import { InstallmentPayment } from '../entities/Installment.entity';
-import { MajorGoalService } from '../Services/majorGoal.service';
+import { MajorGoalService } from '../services/majorGoal.service';
 import { CustomInstallmentPlan } from '../entities/CustomInstallmentPlan.entity';
 import { AppDataSource } from '../dbConfig/data-source';
 

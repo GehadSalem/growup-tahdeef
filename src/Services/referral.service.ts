@@ -1,5 +1,5 @@
 // src/services/referral.service.ts
-import { UserService } from '../Services/users.service';
+import { UserService } from './users.service';
 
 export class ReferralService {
   private userService = new UserService();

@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { ExpenseService } from '../Services/expense.service';
+import { ExpenseService } from '../services/expense.service';
 
 class ExpenseController {
     private static expenseService = new ExpenseService();

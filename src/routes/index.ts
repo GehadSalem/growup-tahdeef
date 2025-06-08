@@ -1,21 +1,21 @@
 import { Router, Request, Response, NextFunction } from 'express';
 import { authenticate } from '../Middlewares/auth.middleware';
-import ExpenseController from '../Controller/expense.controller';
-import AuthController from '../Controller/auth.controller';
-import HabitController from '../Controller/habit.controller';
-import EmergencyController from '../Controller/emergency.controller';
-import NotificationController from '../Controller/notification.controller';
+import ExpenseController from '../controller/expense.controller';
+import AuthController from '../controller/auth.controller';
+import HabitController from '../controller/habit.controller';
+import EmergencyController from '../controller/emergency.controller';
+import NotificationController from '../controller/notification.controller';
 import { asyncHandler } from '../Middlewares/error.middleware';
 import protectedRouter from '../utils/protectedRouter';
-import { CustomInstallmentPlanController } from '../Controller/customPlanInstallment.controller';
-import { getReferrals } from '../Controller/referral.controller'; 
+import { CustomInstallmentPlanController } from '../controller/customPlanInstallment.controller';
+import { getReferrals } from '../controller/referral.controller'; 
 import { getCurrency } from '../Middlewares/getCurrency';
-import DailyTaskController from '../Controller/dailyTask.controller';
-import SavingsGoalController from '../Controller/savingsGoal.controller';
-import MajorGoalController from '../Controller/majorGoals.controller';
-import { IncomeController } from '../Controller/income.controller';
-import { InstallmentController } from '../Controller/installment.controller';
-import UserController from '../Controller/user.controller';
+import MajorGoalController from '../controller/majorGoals.controller';
+import { InstallmentController } from '../controller/installment.controller';
+import DailyTaskController from '../controller/dailyTask.controller';
+import UserController from '../controller/user.controller';
+import SavingsGoalController from '../controller/savingsGoal.controller';
+import { IncomeController } from '../controller/income.controller';
 const publicRouter = Router();
 
 /* ---------------------- Public Routes ---------------------- */

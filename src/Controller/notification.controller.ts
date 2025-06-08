@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { NotificationService } from '../Services/notification.service';
+import { NotificationService } from '../services/notification.service';
 import { User } from '../entities/User.entity';
 import '../types/express';
 

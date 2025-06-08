@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
 import '../types/express';
-import { CustomInstallmentPlanService } from '../Services/customPlanInstallment.service';
-import { UserService } from '../Services/users.service';
-import { MajorGoalService } from '../Services/majorGoal.service';
+import { CustomInstallmentPlanService } from '../services/customPlanInstallment.service';
+import { UserService } from '../services/users.service';
+import { MajorGoalService } from '../services/majorGoal.service';
 import { CustomInstallmentPlan } from '../entities/CustomInstallmentPlan.entity';
 import { MajorGoal } from '../entities/MajorGoal.entity';
 import { AppDataSource } from '../dbConfig/data-source';

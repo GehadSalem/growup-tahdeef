@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
-import { HabitService } from '../Services/habit.service';
-import { NotificationService } from '../Services/notification.service';
+import { HabitService } from '../services/habit.service';
+import { NotificationService } from '../services/notification.service';
 import { User } from '../entities/User.entity';
 import '../types/express';
 
