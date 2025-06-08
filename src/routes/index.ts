@@ -12,9 +12,9 @@ import { getReferrals } from '../controller/referral.controller';
 import SavingsGoalController from '../controller/savingsGoal.controller';
 import UserController from '../controller/user.controller';
 import { Router, Request, Response, NextFunction } from 'express';
-import { authenticate } from '../middlewares/auth.middleware';
-import { asyncHandler } from '../middlewares/error.middleware';
-import { getCurrency } from '../middlewares/getCurrency';
+import { authenticate } from '../Middlewares/auth.middleware';
+import { asyncHandler } from '../Middlewares/error.middleware';
+import { getCurrency } from '../Middlewares/getCurrency';
 import protectedRouter from '../utils/protectedRouter';
 
 const publicRouter = Router();
